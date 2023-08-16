@@ -321,6 +321,32 @@ ISPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ISPivotsTest.dir/build.make tests/CMakeFiles/ISPivotsTest.dir/build
 .PHONY : ISPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named WDRPivotsTest
+
+# Build rule for target.
+WDRPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 WDRPivotsTest
+.PHONY : WDRPivotsTest
+
+# fast build rule for target.
+WDRPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/WDRPivotsTest.dir/build.make tests/CMakeFiles/WDRPivotsTest.dir/build
+.PHONY : WDRPivotsTest/fast
+
+#=============================================================================
+# Target rules for targets named BPPPivotsTest
+
+# Build rule for target.
+BPPPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 BPPPivotsTest
+.PHONY : BPPPivotsTest
+
+# fast build rule for target.
+BPPPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BPPPivotsTest.dir/build.make tests/CMakeFiles/BPPPivotsTest.dir/build
+.PHONY : BPPPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -354,6 +380,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... BPPPivotsTest"
 	@echo "... BasicArrayObjectTest"
 	@echo "... ConvexPivotsTest"
 	@echo "... DatasetTest"
@@ -368,6 +395,7 @@ help:
 	@echo "... RandomPivotsTest"
 	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
+	@echo "... WDRPivotsTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"
 	@echo "... src/main.i"

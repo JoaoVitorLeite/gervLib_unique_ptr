@@ -322,6 +322,58 @@ ISPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ISPivotsTest.dir/build.make tests/CMakeFiles/ISPivotsTest.dir/build
 .PHONY : ISPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/WDRPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/WDRPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/WDRPivotsTest.dir/rule
+
+# Convenience name for target.
+WDRPivotsTest: tests/CMakeFiles/WDRPivotsTest.dir/rule
+.PHONY : WDRPivotsTest
+
+# fast build rule for target.
+WDRPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/WDRPivotsTest.dir/build.make tests/CMakeFiles/WDRPivotsTest.dir/build
+.PHONY : WDRPivotsTest/fast
+
+# Convenience name for target.
+tests/CMakeFiles/BPPPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/BPPPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/BPPPivotsTest.dir/rule
+
+# Convenience name for target.
+BPPPivotsTest: tests/CMakeFiles/BPPPivotsTest.dir/rule
+.PHONY : BPPPivotsTest
+
+# fast build rule for target.
+BPPPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BPPPivotsTest.dir/build.make tests/CMakeFiles/BPPPivotsTest.dir/build
+.PHONY : BPPPivotsTest/fast
+
+BPPPivotsTest.o: BPPPivotsTest.cpp.o
+.PHONY : BPPPivotsTest.o
+
+# target to build an object file
+BPPPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BPPPivotsTest.dir/build.make tests/CMakeFiles/BPPPivotsTest.dir/BPPPivotsTest.cpp.o
+.PHONY : BPPPivotsTest.cpp.o
+
+BPPPivotsTest.i: BPPPivotsTest.cpp.i
+.PHONY : BPPPivotsTest.i
+
+# target to preprocess a source file
+BPPPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BPPPivotsTest.dir/build.make tests/CMakeFiles/BPPPivotsTest.dir/BPPPivotsTest.cpp.i
+.PHONY : BPPPivotsTest.cpp.i
+
+BPPPivotsTest.s: BPPPivotsTest.cpp.s
+.PHONY : BPPPivotsTest.s
+
+# target to generate assembly for a file
+BPPPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BPPPivotsTest.dir/build.make tests/CMakeFiles/BPPPivotsTest.dir/BPPPivotsTest.cpp.s
+.PHONY : BPPPivotsTest.cpp.s
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -658,6 +710,30 @@ SelectionPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/SelectionPivotsTest.cpp.s
 .PHONY : SelectionPivotsTest.cpp.s
 
+WDRPivotsTest.o: WDRPivotsTest.cpp.o
+.PHONY : WDRPivotsTest.o
+
+# target to build an object file
+WDRPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/WDRPivotsTest.dir/build.make tests/CMakeFiles/WDRPivotsTest.dir/WDRPivotsTest.cpp.o
+.PHONY : WDRPivotsTest.cpp.o
+
+WDRPivotsTest.i: WDRPivotsTest.cpp.i
+.PHONY : WDRPivotsTest.i
+
+# target to preprocess a source file
+WDRPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/WDRPivotsTest.dir/build.make tests/CMakeFiles/WDRPivotsTest.dir/WDRPivotsTest.cpp.i
+.PHONY : WDRPivotsTest.cpp.i
+
+WDRPivotsTest.s: WDRPivotsTest.cpp.s
+.PHONY : WDRPivotsTest.s
+
+# target to generate assembly for a file
+WDRPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/WDRPivotsTest.dir/build.make tests/CMakeFiles/WDRPivotsTest.dir/WDRPivotsTest.cpp.s
+.PHONY : WDRPivotsTest.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -667,6 +743,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... BPPPivotsTest"
 	@echo "... BasicArrayObjectTest"
 	@echo "... ConvexPivotsTest"
 	@echo "... DatasetTest"
@@ -681,6 +758,10 @@ help:
 	@echo "... RandomPivotsTest"
 	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
+	@echo "... WDRPivotsTest"
+	@echo "... BPPPivotsTest.o"
+	@echo "... BPPPivotsTest.i"
+	@echo "... BPPPivotsTest.s"
 	@echo "... BasicArrayObjectTest.o"
 	@echo "... BasicArrayObjectTest.i"
 	@echo "... BasicArrayObjectTest.s"
@@ -723,6 +804,9 @@ help:
 	@echo "... SelectionPivotsTest.o"
 	@echo "... SelectionPivotsTest.i"
 	@echo "... SelectionPivotsTest.s"
+	@echo "... WDRPivotsTest.o"
+	@echo "... WDRPivotsTest.i"
+	@echo "... WDRPivotsTest.s"
 .PHONY : help
 
 

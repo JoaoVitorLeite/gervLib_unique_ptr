@@ -1,4 +1,4 @@
 /snap/clion/248/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=/usr/bin/make -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DENABLE_SRAND:BOOL=ON -DENABLE_PROCESS_TIME:BOOL=ON -DENABLE_TESTS:BOOL=ON -G "CodeBlocks - Unix Makefiles" -S /home/joaovictor/Code/gervLib -B /home/joaovictor/Code/gervLib/cmake-build-release
 -- Configuring done (0.0s)
--- Generating done (0.0s)
+-- Generating done (0.1s)
 -- Build files have been written to: /home/joaovictor/Code/gervLib/cmake-build-release

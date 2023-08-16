@@ -308,6 +308,20 @@ HFIPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/HFIPivotsTest.dir/build.make tests/CMakeFiles/HFIPivotsTest.dir/build
 .PHONY : HFIPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/ISPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/ISPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/ISPivotsTest.dir/rule
+
+# Convenience name for target.
+ISPivotsTest: tests/CMakeFiles/ISPivotsTest.dir/rule
+.PHONY : ISPivotsTest
+
+# fast build rule for target.
+ISPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ISPivotsTest.dir/build.make tests/CMakeFiles/ISPivotsTest.dir/build
+.PHONY : ISPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -451,6 +465,30 @@ HFIPivotsTest.s: HFIPivotsTest.cpp.s
 HFIPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/HFIPivotsTest.dir/build.make tests/CMakeFiles/HFIPivotsTest.dir/HFIPivotsTest.cpp.s
 .PHONY : HFIPivotsTest.cpp.s
+
+ISPivotsTest.o: ISPivotsTest.cpp.o
+.PHONY : ISPivotsTest.o
+
+# target to build an object file
+ISPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ISPivotsTest.dir/build.make tests/CMakeFiles/ISPivotsTest.dir/ISPivotsTest.cpp.o
+.PHONY : ISPivotsTest.cpp.o
+
+ISPivotsTest.i: ISPivotsTest.cpp.i
+.PHONY : ISPivotsTest.i
+
+# target to preprocess a source file
+ISPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ISPivotsTest.dir/build.make tests/CMakeFiles/ISPivotsTest.dir/ISPivotsTest.cpp.i
+.PHONY : ISPivotsTest.cpp.i
+
+ISPivotsTest.s: ISPivotsTest.cpp.s
+.PHONY : ISPivotsTest.s
+
+# target to generate assembly for a file
+ISPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ISPivotsTest.dir/build.make tests/CMakeFiles/ISPivotsTest.dir/ISPivotsTest.cpp.s
+.PHONY : ISPivotsTest.cpp.s
 
 MaxSeparatedPivotsTest.o: MaxSeparatedPivotsTest.cpp.o
 .PHONY : MaxSeparatedPivotsTest.o
@@ -635,6 +673,7 @@ help:
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"
 	@echo "... HFIPivotsTest"
+	@echo "... ISPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"
@@ -660,6 +699,9 @@ help:
 	@echo "... HFIPivotsTest.o"
 	@echo "... HFIPivotsTest.i"
 	@echo "... HFIPivotsTest.s"
+	@echo "... ISPivotsTest.o"
+	@echo "... ISPivotsTest.i"
+	@echo "... ISPivotsTest.s"
 	@echo "... MaxSeparatedPivotsTest.o"
 	@echo "... MaxSeparatedPivotsTest.i"
 	@echo "... MaxSeparatedPivotsTest.s"

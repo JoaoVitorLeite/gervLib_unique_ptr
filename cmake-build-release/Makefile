@@ -308,6 +308,19 @@ HFIPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/HFIPivotsTest.dir/build.make tests/CMakeFiles/HFIPivotsTest.dir/build
 .PHONY : HFIPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named ISPivotsTest
+
+# Build rule for target.
+ISPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ISPivotsTest
+.PHONY : ISPivotsTest
+
+# fast build rule for target.
+ISPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ISPivotsTest.dir/build.make tests/CMakeFiles/ISPivotsTest.dir/build
+.PHONY : ISPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -347,6 +360,7 @@ help:
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"
 	@echo "... HFIPivotsTest"
+	@echo "... ISPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"

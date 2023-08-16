@@ -44,7 +44,7 @@ namespace gervLib::pivots
             else
             {
 
-                utils::Timer timer;
+                utils::Timer timer{};
                 timer.start();
 
                 nPivots += this->getNumberOfDropPivots();

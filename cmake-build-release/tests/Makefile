@@ -294,6 +294,20 @@ SSSPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SSSPivotsTest.dir/build.make tests/CMakeFiles/SSSPivotsTest.dir/build
 .PHONY : SSSPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/HFIPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/HFIPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/HFIPivotsTest.dir/rule
+
+# Convenience name for target.
+HFIPivotsTest: tests/CMakeFiles/HFIPivotsTest.dir/rule
+.PHONY : HFIPivotsTest
+
+# fast build rule for target.
+HFIPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/HFIPivotsTest.dir/build.make tests/CMakeFiles/HFIPivotsTest.dir/build
+.PHONY : HFIPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -413,6 +427,30 @@ FFTPivotsTest.s: FFTPivotsTest.cpp.s
 FFTPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/FFTPivotsTest.cpp.s
 .PHONY : FFTPivotsTest.cpp.s
+
+HFIPivotsTest.o: HFIPivotsTest.cpp.o
+.PHONY : HFIPivotsTest.o
+
+# target to build an object file
+HFIPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/HFIPivotsTest.dir/build.make tests/CMakeFiles/HFIPivotsTest.dir/HFIPivotsTest.cpp.o
+.PHONY : HFIPivotsTest.cpp.o
+
+HFIPivotsTest.i: HFIPivotsTest.cpp.i
+.PHONY : HFIPivotsTest.i
+
+# target to preprocess a source file
+HFIPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/HFIPivotsTest.dir/build.make tests/CMakeFiles/HFIPivotsTest.dir/HFIPivotsTest.cpp.i
+.PHONY : HFIPivotsTest.cpp.i
+
+HFIPivotsTest.s: HFIPivotsTest.cpp.s
+.PHONY : HFIPivotsTest.s
+
+# target to generate assembly for a file
+HFIPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/HFIPivotsTest.dir/build.make tests/CMakeFiles/HFIPivotsTest.dir/HFIPivotsTest.cpp.s
+.PHONY : HFIPivotsTest.cpp.s
 
 MaxSeparatedPivotsTest.o: MaxSeparatedPivotsTest.cpp.o
 .PHONY : MaxSeparatedPivotsTest.o
@@ -596,6 +634,7 @@ help:
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"
+	@echo "... HFIPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"
@@ -618,6 +657,9 @@ help:
 	@echo "... FFTPivotsTest.o"
 	@echo "... FFTPivotsTest.i"
 	@echo "... FFTPivotsTest.s"
+	@echo "... HFIPivotsTest.o"
+	@echo "... HFIPivotsTest.i"
+	@echo "... HFIPivotsTest.s"
 	@echo "... MaxSeparatedPivotsTest.o"
 	@echo "... MaxSeparatedPivotsTest.i"
 	@echo "... MaxSeparatedPivotsTest.s"

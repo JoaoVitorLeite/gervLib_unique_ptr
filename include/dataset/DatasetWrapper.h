@@ -62,7 +62,7 @@ namespace gervLib::dataset
         void resetIndex(dataset::BasicArrayObject<O, T>& element)
         {
 
-            element->setOID(index[element->getOID()]);
+            element.setOID(index[element.getOID()]);
 
         }
 

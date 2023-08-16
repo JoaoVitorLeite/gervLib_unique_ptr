@@ -14,6 +14,7 @@
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/SelectionPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/PCAPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/SSSPivotsTest.dir
+/home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/HFIPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/test.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/edit_cache.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/rebuild_cache.dir

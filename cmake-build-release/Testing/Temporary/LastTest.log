@@ -1,3 +1,198 @@
-Start testing: Aug 16 15:38 -03
+Start testing: Aug 16 16:03 -03
 ----------------------------------------------------------
-End testing: Aug 16 15:38 -03
+1/13 Testing: BasicArrayObjectTest
+1/13 Test: BasicArrayObjectTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/BasicArrayObjectTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"BasicArrayObjectTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"BasicArrayObjectTest" end time: Aug 16 16:03 -03
+"BasicArrayObjectTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/13 Testing: DatasetTest
+2/13 Test: DatasetTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/DatasetTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"DatasetTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"DatasetTest" end time: Aug 16 16:03 -03
+"DatasetTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/13 Testing: DistanceTest
+3/13 Test: DistanceTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/DistanceTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"DistanceTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DistanceTest" end time: Aug 16 16:03 -03
+"DistanceTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/13 Testing: PivotTest
+4/13 Test: PivotTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/PivotTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"PivotTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"PivotTest" end time: Aug 16 16:03 -03
+"PivotTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/13 Testing: RandomPivotsTest
+5/13 Test: RandomPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/RandomPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"RandomPivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"RandomPivotsTest" end time: Aug 16 16:03 -03
+"RandomPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/13 Testing: FFTPivotsTest
+6/13 Test: FFTPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/FFTPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"FFTPivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"FFTPivotsTest" end time: Aug 16 16:03 -03
+"FFTPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/13 Testing: ConvexPivotsTest
+7/13 Test: ConvexPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/ConvexPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"ConvexPivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConvexPivotsTest" end time: Aug 16 16:03 -03
+"ConvexPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/13 Testing: MaxSeparatedPivotsTest
+8/13 Test: MaxSeparatedPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/MaxSeparatedPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"MaxSeparatedPivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"MaxSeparatedPivotsTest" end time: Aug 16 16:03 -03
+"MaxSeparatedPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/13 Testing: MaxVariancePivotsTest
+9/13 Test: MaxVariancePivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/MaxVariancePivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"MaxVariancePivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"MaxVariancePivotsTest" end time: Aug 16 16:03 -03
+"MaxVariancePivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/13 Testing: SelectionPivotsTest
+10/13 Test: SelectionPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/SelectionPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"SelectionPivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SelectionPivotsTest" end time: Aug 16 16:03 -03
+"SelectionPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/13 Testing: PCAPivotsTest
+11/13 Test: PCAPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/PCAPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"PCAPivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"PCAPivotsTest" end time: Aug 16 16:03 -03
+"PCAPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/13 Testing: SSSPivotsTest
+12/13 Test: SSSPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/SSSPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"SSSPivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SSSPivotsTest" end time: Aug 16 16:03 -03
+"SSSPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/13 Testing: HFIPivotsTest
+13/13 Test: HFIPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/HFIPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"HFIPivotsTest" start time: Aug 16 16:03 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"HFIPivotsTest" end time: Aug 16 16:03 -03
+"HFIPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Aug 16 16:03 -03

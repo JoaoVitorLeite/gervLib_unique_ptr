@@ -1,11 +1,14 @@
-BasicArrayObjectTest 3 0.000419194
-DatasetTest 3 0.0115879
-DistanceTest 3 0.00272617
-PivotTest 3 0.000439462
-RandomPivotsTest 3 0.000328624
-FFTPivotsTest 2 0.000518799
-ConvexPivotsTest 1 0.00104559
-MaxSeparatedPivotsTest 1 0.00173257
-MaxVariancePivotsTest 1 0.00171059
-SelectionPivotsTest 1 0.00126633
+BasicArrayObjectTest 4 0.000308777
+DatasetTest 4 0.00812389
+DistanceTest 4 0.00265522
+PivotTest 4 0.000311588
+RandomPivotsTest 4 0.000334771
+FFTPivotsTest 3 0.000352439
+ConvexPivotsTest 2 0.0005217
+MaxSeparatedPivotsTest 2 0.000531774
+MaxVariancePivotsTest 2 0.000659499
+SelectionPivotsTest 2 0.000603303
+PCAPivotsTest 1 0.00157175
+SSSPivotsTest 1 0.00128837
+HFIPivotsTest 1 0.00264623
 ---

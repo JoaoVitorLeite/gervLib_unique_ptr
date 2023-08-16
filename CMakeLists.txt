@@ -83,6 +83,7 @@ add_executable(gervLib
         include/pivots/SelectionPivots.h
         include/pivots/PCAPivots.h
         include/pivots/SSSPivots.h
+        include/pivots/HFIPivots.h
 )
 
 # Add libraries

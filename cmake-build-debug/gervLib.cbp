@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="gervLib"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\tests\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="gervLib">
+				<Option output="/home/joaovictor/Code/gervLib/cmake-build-debug/gervLib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DSOURCE_OUTPUT_PATH=&quot;/home/joaovictor/Code/gervLib/output_dir&quot;"/>
+					<Add option="-DENABLE_DEBUG"/>
+					<Add option="-DENABLE_PROGRESS_BAR"/>
+					<Add directory="/home/joaovictor/Code/gervLib/src"/>
+					<Add directory="/home/joaovictor/Code/gervLib/libs/uuid"/>
+					<Add directory="/home/joaovictor/Code/gervLib/libs/eigen"/>
+					<Add directory="/home/joaovictor/Code/gervLib/include/configure"/>
+					<Add directory="/home/joaovictor/Code/gervLib/include/utils"/>
+					<Add directory="/usr/include/c++/13"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
+					<Add directory="/usr/include/c++/13/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/13/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 gervLib"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="gervLib/fast">
+				<Option output="/home/joaovictor/Code/gervLib/cmake-build-debug/gervLib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DSOURCE_OUTPUT_PATH=&quot;/home/joaovictor/Code/gervLib/output_dir&quot;"/>
+					<Add option="-DENABLE_DEBUG"/>
+					<Add option="-DENABLE_PROGRESS_BAR"/>
+					<Add directory="/home/joaovictor/Code/gervLib/src"/>
+					<Add directory="/home/joaovictor/Code/gervLib/libs/uuid"/>
+					<Add directory="/home/joaovictor/Code/gervLib/libs/eigen"/>
+					<Add directory="/home/joaovictor/Code/gervLib/include/configure"/>
+					<Add directory="/home/joaovictor/Code/gervLib/include/utils"/>
+					<Add directory="/usr/include/c++/13"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
+					<Add directory="/usr/include/c++/13/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/13/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 gervLib/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test">
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 test"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/configure/Configure.h">
+			<Option target="gervLib"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/utils/Utils.h">
+			<Option target="gervLib"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/libs/uuid/libuuidpp.hpp">
+			<Option target="gervLib"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/src/main.cpp">
+			<Option target="gervLib"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/tests/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -210,6 +210,20 @@ FFTPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/build
 .PHONY : FFTPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/ConvexPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/ConvexPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/ConvexPivotsTest.dir/rule
+
+# Convenience name for target.
+ConvexPivotsTest: tests/CMakeFiles/ConvexPivotsTest.dir/rule
+.PHONY : ConvexPivotsTest
+
+# fast build rule for target.
+ConvexPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/build
+.PHONY : ConvexPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -233,6 +247,30 @@ BasicArrayObjectTest.s: BasicArrayObjectTest.cpp.s
 BasicArrayObjectTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.s
 .PHONY : BasicArrayObjectTest.cpp.s
+
+ConvexPivotsTest.o: ConvexPivotsTest.cpp.o
+.PHONY : ConvexPivotsTest.o
+
+# target to build an object file
+ConvexPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/ConvexPivotsTest.cpp.o
+.PHONY : ConvexPivotsTest.cpp.o
+
+ConvexPivotsTest.i: ConvexPivotsTest.cpp.i
+.PHONY : ConvexPivotsTest.i
+
+# target to preprocess a source file
+ConvexPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/ConvexPivotsTest.cpp.i
+.PHONY : ConvexPivotsTest.cpp.i
+
+ConvexPivotsTest.s: ConvexPivotsTest.cpp.s
+.PHONY : ConvexPivotsTest.s
+
+# target to generate assembly for a file
+ConvexPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/ConvexPivotsTest.cpp.s
+.PHONY : ConvexPivotsTest.cpp.s
 
 DatasetTest.o: DatasetTest.cpp.o
 .PHONY : DatasetTest.o
@@ -364,6 +402,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... BasicArrayObjectTest"
+	@echo "... ConvexPivotsTest"
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"
@@ -372,6 +411,9 @@ help:
 	@echo "... BasicArrayObjectTest.o"
 	@echo "... BasicArrayObjectTest.i"
 	@echo "... BasicArrayObjectTest.s"
+	@echo "... ConvexPivotsTest.o"
+	@echo "... ConvexPivotsTest.i"
+	@echo "... ConvexPivotsTest.s"
 	@echo "... DatasetTest.o"
 	@echo "... DatasetTest.i"
 	@echo "... DatasetTest.s"

@@ -77,6 +77,7 @@ add_executable(gervLib
         include/pivots/Pivot.h
         include/pivots/RandomPivots.h
         include/pivots/FFTPivots.h
+        include/pivots/ConvexPivots.h
 )
 
 # Add libraries

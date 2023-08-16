@@ -86,6 +86,7 @@ tests/all: tests/CMakeFiles/DistanceTest.dir/all
 tests/all: tests/CMakeFiles/PivotTest.dir/all
 tests/all: tests/CMakeFiles/RandomPivotsTest.dir/all
 tests/all: tests/CMakeFiles/FFTPivotsTest.dir/all
+tests/all: tests/CMakeFiles/ConvexPivotsTest.dir/all
 .PHONY : tests/all
 
 # Recursive "preinstall" directory target.
@@ -99,6 +100,7 @@ tests/clean: tests/CMakeFiles/DistanceTest.dir/clean
 tests/clean: tests/CMakeFiles/PivotTest.dir/clean
 tests/clean: tests/CMakeFiles/RandomPivotsTest.dir/clean
 tests/clean: tests/CMakeFiles/FFTPivotsTest.dir/clean
+tests/clean: tests/CMakeFiles/ConvexPivotsTest.dir/clean
 .PHONY : tests/clean
 
 #=============================================================================
@@ -108,7 +110,7 @@ tests/clean: tests/CMakeFiles/FFTPivotsTest.dir/clean
 CMakeFiles/gervLib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=13,14 "Built target gervLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=15,16 "Built target gervLib"
 .PHONY : CMakeFiles/gervLib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -160,7 +162,7 @@ tests/CMakeFiles/BasicArrayObjectTest.dir/clean:
 tests/CMakeFiles/DatasetTest.dir/all:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=3,4 "Built target DatasetTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=5,6 "Built target DatasetTest"
 .PHONY : tests/CMakeFiles/DatasetTest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -186,7 +188,7 @@ tests/CMakeFiles/DatasetTest.dir/clean:
 tests/CMakeFiles/DistanceTest.dir/all:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=5,6 "Built target DistanceTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=7,8 "Built target DistanceTest"
 .PHONY : tests/CMakeFiles/DistanceTest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -212,7 +214,7 @@ tests/CMakeFiles/DistanceTest.dir/clean:
 tests/CMakeFiles/PivotTest.dir/all:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PivotTest.dir/build.make tests/CMakeFiles/PivotTest.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PivotTest.dir/build.make tests/CMakeFiles/PivotTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=9,10 "Built target PivotTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=11,12 "Built target PivotTest"
 .PHONY : tests/CMakeFiles/PivotTest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -238,7 +240,7 @@ tests/CMakeFiles/PivotTest.dir/clean:
 tests/CMakeFiles/RandomPivotsTest.dir/all:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=11,12 "Built target RandomPivotsTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=13,14 "Built target RandomPivotsTest"
 .PHONY : tests/CMakeFiles/RandomPivotsTest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -264,7 +266,7 @@ tests/CMakeFiles/RandomPivotsTest.dir/clean:
 tests/CMakeFiles/FFTPivotsTest.dir/all:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=7,8 "Built target FFTPivotsTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=9,10 "Built target FFTPivotsTest"
 .PHONY : tests/CMakeFiles/FFTPivotsTest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -282,6 +284,32 @@ FFTPivotsTest: tests/CMakeFiles/FFTPivotsTest.dir/rule
 tests/CMakeFiles/FFTPivotsTest.dir/clean:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/clean
 .PHONY : tests/CMakeFiles/FFTPivotsTest.dir/clean
+
+#=============================================================================
+# Target rules for target tests/CMakeFiles/ConvexPivotsTest.dir
+
+# All Build rule for target.
+tests/CMakeFiles/ConvexPivotsTest.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=3,4 "Built target ConvexPivotsTest"
+.PHONY : tests/CMakeFiles/ConvexPivotsTest.dir/all
+
+# Build rule for subdir invocation for target.
+tests/CMakeFiles/ConvexPivotsTest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/ConvexPivotsTest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles 0
+.PHONY : tests/CMakeFiles/ConvexPivotsTest.dir/rule
+
+# Convenience name for target.
+ConvexPivotsTest: tests/CMakeFiles/ConvexPivotsTest.dir/rule
+.PHONY : ConvexPivotsTest
+
+# clean rule for target.
+tests/CMakeFiles/ConvexPivotsTest.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/clean
+.PHONY : tests/CMakeFiles/ConvexPivotsTest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

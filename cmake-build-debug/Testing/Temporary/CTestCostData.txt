@@ -1,6 +1,8 @@
-BasicArrayObjectTest 1 0.00125514
-DatasetTest 1 0.281747
-DistanceTest 1 0.0638098
-PivotTest 1 0.00144081
-RandomPivotsTest 1 0.00231511
+BasicArrayObjectTest 2 0.000854604
+DatasetTest 2 0.138139
+DistanceTest 2 0.0347446
+PivotTest 2 0.000724099
+RandomPivotsTest 2 0.00123261
+FFTPivotsTest 1 0.0032741
+ConvexPivotsTest 1 0.00202786
 ---

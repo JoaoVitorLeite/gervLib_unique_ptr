@@ -217,6 +217,19 @@ FFTPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/build
 .PHONY : FFTPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named ConvexPivotsTest
+
+# Build rule for target.
+ConvexPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ConvexPivotsTest
+.PHONY : ConvexPivotsTest
+
+# fast build rule for target.
+ConvexPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/build
+.PHONY : ConvexPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -251,6 +264,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... BasicArrayObjectTest"
+	@echo "... ConvexPivotsTest"
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"

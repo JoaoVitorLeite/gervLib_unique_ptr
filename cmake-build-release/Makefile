@@ -243,6 +243,19 @@ MaxSeparatedPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build.make tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build
 .PHONY : MaxSeparatedPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named MaxVariancePivotsTest
+
+# Build rule for target.
+MaxVariancePivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MaxVariancePivotsTest
+.PHONY : MaxVariancePivotsTest
+
+# fast build rule for target.
+MaxVariancePivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxVariancePivotsTest.dir/build.make tests/CMakeFiles/MaxVariancePivotsTest.dir/build
+.PHONY : MaxVariancePivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -282,6 +295,7 @@ help:
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
+	@echo "... MaxVariancePivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... gervLib"

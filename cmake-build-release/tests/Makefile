@@ -238,6 +238,20 @@ MaxSeparatedPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build.make tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build
 .PHONY : MaxSeparatedPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/MaxVariancePivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/MaxVariancePivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/MaxVariancePivotsTest.dir/rule
+
+# Convenience name for target.
+MaxVariancePivotsTest: tests/CMakeFiles/MaxVariancePivotsTest.dir/rule
+.PHONY : MaxVariancePivotsTest
+
+# fast build rule for target.
+MaxVariancePivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxVariancePivotsTest.dir/build.make tests/CMakeFiles/MaxVariancePivotsTest.dir/build
+.PHONY : MaxVariancePivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -382,6 +396,30 @@ MaxSeparatedPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build.make tests/CMakeFiles/MaxSeparatedPivotsTest.dir/MaxSeparatedPivotsTest.cpp.s
 .PHONY : MaxSeparatedPivotsTest.cpp.s
 
+MaxVariancePivotsTest.o: MaxVariancePivotsTest.cpp.o
+.PHONY : MaxVariancePivotsTest.o
+
+# target to build an object file
+MaxVariancePivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxVariancePivotsTest.dir/build.make tests/CMakeFiles/MaxVariancePivotsTest.dir/MaxVariancePivotsTest.cpp.o
+.PHONY : MaxVariancePivotsTest.cpp.o
+
+MaxVariancePivotsTest.i: MaxVariancePivotsTest.cpp.i
+.PHONY : MaxVariancePivotsTest.i
+
+# target to preprocess a source file
+MaxVariancePivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxVariancePivotsTest.dir/build.make tests/CMakeFiles/MaxVariancePivotsTest.dir/MaxVariancePivotsTest.cpp.i
+.PHONY : MaxVariancePivotsTest.cpp.i
+
+MaxVariancePivotsTest.s: MaxVariancePivotsTest.cpp.s
+.PHONY : MaxVariancePivotsTest.s
+
+# target to generate assembly for a file
+MaxVariancePivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxVariancePivotsTest.dir/build.make tests/CMakeFiles/MaxVariancePivotsTest.dir/MaxVariancePivotsTest.cpp.s
+.PHONY : MaxVariancePivotsTest.cpp.s
+
 PivotTest.o: PivotTest.cpp.o
 .PHONY : PivotTest.o
 
@@ -445,6 +483,7 @@ help:
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
+	@echo "... MaxVariancePivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... BasicArrayObjectTest.o"
@@ -465,6 +504,9 @@ help:
 	@echo "... MaxSeparatedPivotsTest.o"
 	@echo "... MaxSeparatedPivotsTest.i"
 	@echo "... MaxSeparatedPivotsTest.s"
+	@echo "... MaxVariancePivotsTest.o"
+	@echo "... MaxVariancePivotsTest.i"
+	@echo "... MaxVariancePivotsTest.s"
 	@echo "... PivotTest.o"
 	@echo "... PivotTest.i"
 	@echo "... PivotTest.s"

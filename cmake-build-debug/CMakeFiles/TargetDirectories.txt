@@ -10,6 +10,7 @@
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/FFTPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/ConvexPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/MaxSeparatedPivotsTest.dir
+/home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/MaxVariancePivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/test.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/edit_cache.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/rebuild_cache.dir

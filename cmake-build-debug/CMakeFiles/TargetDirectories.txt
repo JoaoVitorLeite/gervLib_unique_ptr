@@ -4,6 +4,7 @@
 /home/joaovictor/Code/gervLib/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/BasicArrayObjectTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/DatasetTest.dir
+/home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/DistanceTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/test.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/edit_cache.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/rebuild_cache.dir

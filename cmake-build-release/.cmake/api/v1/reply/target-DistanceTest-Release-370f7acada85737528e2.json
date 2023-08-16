@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "tests/BasicArrayObjectTest"
+			"path" : "tests/DistanceTest"
 		}
 	],
 	"backtrace" : 1,
@@ -28,13 +28,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 11,
+				"line" : 15,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 15,
+				"line" : 20,
 				"parent" : 0
 			},
 			{
@@ -99,6 +99,18 @@
 				"file" : 0,
 				"line" : 9,
 				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 11,
+				"parent" : 0
 			}
 		]
 	},
@@ -159,6 +171,14 @@
 				{
 					"backtrace" : 13,
 					"path" : "/home/joaovictor/Code/gervLib/tests/../include/serialize"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/home/joaovictor/Code/gervLib/tests/../include/distance"
+				},
+				{
+					"backtrace" : 15,
+					"path" : "/home/joaovictor/Code/gervLib/tests/../include/factory"
 				}
 			],
 			"language" : "CXX",
@@ -176,7 +196,7 @@
 			]
 		}
 	],
-	"id" : "BasicArrayObjectTest::@a44f0ac069e85531cdee",
+	"id" : "DistanceTest::@a44f0ac069e85531cdee",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -192,8 +212,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "BasicArrayObjectTest",
-	"nameOnDisk" : "BasicArrayObjectTest",
+	"name" : "DistanceTest",
+	"nameOnDisk" : "DistanceTest",
 	"paths" : 
 	{
 		"build" : "tests",
@@ -214,7 +234,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "tests/BasicArrayObjectTest.cpp",
+			"path" : "tests/DistanceTest.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

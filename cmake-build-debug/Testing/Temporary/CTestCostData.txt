@@ -1,3 +1,4 @@
-BasicArrayObjectTest 4 0.000322215
-DatasetTest 5 0.0587449
+BasicArrayObjectTest 5 0.000248663
+DatasetTest 6 0.0477337
+DistanceTest 1 0.0641349
 ---

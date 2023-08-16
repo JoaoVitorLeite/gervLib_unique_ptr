@@ -165,6 +165,19 @@ DatasetTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/build
 .PHONY : DatasetTest/fast
 
+#=============================================================================
+# Target rules for targets named DistanceTest
+
+# Build rule for target.
+DistanceTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 DistanceTest
+.PHONY : DistanceTest
+
+# fast build rule for target.
+DistanceTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/build
+.PHONY : DistanceTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -200,6 +213,7 @@ help:
 	@echo "... test"
 	@echo "... BasicArrayObjectTest"
 	@echo "... DatasetTest"
+	@echo "... DistanceTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"
 	@echo "... src/main.i"

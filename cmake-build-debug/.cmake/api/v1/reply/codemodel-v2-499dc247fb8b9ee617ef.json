@@ -10,7 +10,7 @@
 					[
 						1
 					],
-					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.25"
@@ -19,12 +19,12 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						2
+						3
 					]
 				},
 				{
 					"build" : "tests",
-					"jsonFile" : "directory-tests-Release-b01f6abb0ab61427ef3b.json",
+					"jsonFile" : "directory-tests-Debug-b01f6abb0ab61427ef3b.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.25"
@@ -35,11 +35,12 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						1,
+						2
 					]
 				}
 			],
-			"name" : "Release",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -53,7 +54,8 @@
 					[
 						0,
 						1,
-						2
+						2,
+						3
 					]
 				}
 			],
@@ -62,21 +64,28 @@
 				{
 					"directoryIndex" : 1,
 					"id" : "BasicArrayObjectTest::@a44f0ac069e85531cdee",
-					"jsonFile" : "target-BasicArrayObjectTest-Release-88cbac77a5967877539a.json",
+					"jsonFile" : "target-BasicArrayObjectTest-Debug-889d16f92ec44a159161.json",
 					"name" : "BasicArrayObjectTest",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 1,
 					"id" : "DatasetTest::@a44f0ac069e85531cdee",
-					"jsonFile" : "target-DatasetTest-Release-242ae0ac2f2de7cccda9.json",
+					"jsonFile" : "target-DatasetTest-Debug-bc2d45241c65e57a5f3d.json",
 					"name" : "DatasetTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "DistanceTest::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-DistanceTest-Debug-aba77d1b93c7553f8097.json",
+					"name" : "DistanceTest",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "gervLib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-gervLib-Release-489ebff76bab4d784b9f.json",
+					"jsonFile" : "target-gervLib-Debug-e99c9b9c794982899904.json",
 					"name" : "gervLib",
 					"projectIndex" : 0
 				}
@@ -86,7 +95,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/joaovictor/Code/gervLib/cmake-build-release",
+		"build" : "/home/joaovictor/Code/gervLib/cmake-build-debug",
 		"source" : "/home/joaovictor/Code/gervLib"
 	},
 	"version" : 

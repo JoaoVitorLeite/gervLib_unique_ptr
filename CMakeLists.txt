@@ -56,6 +56,8 @@ include_directories(include/configure)
 include_directories(include/utils)
 include_directories(include/dataset)
 include_directories(include/serialize)
+include_directories(include/distance)
+include_directories(include/distance)
 
 # Add source files
 add_executable(gervLib
@@ -67,6 +69,10 @@ add_executable(gervLib
         include/serialize/Serialize.h
         include/dataset/Dataset.h
         include/dataset/DatasetWrapper.h
+        include/distance/DistanceFunction.h
+        include/distance/EuclideanDistance.h
+        include/distance/EditDistance.h
+        include/factory/DistanceFactory.h
 )
 
 # Add libraries

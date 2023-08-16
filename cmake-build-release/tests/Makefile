@@ -154,6 +154,20 @@ DatasetTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/build
 .PHONY : DatasetTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/DistanceTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/DistanceTest.dir/rule
+.PHONY : tests/CMakeFiles/DistanceTest.dir/rule
+
+# Convenience name for target.
+DistanceTest: tests/CMakeFiles/DistanceTest.dir/rule
+.PHONY : DistanceTest
+
+# fast build rule for target.
+DistanceTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/build
+.PHONY : DistanceTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -202,6 +216,30 @@ DatasetTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/DatasetTest.cpp.s
 .PHONY : DatasetTest.cpp.s
 
+DistanceTest.o: DistanceTest.cpp.o
+.PHONY : DistanceTest.o
+
+# target to build an object file
+DistanceTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/DistanceTest.cpp.o
+.PHONY : DistanceTest.cpp.o
+
+DistanceTest.i: DistanceTest.cpp.i
+.PHONY : DistanceTest.i
+
+# target to preprocess a source file
+DistanceTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/DistanceTest.cpp.i
+.PHONY : DistanceTest.cpp.i
+
+DistanceTest.s: DistanceTest.cpp.s
+.PHONY : DistanceTest.s
+
+# target to generate assembly for a file
+DistanceTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/DistanceTest.cpp.s
+.PHONY : DistanceTest.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -213,12 +251,16 @@ help:
 	@echo "... test"
 	@echo "... BasicArrayObjectTest"
 	@echo "... DatasetTest"
+	@echo "... DistanceTest"
 	@echo "... BasicArrayObjectTest.o"
 	@echo "... BasicArrayObjectTest.i"
 	@echo "... BasicArrayObjectTest.s"
 	@echo "... DatasetTest.o"
 	@echo "... DatasetTest.i"
 	@echo "... DatasetTest.s"
+	@echo "... DistanceTest.o"
+	@echo "... DistanceTest.i"
+	@echo "... DistanceTest.s"
 .PHONY : help
 
 

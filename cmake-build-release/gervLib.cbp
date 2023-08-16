@@ -909,6 +909,78 @@
 					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="SSSPivotsTest">
+				<Option output="/home/joaovictor/Code/gervLib/cmake-build-release/tests/SSSPivotsTest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-release/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DENABLE_SRAND"/>
+					<Add option="-DSOURCE_OUTPUT_PATH=&quot;/home/joaovictor/Code/gervLib/cmake-build-release/output_dir&quot;"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../src"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/uuid"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/eigen"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/utils"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/configure"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/dataset"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/serialize"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/usr/include/c++/13"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
+					<Add directory="/usr/include/c++/13/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/13/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 SSSPivotsTest"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="SSSPivotsTest/fast">
+				<Option output="/home/joaovictor/Code/gervLib/cmake-build-release/tests/SSSPivotsTest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-release/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DENABLE_SRAND"/>
+					<Add option="-DSOURCE_OUTPUT_PATH=&quot;/home/joaovictor/Code/gervLib/cmake-build-release/output_dir&quot;"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../src"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/uuid"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/eigen"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/utils"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/configure"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/dataset"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/serialize"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/usr/include/c++/13"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
+					<Add directory="/usr/include/c++/13/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/13/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 SSSPivotsTest/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-release/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 		</Build>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/configure/Configure.h">
 			<Option target="gervLib"/>
@@ -955,6 +1027,9 @@
 		<Unit filename="/home/joaovictor/Code/gervLib/include/pivots/RandomPivots.h">
 			<Option target="gervLib"/>
 		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/pivots/SSSPivots.h">
+			<Option target="gervLib"/>
+		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/pivots/SelectionPivots.h">
 			<Option target="gervLib"/>
 		</Unit>
@@ -999,6 +1074,9 @@
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/tests/RandomPivotsTest.cpp">
 			<Option target="RandomPivotsTest"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/tests/SSSPivotsTest.cpp">
+			<Option target="SSSPivotsTest"/>
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/tests/SelectionPivotsTest.cpp">
 			<Option target="SelectionPivotsTest"/>

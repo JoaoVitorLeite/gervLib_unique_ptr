@@ -282,6 +282,19 @@ PCAPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PCAPivotsTest.dir/build.make tests/CMakeFiles/PCAPivotsTest.dir/build
 .PHONY : PCAPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named SSSPivotsTest
+
+# Build rule for target.
+SSSPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SSSPivotsTest
+.PHONY : SSSPivotsTest
+
+# fast build rule for target.
+SSSPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SSSPivotsTest.dir/build.make tests/CMakeFiles/SSSPivotsTest.dir/build
+.PHONY : SSSPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -325,6 +338,7 @@ help:
 	@echo "... PCAPivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
+	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"

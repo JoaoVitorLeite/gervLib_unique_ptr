@@ -42,7 +42,7 @@ namespace gervLib::pivots
                     return;
                 }
                 else
-                    throw std::runtime_error("RandomPivots::operator(): Number of pivots cannot be greater than the number of objects in the dataset.");
+                    throw std::runtime_error("PCAPivots::operator(): Number of pivots cannot be greater than the number of objects in the dataset.");
             }
             else
             {

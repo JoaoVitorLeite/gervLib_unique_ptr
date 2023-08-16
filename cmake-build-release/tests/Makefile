@@ -280,6 +280,20 @@ PCAPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PCAPivotsTest.dir/build.make tests/CMakeFiles/PCAPivotsTest.dir/build
 .PHONY : PCAPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/SSSPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/SSSPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/SSSPivotsTest.dir/rule
+
+# Convenience name for target.
+SSSPivotsTest: tests/CMakeFiles/SSSPivotsTest.dir/rule
+.PHONY : SSSPivotsTest
+
+# fast build rule for target.
+SSSPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SSSPivotsTest.dir/build.make tests/CMakeFiles/SSSPivotsTest.dir/build
+.PHONY : SSSPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -520,6 +534,30 @@ RandomPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.s
 .PHONY : RandomPivotsTest.cpp.s
 
+SSSPivotsTest.o: SSSPivotsTest.cpp.o
+.PHONY : SSSPivotsTest.o
+
+# target to build an object file
+SSSPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SSSPivotsTest.dir/build.make tests/CMakeFiles/SSSPivotsTest.dir/SSSPivotsTest.cpp.o
+.PHONY : SSSPivotsTest.cpp.o
+
+SSSPivotsTest.i: SSSPivotsTest.cpp.i
+.PHONY : SSSPivotsTest.i
+
+# target to preprocess a source file
+SSSPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SSSPivotsTest.dir/build.make tests/CMakeFiles/SSSPivotsTest.dir/SSSPivotsTest.cpp.i
+.PHONY : SSSPivotsTest.cpp.i
+
+SSSPivotsTest.s: SSSPivotsTest.cpp.s
+.PHONY : SSSPivotsTest.s
+
+# target to generate assembly for a file
+SSSPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SSSPivotsTest.dir/build.make tests/CMakeFiles/SSSPivotsTest.dir/SSSPivotsTest.cpp.s
+.PHONY : SSSPivotsTest.cpp.s
+
 SelectionPivotsTest.o: SelectionPivotsTest.cpp.o
 .PHONY : SelectionPivotsTest.o
 
@@ -563,6 +601,7 @@ help:
 	@echo "... PCAPivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
+	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
 	@echo "... BasicArrayObjectTest.o"
 	@echo "... BasicArrayObjectTest.i"
@@ -594,6 +633,9 @@ help:
 	@echo "... RandomPivotsTest.o"
 	@echo "... RandomPivotsTest.i"
 	@echo "... RandomPivotsTest.s"
+	@echo "... SSSPivotsTest.o"
+	@echo "... SSSPivotsTest.i"
+	@echo "... SSSPivotsTest.s"
 	@echo "... SelectionPivotsTest.o"
 	@echo "... SelectionPivotsTest.i"
 	@echo "... SelectionPivotsTest.s"

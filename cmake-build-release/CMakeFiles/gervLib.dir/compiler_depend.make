@@ -378,7 +378,10 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
   /home/joaovictor/Code/gervLib/include/distance/EuclideanDistance.h \
   /home/joaovictor/Code/gervLib/include/pivots/RandomPivots.h \
   /home/joaovictor/Code/gervLib/include/pivots/Pivot.h \
-  /home/joaovictor/Code/gervLib/include/distance/DistanceFunction.h
+  /home/joaovictor/Code/gervLib/include/distance/DistanceFunction.h \
+  /home/joaovictor/Code/gervLib/include/pivots/KmedoidsPivots.h \
+  /home/joaovictor/Code/gervLib/include/kmedoids/Kmedoids.h \
+  /home/joaovictor/Code/gervLib/include/kmedoids/Cluster.h
 
 
 /home/joaovictor/Code/gervLib/include/pivots/RandomPivots.h:
@@ -466,6 +469,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/cstdio:
 
 /usr/include/c++/13/bits/std_abs.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/KmedoidsPivots.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
@@ -819,6 +824,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
+/home/joaovictor/Code/gervLib/include/kmedoids/Kmedoids.h:
+
 /usr/include/c++/13/cctype:
 
 /usr/include/c++/13/ext/type_traits.h:
@@ -838,6 +845,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/limits:
 
 /usr/include/c++/13/bits/random.h:
+
+/home/joaovictor/Code/gervLib/include/kmedoids/Cluster.h:
 
 /usr/include/time.h:
 

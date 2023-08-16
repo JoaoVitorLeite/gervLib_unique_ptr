@@ -168,6 +168,34 @@ DistanceTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/build
 .PHONY : DistanceTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/PivotTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/PivotTest.dir/rule
+.PHONY : tests/CMakeFiles/PivotTest.dir/rule
+
+# Convenience name for target.
+PivotTest: tests/CMakeFiles/PivotTest.dir/rule
+.PHONY : PivotTest
+
+# fast build rule for target.
+PivotTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PivotTest.dir/build.make tests/CMakeFiles/PivotTest.dir/build
+.PHONY : PivotTest/fast
+
+# Convenience name for target.
+tests/CMakeFiles/RandomPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/RandomPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/RandomPivotsTest.dir/rule
+
+# Convenience name for target.
+RandomPivotsTest: tests/CMakeFiles/RandomPivotsTest.dir/rule
+.PHONY : RandomPivotsTest
+
+# fast build rule for target.
+RandomPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/build
+.PHONY : RandomPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -240,6 +268,54 @@ DistanceTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/DistanceTest.cpp.s
 .PHONY : DistanceTest.cpp.s
 
+PivotTest.o: PivotTest.cpp.o
+.PHONY : PivotTest.o
+
+# target to build an object file
+PivotTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PivotTest.dir/build.make tests/CMakeFiles/PivotTest.dir/PivotTest.cpp.o
+.PHONY : PivotTest.cpp.o
+
+PivotTest.i: PivotTest.cpp.i
+.PHONY : PivotTest.i
+
+# target to preprocess a source file
+PivotTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PivotTest.dir/build.make tests/CMakeFiles/PivotTest.dir/PivotTest.cpp.i
+.PHONY : PivotTest.cpp.i
+
+PivotTest.s: PivotTest.cpp.s
+.PHONY : PivotTest.s
+
+# target to generate assembly for a file
+PivotTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PivotTest.dir/build.make tests/CMakeFiles/PivotTest.dir/PivotTest.cpp.s
+.PHONY : PivotTest.cpp.s
+
+RandomPivotsTest.o: RandomPivotsTest.cpp.o
+.PHONY : RandomPivotsTest.o
+
+# target to build an object file
+RandomPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o
+.PHONY : RandomPivotsTest.cpp.o
+
+RandomPivotsTest.i: RandomPivotsTest.cpp.i
+.PHONY : RandomPivotsTest.i
+
+# target to preprocess a source file
+RandomPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.i
+.PHONY : RandomPivotsTest.cpp.i
+
+RandomPivotsTest.s: RandomPivotsTest.cpp.s
+.PHONY : RandomPivotsTest.s
+
+# target to generate assembly for a file
+RandomPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.s
+.PHONY : RandomPivotsTest.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -252,6 +328,8 @@ help:
 	@echo "... BasicArrayObjectTest"
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
+	@echo "... PivotTest"
+	@echo "... RandomPivotsTest"
 	@echo "... BasicArrayObjectTest.o"
 	@echo "... BasicArrayObjectTest.i"
 	@echo "... BasicArrayObjectTest.s"
@@ -261,6 +339,12 @@ help:
 	@echo "... DistanceTest.o"
 	@echo "... DistanceTest.i"
 	@echo "... DistanceTest.s"
+	@echo "... PivotTest.o"
+	@echo "... PivotTest.i"
+	@echo "... PivotTest.s"
+	@echo "... RandomPivotsTest.o"
+	@echo "... RandomPivotsTest.i"
+	@echo "... RandomPivotsTest.s"
 .PHONY : help
 
 

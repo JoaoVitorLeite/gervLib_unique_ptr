@@ -1,0 +1,124 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "tests",
+					"jsonFile" : "directory-tests-Debug-b01f6abb0ab61427ef3b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "gervLib",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "BasicArrayObjectTest::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-BasicArrayObjectTest-Debug-90375d31d4d3ff9f7c4f.json",
+					"name" : "BasicArrayObjectTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "DatasetTest::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-DatasetTest-Debug-2bdd352761d19a981ff6.json",
+					"name" : "DatasetTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "DistanceTest::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-DistanceTest-Debug-9857e9bf23a115e4722e.json",
+					"name" : "DistanceTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "PivotTest::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-PivotTest-Debug-a135fccfc77f34738c57.json",
+					"name" : "PivotTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "RandomPivotsTest::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-RandomPivotsTest-Debug-2cb34a965c6460dda632.json",
+					"name" : "RandomPivotsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "gervLib::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-gervLib-Debug-62cb7dca1097679ee2bb.json",
+					"name" : "gervLib",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/joaovictor/Code/gervLib/cmake-build-debug",
+		"source" : "/home/joaovictor/Code/gervLib"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 5
+	}
+}

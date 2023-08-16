@@ -11,6 +11,10 @@
 #include <set>
 #include <random>
 #include <limits>
+#include <stdexcept>
+#include <chrono>
+#include <sys/time.h>
+#include <sys/resource.h>
 
 namespace gervLib::utils
 {
@@ -118,6 +122,71 @@ namespace gervLib::utils
         return numbers;
 
     }
+
+    struct Timer
+    {
+
+#ifdef ENABLE_PROCESS_TIME
+        struct timeval start_time_u, start_time_s, end_time_u, end_time_s;
+        struct rusage usage;
+#else
+        std::chrono::high_resolution_clock::time_point start_time;
+        std::chrono::high_resolution_clock::time_point end_time;
+#endif
+
+    public:
+        void start()
+        {
+#ifdef ENABLE_PROCESS_TIME
+            getrusage(RUSAGE_SELF, &usage);
+            start_time_u = usage.ru_utime;
+            start_time_s = usage.ru_stime;
+#else
+            start_time = std::chrono::high_resolution_clock::now();
+#endif
+        }
+
+        void stop()
+        {
+#ifdef ENABLE_PROCESS_TIME
+            getrusage(RUSAGE_SELF, &usage);
+            end_time_u = usage.ru_utime;
+            end_time_s = usage.ru_stime;
+#else
+            end_time = std::chrono::high_resolution_clock::now();
+#endif
+        }
+
+        [[nodiscard]] long long getElapsedTime() const
+        {
+#ifdef ENABLE_PROCESS_TIME
+            return (end_time_u.tv_sec - start_time_u.tv_sec) * 1000000L + (end_time_u.tv_usec - start_time_u.tv_usec) +
+                   (end_time_s.tv_sec - start_time_s.tv_sec) * 1000000L + (end_time_s.tv_usec - start_time_s.tv_usec);
+#else
+            return std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count();
+#endif
+        }
+
+        [[nodiscard]] long long getElapsedTimeUser() const
+        {
+#ifdef ENABLE_PROCESS_TIME
+            return (end_time_u.tv_sec - start_time_u.tv_sec) * 1000000L + (end_time_u.tv_usec - start_time_u.tv_usec);
+#else
+            return -1;
+#endif
+        }
+
+        [[nodiscard]] long long getElapsedTimeSystem() const
+        {
+#ifdef ENABLE_PROCESS_TIME
+            return (end_time_s.tv_sec - start_time_s.tv_sec) * 1000000L + (end_time_s.tv_usec - start_time_s.tv_usec);
+#else
+            return -1;
+#endif
+        }
+
+
+    };
 
 }
 

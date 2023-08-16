@@ -292,7 +292,7 @@ namespace gervLib::dataset
             if (data == nullptr)
                 throw std::runtime_error(std::format("BasicArrayObject::operator[]: data is null"));
 
-            utils::check_range(0, data->size(), index, "BasicArrayObject::operator[]");
+            utils::check_range(0, size()-1, index, "BasicArrayObject::operator[]");
             return (*data)[index];
         }
 
@@ -301,7 +301,7 @@ namespace gervLib::dataset
             if (data == nullptr)
                 throw std::runtime_error(std::format("BasicArrayObject::operator[]: data is null"));
 
-            utils::check_range(0, data->size(), index, "BasicArrayObject::operator[]");
+            utils::check_range(0, size()-1, index, "BasicArrayObject::operator[]");
             return (*data)[index];
         }
 
@@ -424,7 +424,7 @@ namespace gervLib::dataset
             if (data == nullptr)
                 throw std::runtime_error(std::format("BasicArrayObject::set: data is null"));
 
-            gervLib::utils::check_range(0, size(), pos, "BasicArrayObject::set");
+            gervLib::utils::check_range(0, size()-1, pos, "BasicArrayObject::set");
             data->at(pos) = value;
         }
 

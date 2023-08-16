@@ -6,24 +6,23 @@
 #include "Utils.h"
 #include "Dataset.h"
 #include "EditDistance.h"
+#include "EuclideanDistance.h"
+#include "RandomPivots.h"
 
 using namespace gervLib::configure;
 using namespace gervLib::utils;
 using namespace gervLib::dataset;
 using namespace gervLib::distance;
+using namespace gervLib::pivots;
 
 int main(int argc, char **argv)
 {
 
-    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, std::vector<char>>>> df = std::make_unique<EditDistance<BasicArrayObject<size_t, std::vector<char>>>>();
-    Dataset<size_t, std::vector<char>> data = Dataset<size_t, std::vector<char>>("../data/names.csv", " ");
-
-    double d = df->operator()(data[0], data[1]);
-    std::cout << "\nDIST = " << d << std::endl;
-    std::cout << data[0] << std::endl;
-    std::cout << data[1] << std::endl;
-
-
+    Timer timer;
+    timer.start();
+    timer.stop();
+    std::cout << timer.getElapsedTime() << std::endl;
+    std::cout << timer.getElapsedTimeUser() << std::endl;
 
     return 0;
 

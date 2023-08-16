@@ -292,7 +292,7 @@ namespace gervLib::dataset
 
         Dataset(const Dataset& obj) : dataset(std::make_unique<std::vector<dataset::BasicArrayObject<O, T>>>(*obj.dataset)), dimensionality(obj.dimensionality), seed(obj.seed), path(obj.path) {}
 
-        ~Dataset()
+        virtual ~Dataset()
         {
 
             if (dataset != nullptr)
@@ -510,7 +510,7 @@ namespace gervLib::dataset
             if (dataset == nullptr)
                 return dataset::BasicArrayObject<O, T>();
 
-            utils::check_range(0, size(), index, "Dataset::operator[]: Invalid position");
+            utils::check_range(0, size()-1, index, "Dataset::operator[]: Invalid position");
             return dataset->at(index);
         }
 
@@ -519,7 +519,7 @@ namespace gervLib::dataset
             if (dataset == nullptr)
                 throw std::runtime_error("Dataset::operator[]: Dataset is empty");
 
-            utils::check_range(0, size(), index, "Dataset::operator[]: Invalid position");
+            utils::check_range(0, size()-1, index, "Dataset::operator[]: Invalid position");
             return dataset->at(index);
         }
 
@@ -557,7 +557,7 @@ namespace gervLib::dataset
             if (dataset == nullptr)
                 throw std::runtime_error("Dataset::getElement: Dataset is empty");
 
-            utils::check_range(0, size(), index, "Dataset::getElement: Invalid position");
+            utils::check_range(0, size()-1, index, "Dataset::getElement: Invalid position");
             return dataset->at(index);
         }
 

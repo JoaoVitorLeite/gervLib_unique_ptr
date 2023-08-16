@@ -57,7 +57,8 @@ include_directories(include/utils)
 include_directories(include/dataset)
 include_directories(include/serialize)
 include_directories(include/distance)
-include_directories(include/distance)
+include_directories(include/factory)
+include_directories(include/pivots)
 
 # Add source files
 add_executable(gervLib
@@ -73,6 +74,8 @@ add_executable(gervLib
         include/distance/EuclideanDistance.h
         include/distance/EditDistance.h
         include/factory/DistanceFactory.h
+        include/pivots/Pivot.h
+        include/pivots/RandomPivots.h
 )
 
 # Add libraries

@@ -178,6 +178,32 @@ DistanceTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/build
 .PHONY : DistanceTest/fast
 
+#=============================================================================
+# Target rules for targets named PivotTest
+
+# Build rule for target.
+PivotTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 PivotTest
+.PHONY : PivotTest
+
+# fast build rule for target.
+PivotTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PivotTest.dir/build.make tests/CMakeFiles/PivotTest.dir/build
+.PHONY : PivotTest/fast
+
+#=============================================================================
+# Target rules for targets named RandomPivotsTest
+
+# Build rule for target.
+RandomPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 RandomPivotsTest
+.PHONY : RandomPivotsTest
+
+# fast build rule for target.
+RandomPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/build
+.PHONY : RandomPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -214,6 +240,8 @@ help:
 	@echo "... BasicArrayObjectTest"
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
+	@echo "... PivotTest"
+	@echo "... RandomPivotsTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"
 	@echo "... src/main.i"

@@ -196,6 +196,20 @@ RandomPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/build
 .PHONY : RandomPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/FFTPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/FFTPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/FFTPivotsTest.dir/rule
+
+# Convenience name for target.
+FFTPivotsTest: tests/CMakeFiles/FFTPivotsTest.dir/rule
+.PHONY : FFTPivotsTest
+
+# fast build rule for target.
+FFTPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/build
+.PHONY : FFTPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -268,6 +282,30 @@ DistanceTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DistanceTest.dir/build.make tests/CMakeFiles/DistanceTest.dir/DistanceTest.cpp.s
 .PHONY : DistanceTest.cpp.s
 
+FFTPivotsTest.o: FFTPivotsTest.cpp.o
+.PHONY : FFTPivotsTest.o
+
+# target to build an object file
+FFTPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/FFTPivotsTest.cpp.o
+.PHONY : FFTPivotsTest.cpp.o
+
+FFTPivotsTest.i: FFTPivotsTest.cpp.i
+.PHONY : FFTPivotsTest.i
+
+# target to preprocess a source file
+FFTPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/FFTPivotsTest.cpp.i
+.PHONY : FFTPivotsTest.cpp.i
+
+FFTPivotsTest.s: FFTPivotsTest.cpp.s
+.PHONY : FFTPivotsTest.s
+
+# target to generate assembly for a file
+FFTPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/FFTPivotsTest.cpp.s
+.PHONY : FFTPivotsTest.cpp.s
+
 PivotTest.o: PivotTest.cpp.o
 .PHONY : PivotTest.o
 
@@ -328,6 +366,7 @@ help:
 	@echo "... BasicArrayObjectTest"
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
+	@echo "... FFTPivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... BasicArrayObjectTest.o"
@@ -339,6 +378,9 @@ help:
 	@echo "... DistanceTest.o"
 	@echo "... DistanceTest.i"
 	@echo "... DistanceTest.s"
+	@echo "... FFTPivotsTest.o"
+	@echo "... FFTPivotsTest.i"
+	@echo "... FFTPivotsTest.s"
 	@echo "... PivotTest.o"
 	@echo "... PivotTest.i"
 	@echo "... PivotTest.s"

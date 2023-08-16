@@ -204,6 +204,19 @@ RandomPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/build
 .PHONY : RandomPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named FFTPivotsTest
+
+# Build rule for target.
+FFTPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FFTPivotsTest
+.PHONY : FFTPivotsTest
+
+# fast build rule for target.
+FFTPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/build
+.PHONY : FFTPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -240,6 +253,7 @@ help:
 	@echo "... BasicArrayObjectTest"
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
+	@echo "... FFTPivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... gervLib"

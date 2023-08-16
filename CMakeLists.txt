@@ -76,6 +76,7 @@ add_executable(gervLib
         include/factory/DistanceFactory.h
         include/pivots/Pivot.h
         include/pivots/RandomPivots.h
+        include/pivots/FFTPivots.h
 )
 
 # Add libraries

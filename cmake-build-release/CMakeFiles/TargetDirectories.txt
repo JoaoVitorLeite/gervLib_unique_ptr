@@ -7,6 +7,7 @@
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/DistanceTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/PivotTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/RandomPivotsTest.dir
+/home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/FFTPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/test.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/edit_cache.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/rebuild_cache.dir

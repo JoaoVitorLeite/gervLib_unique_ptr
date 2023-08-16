@@ -322,15 +322,24 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
   /usr/include/c++/13/numeric \
   /usr/include/c++/13/bits/stl_numeric.h \
   /usr/include/c++/13/pstl/glue_numeric_defs.h \
-  /home/joaovictor/Code/gervLib/include/configure/Configure.h \
-  /usr/include/c++/13/iostream \
-  /usr/include/c++/13/variant \
-  /usr/include/c++/13/bits/enable_special_members.h \
+  /usr/include/c++/13/chrono \
+  /usr/include/c++/13/bits/stl_algo.h \
+  /usr/include/c++/13/bits/algorithmfwd.h \
+  /usr/include/c++/13/bits/stl_heap.h \
+  /usr/include/c++/13/bits/chrono_io.h \
   /usr/include/c++/13/format \
   /usr/include/c++/13/array \
   /usr/include/c++/13/charconv \
   /usr/include/c++/13/optional \
+  /usr/include/c++/13/bits/enable_special_members.h \
   /usr/include/c++/13/span \
+  /usr/include/c++/13/variant \
+  /usr/include/x86_64-linux-gnu/sys/time.h \
+  /usr/include/x86_64-linux-gnu/sys/resource.h \
+  /usr/include/x86_64-linux-gnu/bits/resource.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_rusage.h \
+  /home/joaovictor/Code/gervLib/include/configure/Configure.h \
+  /usr/include/c++/13/iostream \
   /usr/include/c++/13/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
@@ -344,9 +353,6 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
   /usr/include/c++/13/bits/deque.tcc \
   /usr/include/c++/13/bits/stl_stack.h \
   /usr/include/c++/13/bits/std_function.h \
-  /usr/include/c++/13/bits/stl_algo.h \
-  /usr/include/c++/13/bits/algorithmfwd.h \
-  /usr/include/c++/13/bits/stl_heap.h \
   /usr/include/c++/13/bits/stl_map.h \
   /usr/include/c++/13/bits/regex_constants.h \
   /usr/include/c++/13/bits/regex_error.h \
@@ -402,10 +408,6 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/c++/13/bits/stl_map.h:
 
-/usr/include/c++/13/bits/algorithmfwd.h:
-
-/usr/include/c++/13/bits/stl_algo.h:
-
 /usr/include/c++/13/bits/stl_stack.h:
 
 /usr/include/c++/13/bits/deque.tcc:
@@ -419,6 +421,14 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 /usr/include/c++/13/stack:
 
 /usr/include/c++/13/bitset:
+
+/usr/include/c++/13/regex:
+
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+
+/usr/include/string.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_rusage.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
 
@@ -444,6 +454,8 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/c++/13/cerrno:
 
+/usr/include/c++/13/chrono:
+
 /usr/include/x86_64-linux-gnu/bits/stdio2-decl.h:
 
 /usr/include/c++/13/bits/fs_path.h:
@@ -467,6 +479,12 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 /usr/include/endian.h:
 
 /usr/include/libintl.h:
+
+/home/joaovictor/Code/gervLib/include/distance/EuclideanDistance.h:
+
+/usr/include/strings.h:
+
+/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
@@ -492,6 +510,10 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 
+/usr/include/c++/13/cstring:
+
+/usr/include/c++/13/bits/uses_allocator.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
 /usr/include/c++/13/bits/chrono.h:
@@ -504,10 +526,6 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
-/usr/include/c++/13/bits/stl_heap.h:
-
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
 /usr/include/c++/13/tuple:
@@ -516,10 +534,6 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/c++/13/ext/string_conversions.h:
 
-/usr/include/c++/13/bits/uses_allocator.h:
-
-/usr/include/c++/13/cstring:
-
 /usr/include/c++/13/numbers:
 
 /usr/include/c++/13/numeric:
@@ -527,12 +541,6 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 /usr/include/c++/13/bits/postypes.h:
 
 /usr/include/x86_64-linux-gnu/bits/cpu-set.h:
-
-/home/joaovictor/Code/gervLib/include/distance/EuclideanDistance.h:
-
-/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
-
-/usr/include/strings.h:
 
 /usr/include/c++/13/bits/ranges_base.h:
 
@@ -569,8 +577,6 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 /usr/include/c++/13/bits/iterator_concepts.h:
 
 /usr/include/c++/13/bits/erase_if.h:
-
-/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
 /usr/include/c++/13/debug/debug.h:
 
@@ -675,6 +681,10 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
 /usr/include/c++/13/cstdlib:
+
+/usr/include/c++/13/iostream:
+
+/usr/include/c++/13/bits/alloc_traits.h:
 
 /usr/include/c++/13/bits/exception_defines.h:
 
@@ -840,9 +850,21 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/c++/13/bits/exception_ptr.h:
 
-/usr/include/c++/13/bits/ios_base.h:
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h:
+
+/home/joaovictor/Code/gervLib/include/configure/Configure.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h:
 
 /usr/include/pthread.h:
+
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/x86_64-linux-gnu/sys/time.h:
 
 /usr/include/c++/13/initializer_list:
 
@@ -956,6 +978,8 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
+/usr/include/c++/13/bits/algorithmfwd.h:
+
 /usr/include/x86_64-linux-gnu/bits/uio_lim.h:
 
 /usr/include/c++/13/bits/predefined_ops.h:
@@ -993,6 +1017,8 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/usr/include/x86_64-linux-gnu/sys/resource.h:
 
 /usr/include/c++/13/backward/auto_ptr.h:
 
@@ -1058,6 +1084,8 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/c++/13/bits/regex_scanner.tcc:
 
+/usr/include/c++/13/bits/chrono_io.h:
+
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
@@ -1082,13 +1110,23 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/c++/13/tr1/riemann_zeta.tcc:
 
-/usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h:
+/usr/include/c++/13/bits/stl_algo.h:
 
-/home/joaovictor/Code/gervLib/include/configure/Configure.h:
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
 
-/usr/include/c++/13/bits/alloc_traits.h:
+/usr/include/c++/13/bits/stl_heap.h:
 
-/usr/include/c++/13/iostream:
+/usr/include/c++/13/array:
+
+/usr/include/c++/13/charconv:
+
+/usr/include/c++/13/bits/ranges_algo.h:
+
+/usr/include/c++/13/bits/enable_special_members.h:
+
+/usr/include/c++/13/map:
+
+/usr/include/c++/13/span:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
@@ -1096,26 +1134,6 @@ tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o: /home/joaovictor/C
 
 /usr/include/c++/13/variant:
 
-/usr/include/c++/13/bits/ranges_algo.h:
+/usr/include/c++/13/bits/ios_base.h:
 
-/usr/include/c++/13/bits/enable_special_members.h:
-
-/usr/include/c++/13/array:
-
-/usr/include/c++/13/charconv:
-
-/usr/include/c++/13/map:
-
-/usr/include/c++/13/span:
-
-/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
-
-/usr/include/string.h:
-
-/usr/include/x86_64-linux-gnu/bits/confname.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h:
-
-/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
-
-/usr/include/c++/13/regex:
+/usr/include/x86_64-linux-gnu/bits/resource.h:

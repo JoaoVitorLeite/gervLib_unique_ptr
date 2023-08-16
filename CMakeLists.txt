@@ -65,6 +65,8 @@ add_executable(gervLib
         include/utils/Utils.h
         include/dataset/BasicArrayObject.h
         include/serialize/Serialize.h
+        include/dataset/Dataset.h
+        include/dataset/DatasetWrapper.h
 )
 
 # Add libraries

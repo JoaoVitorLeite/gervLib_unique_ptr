@@ -7,6 +7,10 @@
 
 #include <string>
 #include <filesystem>
+#include <vector>
+#include <set>
+#include <random>
+#include <limits>
 
 namespace gervLib::utils
 {
@@ -37,6 +41,83 @@ namespace gervLib::utils
 
     }
 
+    template<typename generator_type = size_t>
+    struct Random {
+
+        std::mt19937_64 generator;
+
+        explicit Random(generator_type seed = 0) {
+#ifndef ENABLE_SRAND
+            generator.seed(seed);
+#else
+            srand(seed);
+#endif
+
+        }
+
+        generator_type operator()(generator_type min, generator_type max) {
+#ifndef ENABLE_SRAND
+            std::uniform_int_distribution<generator_type> distribution(min, max);
+            return distribution(generator);
+#else
+            return min + (rand() % (max - min + 1));
+#endif
+        }
+
+        generator_type operator()(generator_type max) {
+            return (*this)(0, max);
+        }
+
+        generator_type operator()() {
+#ifndef ENABLE_SRAND
+            return (*this)(0, std::numeric_limits<generator_type>::max());
+#else
+            return (*this)(0, RAND_MAX);
+#endif
+        }
+
+    };
+
+    std::vector<size_t> generateRandomNumbers(size_t min, size_t max, size_t size, bool reposition, size_t seed)
+    {
+
+        std::vector<size_t> numbers;
+        Random<size_t> random(seed);
+
+        if(reposition)
+        {
+
+            for(size_t i = 0; i < size; i++)
+            {
+                numbers.push_back(random(min, max));
+            }
+
+        }
+        else
+        {
+
+            if(max - min + 1 < size)
+            {
+                throw std::runtime_error("The range of numbers is smaller than the size of the vector");
+            }
+
+            std::set<size_t> aux;
+
+            while(aux.size() < size)
+            {
+                aux.insert(random(min, max));
+            }
+
+            for(auto &i : aux)
+            {
+                numbers.push_back(i);
+            }
+
+        }
+
+        return numbers;
+
+    }
 
 }
 

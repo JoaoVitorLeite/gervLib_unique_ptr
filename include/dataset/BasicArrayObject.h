@@ -253,7 +253,7 @@ namespace gervLib::dataset
             }
         }
 
-        //Setters
+        // Setters
 
         void setOID(const O _oid)
         {
@@ -270,7 +270,7 @@ namespace gervLib::dataset
             }
         }
 
-        //Getters
+        // Getters
 
         O getOID() const
         {
@@ -285,7 +285,7 @@ namespace gervLib::dataset
                 return *data;
         }
 
-        //Operators
+        // Operators
 
         T operator[](const size_t index) const
         {
@@ -424,7 +424,7 @@ namespace gervLib::dataset
             if (data == nullptr)
                 throw std::runtime_error(std::format("BasicArrayObject::set: data is null"));
 
-            gervLib::utils::check_range(0, data->size(), pos, "BasicArrayObject::set");
+            gervLib::utils::check_range(0, size(), pos, "BasicArrayObject::set");
             data->at(pos) = value;
         }
 

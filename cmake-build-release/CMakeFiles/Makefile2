@@ -81,6 +81,7 @@ clean: tests/clean
 
 # Recursive "all" directory target.
 tests/all: tests/CMakeFiles/BasicArrayObjectTest.dir/all
+tests/all: tests/CMakeFiles/DatasetTest.dir/all
 .PHONY : tests/all
 
 # Recursive "preinstall" directory target.
@@ -89,6 +90,7 @@ tests/preinstall:
 
 # Recursive "clean" directory target.
 tests/clean: tests/CMakeFiles/BasicArrayObjectTest.dir/clean
+tests/clean: tests/CMakeFiles/DatasetTest.dir/clean
 .PHONY : tests/clean
 
 #=============================================================================
@@ -98,7 +100,7 @@ tests/clean: tests/CMakeFiles/BasicArrayObjectTest.dir/clean
 CMakeFiles/gervLib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=3,4 "Built target gervLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=5,6 "Built target gervLib"
 .PHONY : CMakeFiles/gervLib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -142,6 +144,32 @@ BasicArrayObjectTest: tests/CMakeFiles/BasicArrayObjectTest.dir/rule
 tests/CMakeFiles/BasicArrayObjectTest.dir/clean:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/clean
 .PHONY : tests/CMakeFiles/BasicArrayObjectTest.dir/clean
+
+#=============================================================================
+# Target rules for target tests/CMakeFiles/DatasetTest.dir
+
+# All Build rule for target.
+tests/CMakeFiles/DatasetTest.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=3,4 "Built target DatasetTest"
+.PHONY : tests/CMakeFiles/DatasetTest.dir/all
+
+# Build rule for subdir invocation for target.
+tests/CMakeFiles/DatasetTest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/DatasetTest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles 0
+.PHONY : tests/CMakeFiles/DatasetTest.dir/rule
+
+# Convenience name for target.
+DatasetTest: tests/CMakeFiles/DatasetTest.dir/rule
+.PHONY : DatasetTest
+
+# clean rule for target.
+tests/CMakeFiles/DatasetTest.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/clean
+.PHONY : tests/CMakeFiles/DatasetTest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -152,6 +152,19 @@ BasicArrayObjectTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/build
 .PHONY : BasicArrayObjectTest/fast
 
+#=============================================================================
+# Target rules for targets named DatasetTest
+
+# Build rule for target.
+DatasetTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 DatasetTest
+.PHONY : DatasetTest
+
+# fast build rule for target.
+DatasetTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/build
+.PHONY : DatasetTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -186,6 +199,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... BasicArrayObjectTest"
+	@echo "... DatasetTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"
 	@echo "... src/main.i"

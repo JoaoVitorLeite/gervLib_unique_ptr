@@ -10,7 +10,7 @@
 					[
 						1
 					],
-					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.25"
@@ -19,12 +19,12 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						1
+						2
 					]
 				},
 				{
 					"build" : "tests",
-					"jsonFile" : "directory-tests-Release-b01f6abb0ab61427ef3b.json",
+					"jsonFile" : "directory-tests-Debug-b01f6abb0ab61427ef3b.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.25"
@@ -34,11 +34,12 @@
 					"source" : "tests",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
-			"name" : "Release",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -51,7 +52,8 @@
 					"targetIndexes" : 
 					[
 						0,
-						1
+						1,
+						2
 					]
 				}
 			],
@@ -60,14 +62,21 @@
 				{
 					"directoryIndex" : 1,
 					"id" : "BasicArrayObjectTest::@a44f0ac069e85531cdee",
-					"jsonFile" : "target-BasicArrayObjectTest-Release-5a9af45ba5b9c267cc6c.json",
+					"jsonFile" : "target-BasicArrayObjectTest-Debug-2f64ab138b4a50b32835.json",
 					"name" : "BasicArrayObjectTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "DatasetTest::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-DatasetTest-Debug-0e3823fb4e9e836d5433.json",
+					"name" : "DatasetTest",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "gervLib::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-gervLib-Release-988879ad5e5883d34e20.json",
+					"jsonFile" : "target-gervLib-Debug-f7ee2bb3264d90ef0e55.json",
 					"name" : "gervLib",
 					"projectIndex" : 0
 				}
@@ -77,7 +86,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/joaovictor/Code/gervLib/cmake-build-release",
+		"build" : "/home/joaovictor/Code/gervLib/cmake-build-debug",
 		"source" : "/home/joaovictor/Code/gervLib"
 	},
 	"version" : 

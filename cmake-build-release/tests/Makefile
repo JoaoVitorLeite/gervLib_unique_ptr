@@ -140,6 +140,20 @@ BasicArrayObjectTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/build
 .PHONY : BasicArrayObjectTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/DatasetTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/DatasetTest.dir/rule
+.PHONY : tests/CMakeFiles/DatasetTest.dir/rule
+
+# Convenience name for target.
+DatasetTest: tests/CMakeFiles/DatasetTest.dir/rule
+.PHONY : DatasetTest
+
+# fast build rule for target.
+DatasetTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/build
+.PHONY : DatasetTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -164,6 +178,30 @@ BasicArrayObjectTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.s
 .PHONY : BasicArrayObjectTest.cpp.s
 
+DatasetTest.o: DatasetTest.cpp.o
+.PHONY : DatasetTest.o
+
+# target to build an object file
+DatasetTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/DatasetTest.cpp.o
+.PHONY : DatasetTest.cpp.o
+
+DatasetTest.i: DatasetTest.cpp.i
+.PHONY : DatasetTest.i
+
+# target to preprocess a source file
+DatasetTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/DatasetTest.cpp.i
+.PHONY : DatasetTest.cpp.i
+
+DatasetTest.s: DatasetTest.cpp.s
+.PHONY : DatasetTest.s
+
+# target to generate assembly for a file
+DatasetTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/DatasetTest.dir/build.make tests/CMakeFiles/DatasetTest.dir/DatasetTest.cpp.s
+.PHONY : DatasetTest.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -174,9 +212,13 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... BasicArrayObjectTest"
+	@echo "... DatasetTest"
 	@echo "... BasicArrayObjectTest.o"
 	@echo "... BasicArrayObjectTest.i"
 	@echo "... BasicArrayObjectTest.s"
+	@echo "... DatasetTest.o"
+	@echo "... DatasetTest.i"
+	@echo "... DatasetTest.s"
 .PHONY : help
 
 

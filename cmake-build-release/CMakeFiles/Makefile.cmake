@@ -52,4 +52,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "tests/CMakeFiles/RandomPivotsTest.dir/DependInfo.cmake"
   "tests/CMakeFiles/FFTPivotsTest.dir/DependInfo.cmake"
   "tests/CMakeFiles/ConvexPivotsTest.dir/DependInfo.cmake"
+  "tests/CMakeFiles/MaxSeparatedPivotsTest.dir/DependInfo.cmake"
   )

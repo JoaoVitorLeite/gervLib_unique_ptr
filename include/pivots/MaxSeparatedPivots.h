@@ -2,8 +2,8 @@
 // Created by joaovictor on 16/08/23.
 //
 
-#ifndef GERVLIB_FFTPIVOTS_H
-#define GERVLIB_FFTPIVOTS_H
+#ifndef GERVLIB_MAXSEPARATEDPIVOTS_H
+#define GERVLIB_MAXSEPARATEDPIVOTS_H
 
 #include "Pivot.h"
 
@@ -11,22 +11,22 @@ namespace gervLib::pivots
 {
 
     template <typename O, typename T>
-    class FFTPivots : public Pivot<O, T>
+    class MaxSeparatedPivots : public Pivot<O, T>
     {
 
     public:
-        FFTPivots() : Pivot<O, T>() { this->setPivotType(PIVOT_TYPE::FFT); }
-        FFTPivots(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
-                  std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>>& df, size_t nPivots,
-                  size_t drop = 0) : Pivot<O, T>()
+        MaxSeparatedPivots() : Pivot<O, T>() { this->setPivotType(PIVOT_TYPE::MAXSEPARATED); }
+        MaxSeparatedPivots(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
+                           std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>>& df, size_t nPivots,
+                           size_t drop = 0) : Pivot<O, T>()
         {
-            this->setPivotType(PIVOT_TYPE::FFT);
+            this->setPivotType(PIVOT_TYPE::MAXSEPARATED);
             this->setNumberOfPivots(nPivots);
             this->setNumberOfDropPivots(drop);
             this->generatePivots(dataset, df, nPivots);
         }
 
-        ~FFTPivots() override = default;
+        ~MaxSeparatedPivots() override = default;
 
         void operator()(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
                                 std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>>& df, size_t nPivots) override
@@ -40,7 +40,7 @@ namespace gervLib::pivots
                     return;
                 }
                 else
-                    throw std::runtime_error("FFTPivots::operator(): Number of pivots cannot be greater than the number of objects in the dataset.");
+                    throw std::runtime_error("MaxSeparatedPivots::operator(): Number of pivots cannot be greater than the number of objects in the dataset.");
             }
             else
             {
@@ -63,21 +63,22 @@ namespace gervLib::pivots
                 size_t currentPivot = 0, pos = 0, p1;
                 std::vector<bool> bitmap(sample->getCardinality(), false);
                 std::vector<size_t> pvtIndex(nPivots, 0);
-                std::vector<size_t> aux = utils::generateRandomNumbers(0, sample->getCardinality()-1, nPivots, false,
-                                                                       this->getSeed());
-                double max = std::numeric_limits<double>::min(), dist, currentDist;
+                std::vector<size_t> aux = utils::generateRandomNumbers(0, sample->getCardinality()-1, 1, false, this->getSeed());
+                double max = std::numeric_limits<double>::min(), sum = 0.0, dist;
+
                 p1 = aux[0];
                 bitmap[p1] = true;
-                pvtIndex[currentPivot++] = p1;
-                this->setPivot(0, sample->getElement(p1));
+                this->setPivot(currentPivot, sample->getElement(p1));
 
 #ifdef ENABLE_DEBUG
-                std::cout << "Pivot " << 0 << ": " << sample->operator[](p1) << std::endl;
+                std::cout << "Pivot " << currentPivot << ": " << sample->operator[](p1) << std::endl;
 #endif
 
-                if(nPivots == 1)
-                {
+                pvtIndex[currentPivot++] = p1;
 
+
+                if (nPivots == 1)
+                {
                     this->pivots->setDimensionality(sample->getDimensionality());
 
                     if (smpl)
@@ -85,9 +86,9 @@ namespace gervLib::pivots
                     else
                         dataset = std::move(sample);
 
-                    aux.clear();
                     bitmap.clear();
                     pvtIndex.clear();
+                    aux.clear();
 
                     if (this->drop != 0)
                     {
@@ -99,33 +100,34 @@ namespace gervLib::pivots
                     this->incrementElapsedTime(timer.getElapsedTime());
 
                     return;
-
                 }
 
-                for(size_t x = 0; x < sample->getCardinality(); x++)
+                for (size_t x = 0; x < sample->getCardinality(); x++)
                 {
 
-                    dist = df->operator()(sample->getElement(p1), sample->getElement(x));
+                    dist = df->operator()(sample->getElement(x), sample->getElement(p1));
 
-                    if(dist > max)
+                    if (dist > max)
                     {
+
                         max = dist;
                         pos = x;
+
                     }
 
                 }
 
                 bitmap[pos] = true;
-                pvtIndex[currentPivot++] = pos;
-                this->setPivot(1, sample->getElement(pos));
+                this->setPivot(currentPivot, sample->getElement(pos));
 
 #ifdef ENABLE_DEBUG
-                std::cout << "Pivot " << 1 << ": " << sample->operator[](pos) << std::endl;
+                std::cout << "Pivot " << currentPivot << ": " << sample->operator[](pos) << std::endl;
 #endif
 
-                if(nPivots == 2)
-                {
+                pvtIndex[currentPivot++] = pos;
 
+                if (nPivots == 2)
+                {
                     this->pivots->setDimensionality(sample->getDimensionality());
 
                     if (smpl)
@@ -133,9 +135,9 @@ namespace gervLib::pivots
                     else
                         dataset = std::move(sample);
 
-                    aux.clear();
                     bitmap.clear();
                     pvtIndex.clear();
+                    aux.clear();
 
                     if (this->drop != 0)
                     {
@@ -147,13 +149,11 @@ namespace gervLib::pivots
                     this->incrementElapsedTime(timer.getElapsedTime());
 
                     return;
-
                 }
 
                 while (currentPivot < nPivots)
                 {
 
-                    pos = 0;
                     max = std::numeric_limits<double>::min();
 
                     for (size_t x = 0; x < sample->getCardinality(); x++)
@@ -162,23 +162,21 @@ namespace gervLib::pivots
                         if (!bitmap[x])
                         {
 
-                            currentDist = std::numeric_limits<double>::max();
+                            sum = 0.0;
 
                             for(size_t y = 0; y < currentPivot; y++)
+                                sum += df->operator()(sample->getElement(x), sample->getElement(pvtIndex[y]));
+
+                            if (sum > max)
                             {
 
-                                dist = df->operator()(sample->getElement(pvtIndex[y]), sample->getElement(x));
-                                currentDist = std::min(currentDist, dist);
-
-                            }
-
-                            if (currentDist > max)
-                            {
-                                max = currentDist;
+                                max = sum;
                                 pos = x;
+
                             }
 
                         }
+
                     }
 
                     bitmap[pos] = true;
@@ -199,9 +197,9 @@ namespace gervLib::pivots
                 else
                     dataset = std::move(sample);
 
-                aux.clear();
                 bitmap.clear();
                 pvtIndex.clear();
+                aux.clear();
 
                 if (this->drop != 0)
                 {
@@ -220,4 +218,4 @@ namespace gervLib::pivots
 
 }
 
-#endif //GERVLIB_FFTPIVOTS_H
+#endif //GERVLIB_MAXSEPARATEDPIVOTS_H

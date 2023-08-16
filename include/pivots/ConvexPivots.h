@@ -28,7 +28,7 @@ namespace gervLib::pivots
 
         ~ConvexPivots() override = default;
 
-        virtual void operator()(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
+        void operator()(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
                                 std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>>& df, size_t nPivots) override
         {
 
@@ -40,7 +40,7 @@ namespace gervLib::pivots
                     return;
                 }
                 else
-                    throw std::runtime_error("RandomPivots::operator(): Number of pivots cannot be greater than the number of objects in the dataset.");
+                    throw std::runtime_error("ConvexPivots::operator(): Number of pivots cannot be greater than the number of objects in the dataset.");
             }
             else
             {

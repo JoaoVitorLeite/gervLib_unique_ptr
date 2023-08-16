@@ -230,6 +230,19 @@ ConvexPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/build
 .PHONY : ConvexPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named MaxSeparatedPivotsTest
+
+# Build rule for target.
+MaxSeparatedPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MaxSeparatedPivotsTest
+.PHONY : MaxSeparatedPivotsTest
+
+# fast build rule for target.
+MaxSeparatedPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build.make tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build
+.PHONY : MaxSeparatedPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -268,6 +281,7 @@ help:
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"
+	@echo "... MaxSeparatedPivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... gervLib"

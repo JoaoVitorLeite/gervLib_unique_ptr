@@ -27,7 +27,7 @@ namespace gervLib::pivots
 
         ~RandomPivots() override = default;
 
-        virtual void operator()(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
+        void operator()(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
                                 std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>>& df, size_t nPivots) override
         {
 

@@ -78,6 +78,7 @@ add_executable(gervLib
         include/pivots/RandomPivots.h
         include/pivots/FFTPivots.h
         include/pivots/ConvexPivots.h
+        include/pivots/MaxSeparatedPivots.h
 )
 
 # Add libraries

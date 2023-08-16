@@ -224,6 +224,20 @@ ConvexPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ConvexPivotsTest.dir/build.make tests/CMakeFiles/ConvexPivotsTest.dir/build
 .PHONY : ConvexPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/MaxSeparatedPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/MaxSeparatedPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/MaxSeparatedPivotsTest.dir/rule
+
+# Convenience name for target.
+MaxSeparatedPivotsTest: tests/CMakeFiles/MaxSeparatedPivotsTest.dir/rule
+.PHONY : MaxSeparatedPivotsTest
+
+# fast build rule for target.
+MaxSeparatedPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build.make tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build
+.PHONY : MaxSeparatedPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -344,6 +358,30 @@ FFTPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/FFTPivotsTest.dir/build.make tests/CMakeFiles/FFTPivotsTest.dir/FFTPivotsTest.cpp.s
 .PHONY : FFTPivotsTest.cpp.s
 
+MaxSeparatedPivotsTest.o: MaxSeparatedPivotsTest.cpp.o
+.PHONY : MaxSeparatedPivotsTest.o
+
+# target to build an object file
+MaxSeparatedPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build.make tests/CMakeFiles/MaxSeparatedPivotsTest.dir/MaxSeparatedPivotsTest.cpp.o
+.PHONY : MaxSeparatedPivotsTest.cpp.o
+
+MaxSeparatedPivotsTest.i: MaxSeparatedPivotsTest.cpp.i
+.PHONY : MaxSeparatedPivotsTest.i
+
+# target to preprocess a source file
+MaxSeparatedPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build.make tests/CMakeFiles/MaxSeparatedPivotsTest.dir/MaxSeparatedPivotsTest.cpp.i
+.PHONY : MaxSeparatedPivotsTest.cpp.i
+
+MaxSeparatedPivotsTest.s: MaxSeparatedPivotsTest.cpp.s
+.PHONY : MaxSeparatedPivotsTest.s
+
+# target to generate assembly for a file
+MaxSeparatedPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxSeparatedPivotsTest.dir/build.make tests/CMakeFiles/MaxSeparatedPivotsTest.dir/MaxSeparatedPivotsTest.cpp.s
+.PHONY : MaxSeparatedPivotsTest.cpp.s
+
 PivotTest.o: PivotTest.cpp.o
 .PHONY : PivotTest.o
 
@@ -406,6 +444,7 @@ help:
 	@echo "... DatasetTest"
 	@echo "... DistanceTest"
 	@echo "... FFTPivotsTest"
+	@echo "... MaxSeparatedPivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... BasicArrayObjectTest.o"
@@ -423,6 +462,9 @@ help:
 	@echo "... FFTPivotsTest.o"
 	@echo "... FFTPivotsTest.i"
 	@echo "... FFTPivotsTest.s"
+	@echo "... MaxSeparatedPivotsTest.o"
+	@echo "... MaxSeparatedPivotsTest.i"
+	@echo "... MaxSeparatedPivotsTest.s"
 	@echo "... PivotTest.o"
 	@echo "... PivotTest.i"
 	@echo "... PivotTest.s"

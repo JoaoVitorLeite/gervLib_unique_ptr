@@ -266,6 +266,20 @@ SelectionPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/build
 .PHONY : SelectionPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/PCAPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/PCAPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/PCAPivotsTest.dir/rule
+
+# Convenience name for target.
+PCAPivotsTest: tests/CMakeFiles/PCAPivotsTest.dir/rule
+.PHONY : PCAPivotsTest
+
+# fast build rule for target.
+PCAPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PCAPivotsTest.dir/build.make tests/CMakeFiles/PCAPivotsTest.dir/build
+.PHONY : PCAPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -434,6 +448,30 @@ MaxVariancePivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxVariancePivotsTest.dir/build.make tests/CMakeFiles/MaxVariancePivotsTest.dir/MaxVariancePivotsTest.cpp.s
 .PHONY : MaxVariancePivotsTest.cpp.s
 
+PCAPivotsTest.o: PCAPivotsTest.cpp.o
+.PHONY : PCAPivotsTest.o
+
+# target to build an object file
+PCAPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PCAPivotsTest.dir/build.make tests/CMakeFiles/PCAPivotsTest.dir/PCAPivotsTest.cpp.o
+.PHONY : PCAPivotsTest.cpp.o
+
+PCAPivotsTest.i: PCAPivotsTest.cpp.i
+.PHONY : PCAPivotsTest.i
+
+# target to preprocess a source file
+PCAPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PCAPivotsTest.dir/build.make tests/CMakeFiles/PCAPivotsTest.dir/PCAPivotsTest.cpp.i
+.PHONY : PCAPivotsTest.cpp.i
+
+PCAPivotsTest.s: PCAPivotsTest.cpp.s
+.PHONY : PCAPivotsTest.s
+
+# target to generate assembly for a file
+PCAPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PCAPivotsTest.dir/build.make tests/CMakeFiles/PCAPivotsTest.dir/PCAPivotsTest.cpp.s
+.PHONY : PCAPivotsTest.cpp.s
+
 PivotTest.o: PivotTest.cpp.o
 .PHONY : PivotTest.o
 
@@ -522,6 +560,7 @@ help:
 	@echo "... FFTPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
+	@echo "... PCAPivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... SelectionPivotsTest"
@@ -546,6 +585,9 @@ help:
 	@echo "... MaxVariancePivotsTest.o"
 	@echo "... MaxVariancePivotsTest.i"
 	@echo "... MaxVariancePivotsTest.s"
+	@echo "... PCAPivotsTest.o"
+	@echo "... PCAPivotsTest.i"
+	@echo "... PCAPivotsTest.s"
 	@echo "... PivotTest.o"
 	@echo "... PivotTest.i"
 	@echo "... PivotTest.s"

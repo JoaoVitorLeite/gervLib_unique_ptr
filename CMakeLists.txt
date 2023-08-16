@@ -81,6 +81,7 @@ add_executable(gervLib
         include/pivots/MaxSeparatedPivots.h
         include/pivots/MaxVariancePivots.h
         include/pivots/SelectionPivots.h
+        include/pivots/PCAPivots.h
 )
 
 # Add libraries

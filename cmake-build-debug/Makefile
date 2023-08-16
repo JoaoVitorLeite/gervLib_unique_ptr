@@ -269,6 +269,19 @@ SelectionPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/build
 .PHONY : SelectionPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named PCAPivotsTest
+
+# Build rule for target.
+PCAPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 PCAPivotsTest
+.PHONY : PCAPivotsTest
+
+# fast build rule for target.
+PCAPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PCAPivotsTest.dir/build.make tests/CMakeFiles/PCAPivotsTest.dir/build
+.PHONY : PCAPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -309,6 +322,7 @@ help:
 	@echo "... FFTPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
+	@echo "... PCAPivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... SelectionPivotsTest"

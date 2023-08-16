@@ -1,3 +1,468 @@
-Start testing: Aug 16 15:07 -03
+Start testing: Aug 16 15:18 -03
 ----------------------------------------------------------
-End testing: Aug 16 15:07 -03
+1/11 Testing: BasicArrayObjectTest
+1/11 Test: BasicArrayObjectTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/BasicArrayObjectTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"BasicArrayObjectTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"BasicArrayObjectTest" end time: Aug 16 15:18 -03
+"BasicArrayObjectTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/11 Testing: DatasetTest
+2/11 Test: DatasetTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/DatasetTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"DatasetTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.29 sec
+----------------------------------------------------------
+Test Passed.
+"DatasetTest" end time: Aug 16 15:18 -03
+"DatasetTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/11 Testing: DistanceTest
+3/11 Test: DistanceTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/DistanceTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"DistanceTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"DistanceTest" end time: Aug 16 15:18 -03
+"DistanceTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/11 Testing: PivotTest
+4/11 Test: PivotTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/PivotTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"PivotTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"PivotTest" end time: Aug 16 15:18 -03
+"PivotTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/11 Testing: RandomPivotsTest
+5/11 Test: RandomPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/RandomPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"RandomPivotsTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+Pivot 0: |    5     ||          15          |          10          | 
+Pivot 1: |    14    ||          1           |          4           | 
+Pivot 2: |    16    ||          8           |          6           | 
+Pivot 3: |    19    ||          4           |          6           | 
+Pivot 0: |    3     ||          12          |          7           | 
+Pivot 1: |    5     ||          15          |          10          | 
+Pivot 2: |    7     ||          4           |          17          | 
+Pivot 3: |    15    ||          7           |          8           | 
+Pivot 0: |    3     ||          12          |          7           | 
+Pivot 1: |    5     ||          15          |          10          | 
+Pivot 2: |    7     ||          4           |          17          | 
+Pivot 3: |    15    ||          7           |          8           | 
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"RandomPivotsTest" end time: Aug 16 15:18 -03
+"RandomPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/11 Testing: FFTPivotsTest
+6/11 Test: FFTPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/FFTPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"FFTPivotsTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+Pivot 0: |    1     ||          19          |          4           | 
+Pivot 1: |    7     ||          4           |          17          | 
+Pivot 2: |    18    ||          0           |          0           | 
+Pivot 3: |    13    ||          18          |          19          | 
+Pivot 0: |    1     ||          19          |          4           | 
+Pivot 1: |    7     ||          4           |          17          | 
+Pivot 2: |    18    ||          0           |          0           | 
+Pivot 3: |    13    ||          18          |          19          | 
+Pivot 0: |    1     ||          19          |          4           | 
+Pivot 1: |    7     ||          4           |          17          | 
+Pivot 2: |    18    ||          0           |          0           | 
+Pivot 3: |    13    ||          18          |          19          | 
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"FFTPivotsTest" end time: Aug 16 15:18 -03
+"FFTPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/11 Testing: ConvexPivotsTest
+7/11 Test: ConvexPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/ConvexPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"ConvexPivotsTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+Pivot 0: |    4     ||          17          |          6           | 
+Pivot 1: |    18    ||          0           |          0           | 
+Pivot 2: |    13    ||          18          |          19          | 
+Pivot 3: |    7     ||          4           |          17          | 
+Pivot 0: |    4     ||          17          |          6           | 
+Pivot 1: |    18    ||          0           |          0           | 
+Pivot 2: |    13    ||          18          |          19          | 
+Pivot 3: |    7     ||          4           |          17          | 
+Pivot 0: |    4     ||          17          |          6           | 
+Pivot 1: |    18    ||          0           |          0           | 
+Pivot 2: |    13    ||          18          |          19          | 
+Pivot 3: |    7     ||          4           |          17          | 
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConvexPivotsTest" end time: Aug 16 15:18 -03
+"ConvexPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/11 Testing: MaxSeparatedPivotsTest
+8/11 Test: MaxSeparatedPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/MaxSeparatedPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"MaxSeparatedPivotsTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+Pivot 0: |    1     ||          19          |          4           | 
+Pivot 1: |    7     ||          4           |          17          | 
+Pivot 2: |    18    ||          0           |          0           | 
+Pivot 3: |    13    ||          18          |          19          | 
+Pivot 0: |    1     ||          19          |          4           | 
+Pivot 1: |    7     ||          4           |          17          | 
+Pivot 2: |    18    ||          0           |          0           | 
+Pivot 3: |    13    ||          18          |          19          | 
+Pivot 0: |    1     ||          19          |          4           | 
+Pivot 1: |    7     ||          4           |          17          | 
+Pivot 2: |    18    ||          0           |          0           | 
+Pivot 3: |    13    ||          18          |          19          | 
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"MaxSeparatedPivotsTest" end time: Aug 16 15:18 -03
+"MaxSeparatedPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/11 Testing: MaxVariancePivotsTest
+9/11 Test: MaxVariancePivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/MaxVariancePivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"MaxVariancePivotsTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+====================================================================================
+Candidate 0: |    9     ||          20          |          11          | 
+Candidate 1: |    1     ||          19          |          4           | 
+Candidate 2: |    6     ||          16          |          19          | 
+Candidate 3: |    19    ||          4           |          6           | 
+Candidate 4: |    3     ||          12          |          7           | 
+Candidate 5: |    15    ||          7           |          8           | 
+Candidate 6: |    14    ||          1           |          4           | 
+Candidate 7: |    0     ||          13          |          5           | 
+Candidate 8: |    13    ||          18          |          19          | 
+Candidate 9: |    12    ||          3           |          5           | 
+
+====================================================================================
+
+Element 0: |    7     ||          4           |          17          | 
+Element 1: |    16    ||          8           |          6           | 
+Element 2: |    2     ||          6           |          0           | 
+Element 3: |    5     ||          15          |          10          | 
+Element 4: |    4     ||          17          |          6           | 
+Element 5: |    8     ||          7           |          1           | 
+Element 6: |    11    ||          9           |          9           | 
+Element 7: |    17    ||          5           |          5           | 
+Element 8: |    10    ||          8           |          3           | 
+Element 9: |    18    ||          0           |          0           | 
+====================================================================================
+
+Pivot 0: |    9     ||          20          |          11          | 
+Pivot 1: |    1     ||          19          |          4           | 
+Pivot 2: |    13    ||          18          |          19          | 
+Pivot 3: |    6     ||          16          |          19          | 
+====================================================================================
+Candidate 0: |    9     ||          20          |          11          | 
+Candidate 1: |    1     ||          19          |          4           | 
+Candidate 2: |    6     ||          16          |          19          | 
+Candidate 3: |    19    ||          4           |          6           | 
+Candidate 4: |    3     ||          12          |          7           | 
+Candidate 5: |    15    ||          7           |          8           | 
+Candidate 6: |    14    ||          1           |          4           | 
+Candidate 7: |    0     ||          13          |          5           | 
+Candidate 8: |    13    ||          18          |          19          | 
+Candidate 9: |    12    ||          3           |          5           | 
+
+====================================================================================
+
+Element 0: |    7     ||          4           |          17          | 
+Element 1: |    16    ||          8           |          6           | 
+Element 2: |    2     ||          6           |          0           | 
+Element 3: |    5     ||          15          |          10          | 
+Element 4: |    4     ||          17          |          6           | 
+Element 5: |    8     ||          7           |          1           | 
+Element 6: |    11    ||          9           |          9           | 
+Element 7: |    17    ||          5           |          5           | 
+Element 8: |    10    ||          8           |          3           | 
+Element 9: |    18    ||          0           |          0           | 
+====================================================================================
+
+Pivot 0: |    9     ||          20          |          11          | 
+Pivot 1: |    1     ||          19          |          4           | 
+Pivot 2: |    13    ||          18          |          19          | 
+Pivot 3: |    6     ||          16          |          19          | 
+====================================================================================
+Candidate 0: |    9     ||          20          |          11          | 
+Candidate 1: |    1     ||          19          |          4           | 
+Candidate 2: |    6     ||          16          |          19          | 
+Candidate 3: |    19    ||          4           |          6           | 
+Candidate 4: |    3     ||          12          |          7           | 
+Candidate 5: |    15    ||          7           |          8           | 
+Candidate 6: |    14    ||          1           |          4           | 
+Candidate 7: |    0     ||          13          |          5           | 
+Candidate 8: |    13    ||          18          |          19          | 
+Candidate 9: |    12    ||          3           |          5           | 
+
+====================================================================================
+
+Element 0: |    7     ||          4           |          17          | 
+Element 1: |    16    ||          8           |          6           | 
+Element 2: |    2     ||          6           |          0           | 
+Element 3: |    5     ||          15          |          10          | 
+Element 4: |    4     ||          17          |          6           | 
+Element 5: |    8     ||          7           |          1           | 
+Element 6: |    11    ||          9           |          9           | 
+Element 7: |    17    ||          5           |          5           | 
+Element 8: |    10    ||          8           |          3           | 
+Element 9: |    18    ||          0           |          0           | 
+====================================================================================
+
+Pivot 0: |    9     ||          20          |          11          | 
+Pivot 1: |    1     ||          19          |          4           | 
+Pivot 2: |    13    ||          18          |          19          | 
+Pivot 3: |    6     ||          16          |          19          | 
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"MaxVariancePivotsTest" end time: Aug 16 15:18 -03
+"MaxVariancePivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/11 Testing: SelectionPivotsTest
+10/11 Test: SelectionPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/SelectionPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"SelectionPivotsTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+Group 0: 9.83451
+Element: |    4     ||          17          |          6           | 
+Element: |    12    ||          3           |          5           | 
+Element: |    17    ||          5           |          5           | 
+Element: |    18    ||          0           |          0           | 
+Group 1: 6.77553
+Element: |    0     ||          13          |          5           | 
+Element: |    8     ||          7           |          1           | 
+Element: |    10    ||          8           |          3           | 
+Element: |    14    ||          1           |          4           | 
+Group 2: 14.2026
+Element: |    6     ||          16          |          19          | 
+Element: |    8     ||          7           |          1           | 
+Element: |    11    ||          9           |          9           | 
+Element: |    18    ||          0           |          0           | 
+Group 3: 8.74904
+Element: |    0     ||          13          |          5           | 
+Element: |    3     ||          12          |          7           | 
+Element: |    15    ||          7           |          8           | 
+Element: |    18    ||          0           |          0           | 
+Group 4: 7.37866
+Element: |    1     ||          19          |          4           | 
+Element: |    2     ||          6           |          0           | 
+Element: |    8     ||          7           |          1           | 
+Element: |    10    ||          8           |          3           | 
+Group 5: 11.4522
+Element: |    3     ||          12          |          7           | 
+Element: |    6     ||          16          |          19          | 
+Element: |    7     ||          4           |          17          | 
+Element: |    16    ||          8           |          6           | 
+Group 6: 13.9837
+Element: |    6     ||          16          |          19          | 
+Element: |    8     ||          7           |          1           | 
+Element: |    9     ||          20          |          11          | 
+Element: |    17    ||          5           |          5           | 
+Group 7: 10.2595
+Element: |    1     ||          19          |          4           | 
+Element: |    2     ||          6           |          0           | 
+Element: |    11    ||          9           |          9           | 
+Element: |    19    ||          4           |          6           | 
+Group 8: 8.33132
+Element: |    2     ||          6           |          0           | 
+Element: |    5     ||          15          |          10          | 
+Element: |    10    ||          8           |          3           | 
+Element: |    19    ||          4           |          6           | 
+Group 9: 11.5901
+Element: |    3     ||          12          |          7           | 
+Element: |    4     ||          17          |          6           | 
+Element: |    6     ||          16          |          19          | 
+Element: |    19    ||          4           |          6           | 
+Group 0: 9.83451
+Element: |    4     ||          17          |          6           | 
+Element: |    12    ||          3           |          5           | 
+Element: |    17    ||          5           |          5           | 
+Element: |    18    ||          0           |          0           | 
+Group 1: 6.77553
+Element: |    0     ||          13          |          5           | 
+Element: |    8     ||          7           |          1           | 
+Element: |    10    ||          8           |          3           | 
+Element: |    14    ||          1           |          4           | 
+Group 2: 14.2026
+Element: |    6     ||          16          |          19          | 
+Element: |    8     ||          7           |          1           | 
+Element: |    11    ||          9           |          9           | 
+Element: |    18    ||          0           |          0           | 
+Group 3: 8.74904
+Element: |    0     ||          13          |          5           | 
+Element: |    3     ||          12          |          7           | 
+Element: |    15    ||          7           |          8           | 
+Element: |    18    ||          0           |          0           | 
+Group 4: 7.37866
+Element: |    1     ||          19          |          4           | 
+Element: |    2     ||          6           |          0           | 
+Element: |    8     ||          7           |          1           | 
+Element: |    10    ||          8           |          3           | 
+Group 5: 11.4522
+Element: |    3     ||          12          |          7           | 
+Element: |    6     ||          16          |          19          | 
+Element: |    7     ||          4           |          17          | 
+Element: |    16    ||          8           |          6           | 
+Group 6: 13.9837
+Element: |    6     ||          16          |          19          | 
+Element: |    8     ||          7           |          1           | 
+Element: |    9     ||          20          |          11          | 
+Element: |    17    ||          5           |          5           | 
+Group 7: 10.2595
+Element: |    1     ||          19          |          4           | 
+Element: |    2     ||          6           |          0           | 
+Element: |    11    ||          9           |          9           | 
+Element: |    19    ||          4           |          6           | 
+Group 8: 8.33132
+Element: |    2     ||          6           |          0           | 
+Element: |    5     ||          15          |          10          | 
+Element: |    10    ||          8           |          3           | 
+Element: |    19    ||          4           |          6           | 
+Group 9: 11.5901
+Element: |    3     ||          12          |          7           | 
+Element: |    4     ||          17          |          6           | 
+Element: |    6     ||          16          |          19          | 
+Element: |    19    ||          4           |          6           | 
+Group 0: 9.83451
+Element: |    4     ||          17          |          6           | 
+Element: |    12    ||          3           |          5           | 
+Element: |    17    ||          5           |          5           | 
+Element: |    18    ||          0           |          0           | 
+Group 1: 6.77553
+Element: |    0     ||          13          |          5           | 
+Element: |    8     ||          7           |          1           | 
+Element: |    10    ||          8           |          3           | 
+Element: |    14    ||          1           |          4           | 
+Group 2: 14.2026
+Element: |    6     ||          16          |          19          | 
+Element: |    8     ||          7           |          1           | 
+Element: |    11    ||          9           |          9           | 
+Element: |    18    ||          0           |          0           | 
+Group 3: 8.74904
+Element: |    0     ||          13          |          5           | 
+Element: |    3     ||          12          |          7           | 
+Element: |    15    ||          7           |          8           | 
+Element: |    18    ||          0           |          0           | 
+Group 4: 7.37866
+Element: |    1     ||          19          |          4           | 
+Element: |    2     ||          6           |          0           | 
+Element: |    8     ||          7           |          1           | 
+Element: |    10    ||          8           |          3           | 
+Group 5: 11.4522
+Element: |    3     ||          12          |          7           | 
+Element: |    6     ||          16          |          19          | 
+Element: |    7     ||          4           |          17          | 
+Element: |    16    ||          8           |          6           | 
+Group 6: 13.9837
+Element: |    6     ||          16          |          19          | 
+Element: |    8     ||          7           |          1           | 
+Element: |    9     ||          20          |          11          | 
+Element: |    17    ||          5           |          5           | 
+Group 7: 10.2595
+Element: |    1     ||          19          |          4           | 
+Element: |    2     ||          6           |          0           | 
+Element: |    11    ||          9           |          9           | 
+Element: |    19    ||          4           |          6           | 
+Group 8: 8.33132
+Element: |    2     ||          6           |          0           | 
+Element: |    5     ||          15          |          10          | 
+Element: |    10    ||          8           |          3           | 
+Element: |    19    ||          4           |          6           | 
+Group 9: 11.5901
+Element: |    3     ||          12          |          7           | 
+Element: |    4     ||          17          |          6           | 
+Element: |    6     ||          16          |          19          | 
+Element: |    19    ||          4           |          6           | 
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SelectionPivotsTest" end time: Aug 16 15:18 -03
+"SelectionPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/11 Testing: PCAPivotsTest
+11/11 Test: PCAPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/PCAPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"PCAPivotsTest" start time: Aug 16 15:18 -03
+Output:
+----------------------------------------------------------
+Pivot 0: |    19    ||          4           |          6           | 
+Pivot 1: |    18    ||          0           |          0           | 
+Pivot 2: |    17    ||          5           |          5           | 
+Pivot 3: |    16    ||          8           |          6           | 
+Pivot 0: |    19    ||          4           |          6           | 
+Pivot 1: |    18    ||          0           |          0           | 
+Pivot 2: |    17    ||          5           |          5           | 
+Pivot 3: |    16    ||          8           |          6           | 
+Pivot 0: |    19    ||          4           |          6           | 
+Pivot 1: |    18    ||          0           |          0           | 
+Pivot 2: |    17    ||          5           |          5           | 
+Pivot 3: |    16    ||          8           |          6           | 
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"PCAPivotsTest" end time: Aug 16 15:18 -03
+"PCAPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Aug 16 15:18 -03

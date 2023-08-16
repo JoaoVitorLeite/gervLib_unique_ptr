@@ -139,6 +139,19 @@ gervLib/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/build
 .PHONY : gervLib/fast
 
+#=============================================================================
+# Target rules for targets named BasicArrayObjectTest
+
+# Build rule for target.
+BasicArrayObjectTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 BasicArrayObjectTest
+.PHONY : BasicArrayObjectTest
+
+# fast build rule for target.
+BasicArrayObjectTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/build
+.PHONY : BasicArrayObjectTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -172,6 +185,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... BasicArrayObjectTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"
 	@echo "... src/main.i"

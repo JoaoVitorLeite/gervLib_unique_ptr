@@ -1,0 +1,17 @@
+include_directories(../src)
+include_directories(../include)
+include_directories(../libs)
+include_directories(../libs/uuid)
+include_directories(../libs/eigen)
+include_directories(../include/utils)
+include_directories(../include/configure)
+include_directories(../include/dataset)
+include_directories(../include/serialize)
+
+add_executable(BasicArrayObjectTest BasicArrayObjectTest.cpp)
+
+if (ENABLE_SRAND)
+    target_compile_definitions(BasicArrayObjectTest PRIVATE ENABLE_SRAND)
+endif()
+
+add_test(NAME BasicArrayObjectTest COMMAND BasicArrayObjectTest)

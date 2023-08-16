@@ -1,3 +1,18 @@
-Start testing: Aug 15 21:54 -03
+Start testing: Aug 16 00:10 -03
 ----------------------------------------------------------
-End testing: Aug 15 21:54 -03
+1/1 Testing: BasicArrayObjectTest
+1/1 Test: BasicArrayObjectTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/BasicArrayObjectTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"BasicArrayObjectTest" start time: Aug 16 00:10 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"BasicArrayObjectTest" end time: Aug 16 00:10 -03
+"BasicArrayObjectTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Aug 16 00:10 -03

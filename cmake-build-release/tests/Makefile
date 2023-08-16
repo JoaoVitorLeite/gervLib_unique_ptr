@@ -126,6 +126,44 @@ depend:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+tests/CMakeFiles/BasicArrayObjectTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/BasicArrayObjectTest.dir/rule
+.PHONY : tests/CMakeFiles/BasicArrayObjectTest.dir/rule
+
+# Convenience name for target.
+BasicArrayObjectTest: tests/CMakeFiles/BasicArrayObjectTest.dir/rule
+.PHONY : BasicArrayObjectTest
+
+# fast build rule for target.
+BasicArrayObjectTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/build
+.PHONY : BasicArrayObjectTest/fast
+
+BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
+.PHONY : BasicArrayObjectTest.o
+
+# target to build an object file
+BasicArrayObjectTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o
+.PHONY : BasicArrayObjectTest.cpp.o
+
+BasicArrayObjectTest.i: BasicArrayObjectTest.cpp.i
+.PHONY : BasicArrayObjectTest.i
+
+# target to preprocess a source file
+BasicArrayObjectTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.i
+.PHONY : BasicArrayObjectTest.cpp.i
+
+BasicArrayObjectTest.s: BasicArrayObjectTest.cpp.s
+.PHONY : BasicArrayObjectTest.s
+
+# target to generate assembly for a file
+BasicArrayObjectTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.s
+.PHONY : BasicArrayObjectTest.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -135,6 +173,10 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... BasicArrayObjectTest"
+	@echo "... BasicArrayObjectTest.o"
+	@echo "... BasicArrayObjectTest.i"
+	@echo "... BasicArrayObjectTest.s"
 .PHONY : help
 
 

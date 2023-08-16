@@ -80,7 +80,7 @@ clean: tests/clean
 # Directory level rules for directory tests
 
 # Recursive "all" directory target.
-tests/all:
+tests/all: tests/CMakeFiles/BasicArrayObjectTest.dir/all
 .PHONY : tests/all
 
 # Recursive "preinstall" directory target.
@@ -88,7 +88,7 @@ tests/preinstall:
 .PHONY : tests/preinstall
 
 # Recursive "clean" directory target.
-tests/clean:
+tests/clean: tests/CMakeFiles/BasicArrayObjectTest.dir/clean
 .PHONY : tests/clean
 
 #=============================================================================
@@ -98,7 +98,7 @@ tests/clean:
 CMakeFiles/gervLib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target gervLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target gervLib"
 .PHONY : CMakeFiles/gervLib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -116,6 +116,32 @@ gervLib: CMakeFiles/gervLib.dir/rule
 CMakeFiles/gervLib.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/clean
 .PHONY : CMakeFiles/gervLib.dir/clean
+
+#=============================================================================
+# Target rules for target tests/CMakeFiles/BasicArrayObjectTest.dir
+
+# All Build rule for target.
+tests/CMakeFiles/BasicArrayObjectTest.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target BasicArrayObjectTest"
+.PHONY : tests/CMakeFiles/BasicArrayObjectTest.dir/all
+
+# Build rule for subdir invocation for target.
+tests/CMakeFiles/BasicArrayObjectTest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaovictor/Code/gervLib/cmake-build-debug/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/BasicArrayObjectTest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaovictor/Code/gervLib/cmake-build-debug/CMakeFiles 0
+.PHONY : tests/CMakeFiles/BasicArrayObjectTest.dir/rule
+
+# Convenience name for target.
+BasicArrayObjectTest: tests/CMakeFiles/BasicArrayObjectTest.dir/rule
+.PHONY : BasicArrayObjectTest
+
+# clean rule for target.
+tests/CMakeFiles/BasicArrayObjectTest.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BasicArrayObjectTest.dir/build.make tests/CMakeFiles/BasicArrayObjectTest.dir/clean
+.PHONY : tests/CMakeFiles/BasicArrayObjectTest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

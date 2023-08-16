@@ -54,6 +54,8 @@ include_directories(libs/uuid)
 include_directories(libs/eigen)
 include_directories(include/configure)
 include_directories(include/utils)
+include_directories(include/dataset)
+include_directories(include/serialize)
 
 # Add source files
 add_executable(gervLib
@@ -61,6 +63,8 @@ add_executable(gervLib
         libs/uuid/libuuidpp.hpp
         include/configure/Configure.h
         include/utils/Utils.h
+        include/dataset/BasicArrayObject.h
+        include/serialize/Serialize.h
 )
 
 # Add libraries

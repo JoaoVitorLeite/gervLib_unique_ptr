@@ -256,6 +256,19 @@ MaxVariancePivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxVariancePivotsTest.dir/build.make tests/CMakeFiles/MaxVariancePivotsTest.dir/build
 .PHONY : MaxVariancePivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named SelectionPivotsTest
+
+# Build rule for target.
+SelectionPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SelectionPivotsTest
+.PHONY : SelectionPivotsTest
+
+# fast build rule for target.
+SelectionPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/build
+.PHONY : SelectionPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -298,6 +311,7 @@ help:
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
+	@echo "... SelectionPivotsTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"
 	@echo "... src/main.i"

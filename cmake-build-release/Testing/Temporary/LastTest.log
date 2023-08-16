@@ -1,3 +1,153 @@
-Start testing: Aug 16 14:37 -03
+Start testing: Aug 16 15:09 -03
 ----------------------------------------------------------
-End testing: Aug 16 14:37 -03
+1/10 Testing: BasicArrayObjectTest
+1/10 Test: BasicArrayObjectTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/BasicArrayObjectTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"BasicArrayObjectTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"BasicArrayObjectTest" end time: Aug 16 15:09 -03
+"BasicArrayObjectTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/10 Testing: DatasetTest
+2/10 Test: DatasetTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/DatasetTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"DatasetTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"DatasetTest" end time: Aug 16 15:09 -03
+"DatasetTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/10 Testing: DistanceTest
+3/10 Test: DistanceTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/DistanceTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"DistanceTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DistanceTest" end time: Aug 16 15:09 -03
+"DistanceTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/10 Testing: PivotTest
+4/10 Test: PivotTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/PivotTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"PivotTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"PivotTest" end time: Aug 16 15:09 -03
+"PivotTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/10 Testing: RandomPivotsTest
+5/10 Test: RandomPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/RandomPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"RandomPivotsTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"RandomPivotsTest" end time: Aug 16 15:09 -03
+"RandomPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/10 Testing: FFTPivotsTest
+6/10 Test: FFTPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/FFTPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"FFTPivotsTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"FFTPivotsTest" end time: Aug 16 15:09 -03
+"FFTPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/10 Testing: ConvexPivotsTest
+7/10 Test: ConvexPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/ConvexPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"ConvexPivotsTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"ConvexPivotsTest" end time: Aug 16 15:09 -03
+"ConvexPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/10 Testing: MaxSeparatedPivotsTest
+8/10 Test: MaxSeparatedPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/MaxSeparatedPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"MaxSeparatedPivotsTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"MaxSeparatedPivotsTest" end time: Aug 16 15:09 -03
+"MaxSeparatedPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/10 Testing: MaxVariancePivotsTest
+9/10 Test: MaxVariancePivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/MaxVariancePivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"MaxVariancePivotsTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"MaxVariancePivotsTest" end time: Aug 16 15:09 -03
+"MaxVariancePivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/10 Testing: SelectionPivotsTest
+10/10 Test: SelectionPivotsTest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-release/tests/SelectionPivotsTest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-release/tests
+"SelectionPivotsTest" start time: Aug 16 15:09 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"SelectionPivotsTest" end time: Aug 16 15:09 -03
+"SelectionPivotsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Aug 16 15:09 -03

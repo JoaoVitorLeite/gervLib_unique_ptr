@@ -252,6 +252,20 @@ MaxVariancePivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MaxVariancePivotsTest.dir/build.make tests/CMakeFiles/MaxVariancePivotsTest.dir/build
 .PHONY : MaxVariancePivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/SelectionPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/SelectionPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/SelectionPivotsTest.dir/rule
+
+# Convenience name for target.
+SelectionPivotsTest: tests/CMakeFiles/SelectionPivotsTest.dir/rule
+.PHONY : SelectionPivotsTest
+
+# fast build rule for target.
+SelectionPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/build
+.PHONY : SelectionPivotsTest/fast
+
 BasicArrayObjectTest.o: BasicArrayObjectTest.cpp.o
 .PHONY : BasicArrayObjectTest.o
 
@@ -468,6 +482,30 @@ RandomPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/RandomPivotsTest.dir/build.make tests/CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.s
 .PHONY : RandomPivotsTest.cpp.s
 
+SelectionPivotsTest.o: SelectionPivotsTest.cpp.o
+.PHONY : SelectionPivotsTest.o
+
+# target to build an object file
+SelectionPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/SelectionPivotsTest.cpp.o
+.PHONY : SelectionPivotsTest.cpp.o
+
+SelectionPivotsTest.i: SelectionPivotsTest.cpp.i
+.PHONY : SelectionPivotsTest.i
+
+# target to preprocess a source file
+SelectionPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/SelectionPivotsTest.cpp.i
+.PHONY : SelectionPivotsTest.cpp.i
+
+SelectionPivotsTest.s: SelectionPivotsTest.cpp.s
+.PHONY : SelectionPivotsTest.s
+
+# target to generate assembly for a file
+SelectionPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/SelectionPivotsTest.cpp.s
+.PHONY : SelectionPivotsTest.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -486,6 +524,7 @@ help:
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
+	@echo "... SelectionPivotsTest"
 	@echo "... BasicArrayObjectTest.o"
 	@echo "... BasicArrayObjectTest.i"
 	@echo "... BasicArrayObjectTest.s"
@@ -513,6 +552,9 @@ help:
 	@echo "... RandomPivotsTest.o"
 	@echo "... RandomPivotsTest.i"
 	@echo "... RandomPivotsTest.s"
+	@echo "... SelectionPivotsTest.o"
+	@echo "... SelectionPivotsTest.i"
+	@echo "... SelectionPivotsTest.s"
 .PHONY : help
 
 

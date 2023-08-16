@@ -37,6 +37,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -72,6 +73,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -139,6 +141,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -176,6 +179,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -213,6 +217,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -250,6 +255,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -287,6 +293,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -324,6 +331,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -361,6 +369,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -398,6 +407,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -435,6 +445,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -472,6 +483,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -509,6 +521,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -546,6 +559,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -583,6 +597,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -620,6 +635,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -657,6 +673,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -694,6 +711,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -731,6 +749,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -768,6 +787,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -805,6 +825,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -842,6 +863,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -879,6 +901,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -916,6 +939,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -953,6 +977,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -990,6 +1015,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1027,6 +1053,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1064,6 +1091,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1101,6 +1129,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1138,6 +1167,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1175,6 +1205,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1212,6 +1243,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1249,6 +1281,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1286,6 +1319,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1296,6 +1330,82 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 BPPPivotsTest/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="KmedoidsPivotsTest">
+				<Option output="/home/joaovictor/Code/gervLib/cmake-build-debug/tests/KmedoidsPivotsTest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DSOURCE_OUTPUT_PATH=&quot;/home/joaovictor/Code/gervLib/output_dir&quot;"/>
+					<Add option="-DENABLE_DEBUG"/>
+					<Add option="-DENABLE_PROGRESS_BAR"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../src"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/uuid"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/eigen"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/utils"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/configure"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/dataset"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/serialize"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
+					<Add directory="/usr/include/c++/13"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
+					<Add directory="/usr/include/c++/13/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/13/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 KmedoidsPivotsTest"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="KmedoidsPivotsTest/fast">
+				<Option output="/home/joaovictor/Code/gervLib/cmake-build-debug/tests/KmedoidsPivotsTest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DSOURCE_OUTPUT_PATH=&quot;/home/joaovictor/Code/gervLib/output_dir&quot;"/>
+					<Add option="-DENABLE_DEBUG"/>
+					<Add option="-DENABLE_PROGRESS_BAR"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../src"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/uuid"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/eigen"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/utils"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/configure"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/dataset"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/serialize"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
+					<Add directory="/usr/include/c++/13"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
+					<Add directory="/usr/include/c++/13/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/13/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 KmedoidsPivotsTest/fast"/>
 					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
@@ -1326,6 +1436,12 @@
 		<Unit filename="/home/joaovictor/Code/gervLib/include/factory/DistanceFactory.h">
 			<Option target="gervLib"/>
 		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/kmedoids/Cluster.h">
+			<Option target="gervLib"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/kmedoids/Kmedoids.h">
+			<Option target="gervLib"/>
+		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/pivots/BPPPivots.h">
 			<Option target="gervLib"/>
 		</Unit>
@@ -1339,6 +1455,9 @@
 			<Option target="gervLib"/>
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/pivots/ISPivots.h">
+			<Option target="gervLib"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/pivots/KmedoidsPivots.h">
 			<Option target="gervLib"/>
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/pivots/MaxSeparatedPivots.h">
@@ -1400,6 +1519,9 @@
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/tests/ISPivotsTest.cpp">
 			<Option target="ISPivotsTest"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/tests/KmedoidsPivotsTest.cpp">
+			<Option target="KmedoidsPivotsTest"/>
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/tests/MaxSeparatedPivotsTest.cpp">
 			<Option target="MaxSeparatedPivotsTest"/>

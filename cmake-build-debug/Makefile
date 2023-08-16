@@ -347,6 +347,19 @@ BPPPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BPPPivotsTest.dir/build.make tests/CMakeFiles/BPPPivotsTest.dir/build
 .PHONY : BPPPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named KmedoidsPivotsTest
+
+# Build rule for target.
+KmedoidsPivotsTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 KmedoidsPivotsTest
+.PHONY : KmedoidsPivotsTest
+
+# fast build rule for target.
+KmedoidsPivotsTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/KmedoidsPivotsTest.dir/build.make tests/CMakeFiles/KmedoidsPivotsTest.dir/build
+.PHONY : KmedoidsPivotsTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -388,6 +401,7 @@ help:
 	@echo "... FFTPivotsTest"
 	@echo "... HFIPivotsTest"
 	@echo "... ISPivotsTest"
+	@echo "... KmedoidsPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"

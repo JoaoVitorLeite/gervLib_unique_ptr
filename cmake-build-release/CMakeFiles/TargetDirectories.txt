@@ -18,6 +18,7 @@
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/ISPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/WDRPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/BPPPivotsTest.dir
+/home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/KmedoidsPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/test.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/edit_cache.dir
 /home/joaovictor/Code/gervLib/cmake-build-release/tests/CMakeFiles/rebuild_cache.dir

@@ -350,6 +350,20 @@ BPPPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/BPPPivotsTest.dir/build.make tests/CMakeFiles/BPPPivotsTest.dir/build
 .PHONY : BPPPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/KmedoidsPivotsTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/KmedoidsPivotsTest.dir/rule
+.PHONY : tests/CMakeFiles/KmedoidsPivotsTest.dir/rule
+
+# Convenience name for target.
+KmedoidsPivotsTest: tests/CMakeFiles/KmedoidsPivotsTest.dir/rule
+.PHONY : KmedoidsPivotsTest
+
+# fast build rule for target.
+KmedoidsPivotsTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/KmedoidsPivotsTest.dir/build.make tests/CMakeFiles/KmedoidsPivotsTest.dir/build
+.PHONY : KmedoidsPivotsTest/fast
+
 BPPPivotsTest.o: BPPPivotsTest.cpp.o
 .PHONY : BPPPivotsTest.o
 
@@ -541,6 +555,30 @@ ISPivotsTest.s: ISPivotsTest.cpp.s
 ISPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/ISPivotsTest.dir/build.make tests/CMakeFiles/ISPivotsTest.dir/ISPivotsTest.cpp.s
 .PHONY : ISPivotsTest.cpp.s
+
+KmedoidsPivotsTest.o: KmedoidsPivotsTest.cpp.o
+.PHONY : KmedoidsPivotsTest.o
+
+# target to build an object file
+KmedoidsPivotsTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/KmedoidsPivotsTest.dir/build.make tests/CMakeFiles/KmedoidsPivotsTest.dir/KmedoidsPivotsTest.cpp.o
+.PHONY : KmedoidsPivotsTest.cpp.o
+
+KmedoidsPivotsTest.i: KmedoidsPivotsTest.cpp.i
+.PHONY : KmedoidsPivotsTest.i
+
+# target to preprocess a source file
+KmedoidsPivotsTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/KmedoidsPivotsTest.dir/build.make tests/CMakeFiles/KmedoidsPivotsTest.dir/KmedoidsPivotsTest.cpp.i
+.PHONY : KmedoidsPivotsTest.cpp.i
+
+KmedoidsPivotsTest.s: KmedoidsPivotsTest.cpp.s
+.PHONY : KmedoidsPivotsTest.s
+
+# target to generate assembly for a file
+KmedoidsPivotsTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/KmedoidsPivotsTest.dir/build.make tests/CMakeFiles/KmedoidsPivotsTest.dir/KmedoidsPivotsTest.cpp.s
+.PHONY : KmedoidsPivotsTest.cpp.s
 
 MaxSeparatedPivotsTest.o: MaxSeparatedPivotsTest.cpp.o
 .PHONY : MaxSeparatedPivotsTest.o
@@ -751,6 +789,7 @@ help:
 	@echo "... FFTPivotsTest"
 	@echo "... HFIPivotsTest"
 	@echo "... ISPivotsTest"
+	@echo "... KmedoidsPivotsTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"
@@ -783,6 +822,9 @@ help:
 	@echo "... ISPivotsTest.o"
 	@echo "... ISPivotsTest.i"
 	@echo "... ISPivotsTest.s"
+	@echo "... KmedoidsPivotsTest.o"
+	@echo "... KmedoidsPivotsTest.i"
+	@echo "... KmedoidsPivotsTest.s"
 	@echo "... MaxSeparatedPivotsTest.o"
 	@echo "... MaxSeparatedPivotsTest.i"
 	@echo "... MaxSeparatedPivotsTest.s"

@@ -59,6 +59,7 @@ include_directories(include/serialize)
 include_directories(include/distance)
 include_directories(include/factory)
 include_directories(include/pivots)
+include_directories(include/kmedoids)
 
 # Add source files
 add_executable(gervLib
@@ -87,6 +88,9 @@ add_executable(gervLib
         include/pivots/ISPivots.h
         include/pivots/WDRPivots.h
         include/pivots/BPPPivots.h
+        include/kmedoids/Cluster.h
+        include/kmedoids/Kmedoids.h
+        include/pivots/KmedoidsPivots.h
 )
 
 # Add libraries

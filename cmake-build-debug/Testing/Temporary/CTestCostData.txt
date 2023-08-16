@@ -1,2 +1,2 @@
-BasicArrayObjectTest 3 0.000441436
+BasicArrayObjectTest 4 0.000322215
 ---

@@ -91,6 +91,8 @@ add_executable(gervLib
         include/kmedoids/Cluster.h
         include/kmedoids/Kmedoids.h
         include/pivots/KmedoidsPivots.h
+        include/factory/PivotFactory.h
+        include/factory/PivotFactory.h
 )
 
 # Add libraries

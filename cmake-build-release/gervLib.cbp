@@ -1402,6 +1402,9 @@
 		<Unit filename="/home/joaovictor/Code/gervLib/include/factory/DistanceFactory.h">
 			<Option target="gervLib"/>
 		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/factory/PivotFactory.h">
+			<Option target="gervLib"/>
+		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/kmedoids/Cluster.h">
 			<Option target="gervLib"/>
 		</Unit>

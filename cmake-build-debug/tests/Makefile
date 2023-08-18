@@ -364,6 +364,20 @@ KmedoidsPivotsTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/KmedoidsPivotsTest.dir/build.make tests/CMakeFiles/KmedoidsPivotsTest.dir/build
 .PHONY : KmedoidsPivotsTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/PageManagerTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/PageManagerTest.dir/rule
+.PHONY : tests/CMakeFiles/PageManagerTest.dir/rule
+
+# Convenience name for target.
+PageManagerTest: tests/CMakeFiles/PageManagerTest.dir/rule
+.PHONY : PageManagerTest
+
+# fast build rule for target.
+PageManagerTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PageManagerTest.dir/build.make tests/CMakeFiles/PageManagerTest.dir/build
+.PHONY : PageManagerTest/fast
+
 BPPPivotsTest.o: BPPPivotsTest.cpp.o
 .PHONY : BPPPivotsTest.o
 
@@ -652,6 +666,30 @@ PCAPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PCAPivotsTest.dir/build.make tests/CMakeFiles/PCAPivotsTest.dir/PCAPivotsTest.cpp.s
 .PHONY : PCAPivotsTest.cpp.s
 
+PageManagerTest.o: PageManagerTest.cpp.o
+.PHONY : PageManagerTest.o
+
+# target to build an object file
+PageManagerTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PageManagerTest.dir/build.make tests/CMakeFiles/PageManagerTest.dir/PageManagerTest.cpp.o
+.PHONY : PageManagerTest.cpp.o
+
+PageManagerTest.i: PageManagerTest.cpp.i
+.PHONY : PageManagerTest.i
+
+# target to preprocess a source file
+PageManagerTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PageManagerTest.dir/build.make tests/CMakeFiles/PageManagerTest.dir/PageManagerTest.cpp.i
+.PHONY : PageManagerTest.cpp.i
+
+PageManagerTest.s: PageManagerTest.cpp.s
+.PHONY : PageManagerTest.s
+
+# target to generate assembly for a file
+PageManagerTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-debug && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PageManagerTest.dir/build.make tests/CMakeFiles/PageManagerTest.dir/PageManagerTest.cpp.s
+.PHONY : PageManagerTest.cpp.s
+
 PivotTest.o: PivotTest.cpp.o
 .PHONY : PivotTest.o
 
@@ -793,6 +831,7 @@ help:
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"
+	@echo "... PageManagerTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... SSSPivotsTest"
@@ -834,6 +873,9 @@ help:
 	@echo "... PCAPivotsTest.o"
 	@echo "... PCAPivotsTest.i"
 	@echo "... PCAPivotsTest.s"
+	@echo "... PageManagerTest.o"
+	@echo "... PageManagerTest.i"
+	@echo "... PageManagerTest.s"
 	@echo "... PivotTest.o"
 	@echo "... PivotTest.i"
 	@echo "... PivotTest.s"

@@ -62,4 +62,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "tests/CMakeFiles/WDRPivotsTest.dir/DependInfo.cmake"
   "tests/CMakeFiles/BPPPivotsTest.dir/DependInfo.cmake"
   "tests/CMakeFiles/KmedoidsPivotsTest.dir/DependInfo.cmake"
+  "tests/CMakeFiles/PageManagerTest.dir/DependInfo.cmake"
   )

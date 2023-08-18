@@ -15,6 +15,7 @@
 #include <chrono>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <fstream>
 
 namespace gervLib::utils
 {
@@ -185,8 +186,277 @@ namespace gervLib::utils
 #endif
         }
 
-
     };
+
+    std::vector<std::string> searchPathContainingSubstring(const std::string& directoryPath, const std::string& substring) {
+
+        std::vector<std::string> ans;
+
+        for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
+            if (std::filesystem::is_directory(entry) && entry.path().filename().string().find(substring) != std::string::npos) {
+                ans.push_back(entry.path().string());
+            }
+        }
+
+        return ans;
+    }
+
+    std::vector<std::string> searchFilesWithSubstring(const std::string& path, const std::string& substring)
+    {
+
+        std::vector<std::string> ans;
+
+        for(const auto & entry : std::filesystem::directory_iterator(path))
+        {
+            if(std::filesystem::is_regular_file(entry) && entry.path().filename().string().find(substring) != std::string::npos)
+            {
+                ans.push_back(entry.path().string());
+            }
+        }
+
+        return ans;
+
+    }
+
+    std::string generatePathByPrefix(const std::string& path, const std::string& prefix, bool createDir = true)
+    {
+
+        std::vector<std::string> paths = searchPathContainingSubstring(path, prefix);
+
+        if(paths.empty())
+        {
+
+            std::filesystem::path p(path);
+            p /= prefix;
+            p += "_0";
+
+            if(createDir)
+            {
+
+                if(!std::filesystem::create_directory(p))
+                {
+                    throw std::runtime_error("generatePathByPrefix(): Could not create directory: " + p.string());
+                }
+
+            }
+
+            return p.string();
+
+        }
+        else
+        {
+
+            std::sort(paths.begin(), paths.end(), [](const std::string& path1, const std::string& path2) -> bool
+            {
+
+                std::string dirName1 = std::filesystem::path(path1).filename().string();
+                std::string dirName2 = std::filesystem::path(path2).filename().string();
+
+                size_t pos1 = dirName1.find_last_not_of("0123456789");
+                size_t pos2 = dirName2.find_last_not_of("0123456789");
+
+                if (pos1 == std::string::npos) {
+                    return false;
+                }
+
+                if (pos2 == std::string::npos) {
+                    return true;
+                }
+
+                int lastNumber1 = std::stoi(dirName1.substr(pos1 + 1));
+                int lastNumber2 = std::stoi(dirName2.substr(pos2 + 1));
+
+                return lastNumber1 > lastNumber2;
+
+            });
+
+            std::filesystem::path p(paths[0]);
+            std::string dirName = p.filename().string();
+            size_t pos = dirName.find_last_not_of("0123456789");
+            int lastNumber = std::stoi(dirName.substr(pos + 1));
+            p.replace_filename(prefix + "_" + std::to_string(lastNumber + 1));
+
+            if(createDir)
+            {
+
+                if(!std::filesystem::create_directory(p))
+                {
+                    throw std::runtime_error("generatePathByPrefix(): Could not create directory: " + p.string());
+                }
+
+            }
+
+            return p.string();
+
+        }
+
+    }
+
+    std::string generateFileByPrefix(const std::string& path, const std::string& prefix, bool createFile = true, const std::string& extension = ".txt")
+    {
+
+        std::vector<std::string> files = searchFilesWithSubstring(path, prefix);
+
+        if(files.empty())
+        {
+            std::filesystem::path p(path);
+            std::string fileName = (p / (prefix + "_0" + extension)).string();
+
+            if(createFile)
+            {
+                std::ofstream file(fileName);
+
+                if(!file.is_open())
+                {
+                    throw std::runtime_error("generateFileByPrefix(): Could not create file: " + fileName);
+                }
+
+                file.close();
+            }
+
+            return fileName;
+        }
+        else
+        {
+
+            std::sort(files.begin(), files.end(), [](const std::string& filePath1, const std::string& filePath2) -> bool
+            {
+
+                std::string fileName1 = std::filesystem::path(filePath1).filename().stem().string();
+                std::string fileName2 = std::filesystem::path(filePath2).filename().stem().string();
+
+                size_t pos1 = fileName1.find_last_not_of("0123456789");
+                size_t pos2 = fileName2.find_last_not_of("0123456789");
+
+                if (pos1 == std::string::npos) {
+                    return false;
+                }
+
+                if (pos2 == std::string::npos) {
+                    return true;
+                }
+
+                int lastNumber1 = std::stoi(fileName1.substr(pos1 + 1));
+                int lastNumber2 = std::stoi(fileName2.substr(pos2 + 1));
+
+                return lastNumber1 > lastNumber2;
+
+            });
+
+            std::string fileName = std::filesystem::path(files[0]).filename().stem().string();
+            size_t pos = fileName.find_last_not_of("0123456789");
+            int lastNumber = std::stoi(fileName.substr(pos + 1));
+
+            std::filesystem::path p(path);
+            std::string gen_fileName = (p / (prefix + "_" + std::to_string(lastNumber + 1) + extension)).string();
+
+            if(createFile)
+            {
+                std::ofstream file(gen_fileName);
+
+                if(!file.is_open())
+                {
+                    throw std::runtime_error("generateFileByPrefix(): Could not create file: " + gen_fileName);
+                }
+
+                file.close();
+            }
+
+            return gen_fileName;
+
+        }
+
+    }
+
+    std::string getPathByPrefix(const std::string& path, const std::string& prefix)
+    {
+
+        std::vector<std::string> paths = searchPathContainingSubstring(path, prefix);
+
+        if(paths.empty())
+        {
+
+            throw std::runtime_error("getPathByPrefix(): Could not find path with prefix: " + prefix);
+
+        }
+        else
+        {
+
+            std::sort(paths.begin(), paths.end(), [](const std::string& path1, const std::string& path2) -> bool
+            {
+
+                std::string dirName1 = std::filesystem::path(path1).filename().string();
+                std::string dirName2 = std::filesystem::path(path2).filename().string();
+
+                size_t pos1 = dirName1.find_last_not_of("0123456789");
+                size_t pos2 = dirName2.find_last_not_of("0123456789");
+
+                if (pos1 == std::string::npos) {
+                    return false;
+                }
+
+                if (pos2 == std::string::npos) {
+                    return true;
+                }
+
+                int lastNumber1 = std::stoi(dirName1.substr(pos1 + 1));
+                int lastNumber2 = std::stoi(dirName2.substr(pos2 + 1));
+
+                return lastNumber1 > lastNumber2;
+
+            });
+
+            std::filesystem::path p(paths[0]);
+
+            return p.string();
+
+        }
+
+    }
+
+    std::string getFileByPrefix(const std::string& path, const std::string& prefix)
+    {
+
+        std::vector<std::string> files = searchFilesWithSubstring(path, prefix);
+
+        if(files.empty())
+        {
+            throw std::runtime_error("getFileByPrefix(): Could not find file with prefix: " + prefix);
+        }
+        else
+        {
+
+            std::sort(files.begin(), files.end(), [](const std::string& filePath1, const std::string& filePath2) -> bool
+            {
+
+                std::string fileName1 = std::filesystem::path(filePath1).filename().stem().string();
+                std::string fileName2 = std::filesystem::path(filePath2).filename().stem().string();
+
+                size_t pos1 = fileName1.find_last_not_of("0123456789");
+                size_t pos2 = fileName2.find_last_not_of("0123456789");
+
+                if (pos1 == std::string::npos) {
+                    return false;
+                }
+
+                if (pos2 == std::string::npos) {
+                    return true;
+                }
+
+                int lastNumber1 = std::stoi(fileName1.substr(pos1 + 1));
+                int lastNumber2 = std::stoi(fileName2.substr(pos2 + 1));
+
+                return lastNumber1 > lastNumber2;
+
+            });
+
+            std::string fileName = std::filesystem::path(files[0]).filename().string();
+            return fileName;
+
+        }
+
+    }
+
 
 }
 

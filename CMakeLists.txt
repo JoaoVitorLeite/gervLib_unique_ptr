@@ -60,6 +60,8 @@ include_directories(include/distance)
 include_directories(include/factory)
 include_directories(include/pivots)
 include_directories(include/kmedoids)
+include_directories(include/indexes)
+include_directories(include/memory)
 
 # Add source files
 add_executable(gervLib
@@ -93,6 +95,9 @@ add_executable(gervLib
         include/pivots/KmedoidsPivots.h
         include/factory/PivotFactory.h
         include/factory/PivotFactory.h
+        include/indexes/Index.h
+        include/memory/Page.h
+        include/memory/PageManager.h
 )
 
 # Add libraries

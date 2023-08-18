@@ -360,6 +360,19 @@ KmedoidsPivotsTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/KmedoidsPivotsTest.dir/build.make tests/CMakeFiles/KmedoidsPivotsTest.dir/build
 .PHONY : KmedoidsPivotsTest/fast
 
+#=============================================================================
+# Target rules for targets named PageManagerTest
+
+# Build rule for target.
+PageManagerTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 PageManagerTest
+.PHONY : PageManagerTest
+
+# fast build rule for target.
+PageManagerTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PageManagerTest.dir/build.make tests/CMakeFiles/PageManagerTest.dir/build
+.PHONY : PageManagerTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -405,6 +418,7 @@ help:
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"
+	@echo "... PageManagerTest"
 	@echo "... PivotTest"
 	@echo "... RandomPivotsTest"
 	@echo "... SSSPivotsTest"

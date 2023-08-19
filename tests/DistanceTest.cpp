@@ -66,7 +66,7 @@ int test4()
     df2->deserialize(std::move(serialized));
 
     assert(df2->getDistanceCount() == 0);
-    assert(df->isEqual(df2.get()));
+    assert(df->isEqual(df2));
     assert(df->operator()(data[5], data[12]) == df2->operator()(data[12], data[5]));
 
     return 0;
@@ -94,7 +94,7 @@ int test5()
     df2->deserialize(std::move(serialized));
 
     assert(df2->getDistanceCount() == 5);
-    assert(df->isEqual(df2.get()));
+    assert(df->isEqual(df2));
     assert(df->operator()(data[5], data[12]) == df2->operator()(data[12], data[5]));
 
     return 0;
@@ -109,8 +109,8 @@ int test6()
     std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> df3 = DistanceFactory<BasicArrayObject<size_t, double>>::createDistanceFunction(df->getDistanceType());
     std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, std::vector<char>>>> df4 = DistanceFactory<BasicArrayObject<size_t, std::vector<char>>>::createDistanceFunction(df2->getDistanceType());
 
-    assert(df->isEqual(df3.get()));
-    assert(df2->isEqual(df4.get()));
+    assert(df->isEqual(df3));
+    assert(df2->isEqual(df4));
 
     return 0;
 

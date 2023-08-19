@@ -100,6 +100,7 @@ add_executable(gervLib
         include/memory/Page.h
         include/memory/PageManager.h
         include/query/Query.h
+        include/indexes/SequentialScan.h
 )
 
 # Add libraries

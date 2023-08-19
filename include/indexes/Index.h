@@ -146,10 +146,17 @@ namespace gervLib::index
 
         virtual ~Index()
         {
-            dataset.reset();
-            distanceFunction.reset();
-            pivots.reset();
-            pageManager.reset();
+            if (dataset != nullptr)
+                dataset.reset();
+
+            if (distanceFunction != nullptr)
+                distanceFunction.reset();
+
+            if (pivots != nullptr)
+                pivots.reset();
+
+            if (pageManager != nullptr)
+                pageManager.reset();
         }
 
         void generateIndexFiles(bool build, bool experiment)
@@ -157,6 +164,8 @@ namespace gervLib::index
 
             if (indexFolder.empty())
                 indexFolder = gervLib::utils::generatePathByPrefix(configure::baseOutputPath, indexName);
+
+            utils::createFolderIfNotExists(indexFolder);
 
             if (build)
             {
@@ -386,17 +395,17 @@ namespace gervLib::index
             return dataset;
         }
 
-        std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> getDistanceFunction()
+        std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>>& getDistanceFunction()
         {
             return distanceFunction;
         }
 
-        std::unique_ptr<pivots::Pivot<O, T>> getPivots()
+        std::unique_ptr<pivots::Pivot<O, T>>& getPivots()
         {
             return pivots;
         }
 
-        std::unique_ptr<memory::PageManager<O>> getPageManager()
+        std::unique_ptr<memory::PageManager<O>>& getPageManager()
         {
             return pageManager;
         }
@@ -417,37 +426,6 @@ namespace gervLib::index
 
         }
 
-        virtual bool isEqual(std::unique_ptr<Index<O, T>>& other)
-        {
-
-            if (other == nullptr)
-                return false;
-
-            if (indexType != other->getIndexType())
-                return false;
-
-            if ((dataset == nullptr && other->getDataset() != nullptr) || (dataset != nullptr && other->getDataset() == nullptr))
-                return false;
-
-            if (dataset != nullptr && other->getDataset() != nullptr && !dataset->isEqual(*other->getDataset()))
-                return false;
-
-            if ((distanceFunction == nullptr && other->getDistanceFunction() != nullptr) || (distanceFunction != nullptr && other->getDistanceFunction() == nullptr))
-                return false;
-
-            if (distanceFunction != nullptr && other->getDistanceFunction() != nullptr && !distanceFunction->isEqual(other->getDistanceFunction()))
-                return false;
-
-            if ((pivots == nullptr && other->getPivots() != nullptr) || (pivots != nullptr && other->getPivots() == nullptr))
-                return false;
-
-            if(pivots != nullptr && other->getPivots() != nullptr && !pivots->isEqual(other->getPivots()))
-                return false;
-
-            return true;
-
-        }
-
         bool operator==(std::unique_ptr<Index<O, T>>& other)
         {
 
@@ -460,6 +438,23 @@ namespace gervLib::index
 
             return !isEqual(other);
 
+        }
+
+        // Virtual methods
+
+        virtual void clear()
+        {
+            if (dataset != nullptr)
+                dataset.reset();
+
+            if (distanceFunction != nullptr)
+                distanceFunction.reset();
+
+            if (pivots != nullptr)
+                pivots.reset();
+
+            if (pageManager != nullptr)
+                pageManager.reset();
         }
 
         friend std::ostream& operator<<(std::ostream& os, const Index& index)
@@ -496,7 +491,36 @@ namespace gervLib::index
 
         }
 
-        // Virtual methods
+        virtual bool isEqual(std::unique_ptr<Index<O, T>>& other)
+        {
+
+            if (other == nullptr)
+                return false;
+
+            if (indexType != other->getIndexType())
+                return false;
+
+            if ((dataset == nullptr && other->getDataset() != nullptr) || (dataset != nullptr && other->getDataset() == nullptr))
+                return false;
+
+            if (dataset != nullptr && other->getDataset() != nullptr && !dataset->isEqual(*other->getDataset()))
+                return false;
+
+            if ((distanceFunction == nullptr && other->getDistanceFunction() != nullptr) || (distanceFunction != nullptr && other->getDistanceFunction() == nullptr))
+                return false;
+
+            if (distanceFunction != nullptr && other->getDistanceFunction() != nullptr && !distanceFunction->isEqual(other->getDistanceFunction()))
+                return false;
+
+            if ((pivots == nullptr && other->getPivots() != nullptr) || (pivots != nullptr && other->getPivots() == nullptr))
+                return false;
+
+            if(pivots != nullptr && other->getPivots() != nullptr && !pivots->isEqual(other->getPivots()))
+                return false;
+
+            return true;
+
+        }
 
         virtual void buildIndex() = 0;
 
@@ -729,9 +753,6 @@ namespace gervLib::index
 
             if (size != 0) {
 
-                std::memcpy(&size, _data.get() + offset, sizeof(size_t));
-                offset += sizeof(size_t);
-
                 size_t str_len;
                 std::memcpy(&str_len, _data.get() + offset, sizeof(size_t));
                 offset += sizeof(size_t);
@@ -757,9 +778,6 @@ namespace gervLib::index
             offset += sizeof(size_t);
 
             if (size != 0) {
-
-                std::memcpy(&size, _data.get() + offset, sizeof(size_t));
-                offset += sizeof(size_t);
 
                 size_t str_len;
                 std::memcpy(&str_len, _data.get() + offset, sizeof(size_t));
@@ -839,15 +857,8 @@ namespace gervLib::index
 
         }
 
-
-
-
-
-
-
     };
-
-
+    
 }
 
 #endif //GERVLIB_INDEX_H

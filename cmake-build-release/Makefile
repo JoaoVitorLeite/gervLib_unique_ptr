@@ -386,6 +386,19 @@ QueryUtils/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/QueryUtils.dir/build.make tests/CMakeFiles/QueryUtils.dir/build
 .PHONY : QueryUtils/fast
 
+#=============================================================================
+# Target rules for targets named SequentialScanTest
+
+# Build rule for target.
+SequentialScanTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SequentialScanTest
+.PHONY : SequentialScanTest
+
+# fast build rule for target.
+SequentialScanTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SequentialScanTest.dir/build.make tests/CMakeFiles/SequentialScanTest.dir/build
+.PHONY : SequentialScanTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -437,6 +450,7 @@ help:
 	@echo "... RandomPivotsTest"
 	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
+	@echo "... SequentialScanTest"
 	@echo "... WDRPivotsTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"

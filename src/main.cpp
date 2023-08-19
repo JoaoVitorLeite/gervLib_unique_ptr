@@ -10,14 +10,17 @@
 #include "RandomPivots.h"
 #include "KmedoidsPivots.h"
 #include "PageManager.h"
+#include "SequentialScan.h"
 #include <cassert>
 
+using namespace gervLib::index;
 using namespace gervLib::configure;
 using namespace gervLib::utils;
 using namespace gervLib::dataset;
 using namespace gervLib::distance;
 using namespace gervLib::pivots;
 using namespace gervLib::memory;
+using namespace gervLib::query;
 
 int main(int argc, char **argv)
 {
@@ -25,34 +28,34 @@ int main(int argc, char **argv)
     gervLib::configure::configure();
     std::cout << std::boolalpha;
 
-    PageManager<size_t> pageManager = PageManager<size_t>("page", "tmp_unit_test", 5);
-    double data[] = {1.0, 2.0, 3.0, 4.0};
-    std::unique_ptr<u_char[]> data2(new u_char[4 * sizeof(double)]);
-    std::memcpy(data2.get(), data, 4 * sizeof(double));
-    pageManager.save(17, std::move(data2), 4 * sizeof(double));
+    std::unique_ptr<Dataset<size_t, double>> data = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " ");
+    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> distanceFunction = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
+    BasicArrayObject<unsigned long, double> obj = data->getElement(0);
+    std::unique_ptr<SequentialScan<size_t, double>> sequentialScan = std::make_unique<SequentialScan<size_t, double>>(std::move(data), std::move(distanceFunction), "tmp_unit_test3");
 
-    double data4[] = {5.0, 6.0, 7.0, 8.0};
-    std::unique_ptr<u_char[]> data5(new u_char[4 * sizeof(double)]);
-    std::memcpy(data5.get(), data4, 4 * sizeof(double));
-    pageManager.save(23, std::move(data5), 4 * sizeof(double));
+    std::vector<ResultEntry<size_t>> results = sequentialScan->kNN(obj, 5, true);
 
-    std::unique_ptr<u_char[]> data3 = pageManager.load(17);
-    assert(((double *) data3.get())[0] == 1.0);
-    assert(((double *) data3.get())[1] == 2.0);
-    assert(((double *) data3.get())[2] == 3.0);
-    assert(((double *) data3.get())[3] == 4.0);
+    std::unique_ptr<u_char[]> serialized = sequentialScan->serialize();
+    std::unique_ptr<Index<size_t, double>> deserialized = std::make_unique<SequentialScan<size_t, double>>();
+    deserialized->deserialize(std::move(serialized));
 
-    std::unique_ptr<u_char[]> data6 = pageManager.load(23);
-    assert(((double *) data6.get())[0] == 5.0);
-    assert(((double *) data6.get())[1] == 6.0);
-    assert(((double *) data6.get())[2] == 7.0);
-    assert(((double *) data6.get())[3] == 8.0);
+    std::vector<ResultEntry<size_t>> results2 = deserialized->kNN(obj, 5, true);
 
-    std::unique_ptr<u_char[]> s = pageManager.serialize();
-    PageManager<size_t> pageManager2 = PageManager<size_t>();
-    pageManager2.deserialize(std::move(s));
+    assert(results[0].getElement() == results2[0].getElement());
+    assert(results[1].getElement() == results2[1].getElement());
+    assert(results[2].getElement() == results2[2].getElement());
+    assert(results[3].getElement() == results2[3].getElement());
+    assert(results[4].getElement() == results2[4].getElement());
 
-    assert(pageManager.isEqual(pageManager2));
+    assert(results[0].getDistance() == results2[0].getDistance());
+    assert(results[1].getDistance() == results2[1].getDistance());
+    assert(results[2].getDistance() == results2[2].getDistance());
+    assert(results[3].getDistance() == results2[3].getDistance());
+    assert(results[4].getDistance() == results2[4].getDistance());
+
+    assert(sequentialScan->isEqual(deserialized));
+
+    gervLib::utils::deleteDirectory("tmp_unit_test3");
 
 
     return 0;

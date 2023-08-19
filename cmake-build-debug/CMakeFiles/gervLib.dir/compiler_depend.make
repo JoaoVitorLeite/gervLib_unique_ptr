@@ -297,6 +297,10 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
   /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
   /usr/include/c++/13/bits/fstream.tcc \
   /usr/include/c++/13/iostream \
+  /home/joaovictor/Code/gervLib/libs/uuid/libuuidpp.hpp \
+  /usr/include/uuid/uuid.h \
+  /usr/include/string.h \
+  /usr/include/strings.h \
   /home/joaovictor/Code/gervLib/include/dataset/Dataset.h \
   /home/joaovictor/Code/gervLib/include/dataset/BasicArrayObject.h \
   /home/joaovictor/Code/gervLib/include/serialize/Serialize.h \
@@ -334,8 +338,6 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
   /usr/include/c++/13/bits/ranges_uninitialized.h \
   /usr/include/c++/13/pstl/glue_memory_defs.h \
   /usr/include/c++/13/cstring \
-  /usr/include/string.h \
-  /usr/include/strings.h \
   /usr/include/c++/13/regex \
   /usr/include/c++/13/bitset \
   /usr/include/c++/13/stack \
@@ -373,11 +375,437 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
   /home/joaovictor/Code/gervLib/include/kmedoids/Cluster.h \
   /home/joaovictor/Code/gervLib/include/memory/PageManager.h \
   /home/joaovictor/Code/gervLib/include/memory/Page.h \
+  /home/joaovictor/Code/gervLib/include/indexes/SequentialScan.h \
+  /home/joaovictor/Code/gervLib/include/indexes/Index.h \
+  /home/joaovictor/Code/gervLib/include/factory/DistanceFactory.h \
+  /home/joaovictor/Code/gervLib/include/factory/PivotFactory.h \
+  /home/joaovictor/Code/gervLib/include/pivots/BPPPivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/ConvexPivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/FFTPivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/HFIPivots.h \
+  /home/joaovictor/Code/gervLib/include/dataset/DatasetWrapper.h \
+  /home/joaovictor/Code/gervLib/include/dataset/Dataset.h \
+  /home/joaovictor/Code/gervLib/include/pivots/ConvexPivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/ISPivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/MaxSeparatedPivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/MaxVariancePivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/PCAPivots.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/Eigenvalues \
+  /home/joaovictor/Code/gervLib/libs/eigen/Core \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/DisableStupidWarnings.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/Macros.h \
+  /usr/include/c++/13/complex \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/MKL_support.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/mmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/emmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/13/include/mm_malloc.h \
+  /usr/include/c++/13/stdlib.h \
   /usr/include/c++/13/cassert \
-  /usr/include/assert.h
+  /usr/include/assert.h \
+  /usr/include/c++/13/functional \
+  /usr/include/c++/13/unordered_map \
+  /usr/include/c++/13/bits/unordered_map.h \
+  /usr/include/c++/13/bits/hashtable.h \
+  /usr/include/c++/13/bits/hashtable_policy.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/Constants.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/Meta.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/ForwardDeclarations.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/StaticAssert.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/XprHelper.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/Memory.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/NumTraits.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/MathFunctions.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/GenericPacketMath.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/MathFunctionsImpl.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/Default/ConjHelper.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/SSE/PacketMath.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/SSE/MathFunctions.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/SSE/Complex.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/SSE/TypeCasting.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/CUDA/Half.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/CUDA/PacketMathHalf.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/CUDA/TypeCasting.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/Default/Settings.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/TernaryFunctors.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/BinaryFunctors.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/UnaryFunctors.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/NullaryFunctors.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/StlFunctors.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/AssignmentFunctors.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/CUDA/Complex.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/IO.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/DenseCoeffsBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/DenseBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/plugins/BlockMethods.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/MatrixBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/plugins/CommonCwiseUnaryOps.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/plugins/CommonCwiseBinaryOps.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/plugins/MatrixCwiseUnaryOps.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/plugins/MatrixCwiseBinaryOps.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/EigenBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Product.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/CoreEvaluators.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/AssignEvaluator.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Assign.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/ArrayBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/plugins/ArrayCwiseUnaryOps.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/plugins/ArrayCwiseBinaryOps.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/BlasUtil.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/DenseStorage.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/NestByValue.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/ReturnByValue.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/NoAlias.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/PlainObjectBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Matrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Array.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseTernaryOp.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseBinaryOp.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseUnaryOp.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseNullaryOp.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseUnaryView.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/SelfCwiseBinaryOp.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Dot.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/StableNorm.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Stride.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/MapBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Map.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Ref.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Block.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/VectorBlock.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Transpose.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/DiagonalMatrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Diagonal.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/DiagonalProduct.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Redux.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Visitor.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Fuzzy.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Swap.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/CommaInitializer.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/GeneralProduct.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Solve.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Inverse.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/SolverBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/PermutationMatrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Transpositions.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/TriangularMatrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/SelfAdjointView.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/GeneralBlockPanelKernel.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/Parallelizer.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/ProductEvaluators.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/GeneralMatrixVector.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/GeneralMatrixMatrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/SolveTriangular.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/GeneralMatrixMatrixTriangular.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/SelfadjointMatrixVector.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/SelfadjointMatrixMatrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/SelfadjointProduct.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/SelfadjointRank2Update.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/TriangularMatrixVector.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/TriangularMatrixMatrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/TriangularSolverMatrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/TriangularSolverVector.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/BandMatrix.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/CoreIterators.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/ConditionEstimator.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/BooleanRedux.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Select.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/VectorwiseOp.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Random.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Replicate.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/Reverse.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/ArrayWrapper.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/GlobalFunctions.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/ReenableStupidWarnings.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/Cholesky \
+  /home/joaovictor/Code/gervLib/libs/eigen/Jacobi \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Jacobi/Jacobi.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Cholesky/LLT.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Cholesky/LDLT.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/Householder \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Householder/Householder.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Householder/HouseholderSequence.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Householder/BlockHouseholder.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/LU \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/misc/Kernel.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/misc/Image.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/LU/FullPivLU.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/LU/PartialPivLU.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/LU/Determinant.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/LU/InverseImpl.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/LU/arch/Inverse_SSE.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/Geometry \
+  /home/joaovictor/Code/gervLib/libs/eigen/SVD \
+  /home/joaovictor/Code/gervLib/libs/eigen/QR \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/QR/HouseholderQR.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/QR/FullPivHouseholderQR.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/QR/ColPivHouseholderQR.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/QR/CompleteOrthogonalDecomposition.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/misc/RealSvd2x2.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/SVD/UpperBidiagonalization.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/SVD/SVDBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/SVD/JacobiSVD.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/SVD/BDCSVD.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/OrthoMethods.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/EulerAngles.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Homogeneous.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/RotationBase.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Rotation2D.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Quaternion.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/AngleAxis.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Transform.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Translation.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Scaling.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Hyperplane.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/ParametrizedLine.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/AlignedBox.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Umeyama.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/arch/Geometry_SSE.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/Tridiagonalization.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/RealSchur.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/EigenSolver.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/RealSchur.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/Tridiagonalization.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/ComplexSchur.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/ComplexEigenSolver.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/ComplexSchur.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/RealQZ.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/RealQZ.h \
+  /home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
+  /home/joaovictor/Code/gervLib/include/pivots/SelectionPivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/SSSPivots.h \
+  /home/joaovictor/Code/gervLib/include/pivots/WDRPivots.h \
+  /home/joaovictor/Code/gervLib/include/query/Query.h \
+  /usr/include/c++/13/queue \
+  /usr/include/c++/13/bits/stl_queue.h
 
+
+/usr/include/c++/13/queue:
+
+/home/joaovictor/Code/gervLib/include/pivots/WDRPivots.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/SSSPivots.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/ComplexEigenSolver.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/SelfAdjointEigenSolver.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/EigenSolver.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/AlignedBox.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/ParametrizedLine.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Hyperplane.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Scaling.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Translation.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Homogeneous.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/EulerAngles.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/OrthoMethods.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/SVD/BDCSVD.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/QR/ColPivHouseholderQR.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/QR:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/LU/arch/Inverse_SSE.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/LU/InverseImpl.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/misc/Kernel.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/LU:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Householder/BlockHouseholder.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Householder/Householder.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Cholesky/LLT.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/SVD/UpperBidiagonalization.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/Jacobi:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/ReenableStupidWarnings.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/ArrayWrapper.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/SelfadjointMatrixMatrix.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/RealSchur.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/GeneralMatrixMatrixTriangular.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/SolveTriangular.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/GeneralMatrixMatrix.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/GeneralBlockPanelKernel.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/SelfAdjointView.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/TriangularMatrix.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Transpositions.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/SolverBase.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Solve.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/GeneralProduct.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/DiagonalProduct.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Diagonal.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/HessenbergDecomposition.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Cholesky/LDLT.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Transpose.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Ref.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Map.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Stride.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/StableNorm.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Dot.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/SelfCwiseBinaryOp.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseNullaryOp.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseUnaryOp.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/BandMatrix.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseBinaryOp.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseTernaryOp.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/PlainObjectBase.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/NoAlias.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/NestByValue.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/PermutationMatrix.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/DenseStorage.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/BlasUtil.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Assign.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/CoreEvaluators.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Replicate.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/EigenBase.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/plugins/MatrixCwiseBinaryOps.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Block.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/plugins/CommonCwiseBinaryOps.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/DenseBase.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/AssignmentFunctors.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/NullaryFunctors.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/UnaryFunctors.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/BinaryFunctors.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/TernaryFunctors.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/Default/Settings.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Visitor.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/CUDA/PacketMathHalf.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/SelfadjointMatrixVector.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/CUDA/Half.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/SSE/TypeCasting.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/SVD/SVDBase.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/SSE/MathFunctions.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/SSE/PacketMath.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/MathFunctions.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/Memory.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/XprHelper.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/ProductEvaluators.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/StaticAssert.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/ForwardDeclarations.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/Constants.h:
+
+/usr/include/c++/13/bits/hashtable.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/TriangularSolverVector.h:
+
+/usr/include/c++/13/unordered_map:
 
 /usr/include/assert.h:
+
+/usr/include/c++/13/stdlib.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/mm_malloc.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/xmmintrin.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/emmintrin.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/MKL_support.h:
+
+/usr/include/c++/13/complex:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/Macros.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/Default/ConjHelper.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/PCAPivots.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Quaternion.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/MaxVariancePivots.h:
+
+/home/joaovictor/Code/gervLib/include/dataset/DatasetWrapper.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/ConvexPivots.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/BPPPivots.h:
+
+/home/joaovictor/Code/gervLib/include/factory/PivotFactory.h:
+
+/home/joaovictor/Code/gervLib/include/indexes/SequentialScan.h:
 
 /home/joaovictor/Code/gervLib/include/memory/PageManager.h:
 
@@ -395,9 +823,13 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/regex_compiler.tcc:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/TriangularSolverMatrix.h:
+
 /usr/include/c++/13/bits/regex_compiler.h:
 
 /usr/include/c++/13/bits/regex_automaton.tcc:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/plugins/CommonCwiseUnaryOps.h:
 
 /usr/include/c++/13/bits/regex_automaton.h:
 
@@ -411,11 +843,17 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/stl_deque.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/SelfadjointRank2Update.h:
+
 /usr/include/c++/13/deque:
 
 /usr/include/c++/13/stack:
 
 /usr/include/c++/13/bitset:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Redux.h:
+
+/usr/include/c++/13/regex:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
@@ -423,9 +861,13 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/exception_ptr.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/IO.h:
+
 /usr/include/c++/13/system_error:
 
 /usr/include/c++/13/filesystem:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/DenseCoeffsBase.h:
 
 /usr/include/c++/13/cstddef:
 
@@ -437,6 +879,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/chrono.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/plugins/ArrayCwiseBinaryOps.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
 /usr/include/asm-generic/errno.h:
@@ -445,11 +889,17 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/chrono:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/NumTraits.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/FFTPivots.h:
+
 /home/joaovictor/Code/gervLib/include/pivots/KmedoidsPivots.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/CoreIterators.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
@@ -461,6 +911,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/cstdio:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Array.h:
+
 /usr/include/c++/13/bits/std_abs.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
@@ -471,17 +923,27 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/plugins/MatrixCwiseUnaryOps.h:
+
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/MaxSeparatedPivots.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
+/usr/include/c++/13/bits/stl_queue.h:
+
 /usr/include/c++/13/typeinfo:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/SelfadjointProduct.h:
 
 /usr/include/features.h:
 
 /usr/include/c++/13/bits/stl_numeric.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/DiagonalMatrix.h:
 
 /usr/include/linux/close_range.h:
 
@@ -495,17 +957,23 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/tuple:
 
+/home/joaovictor/Code/gervLib/libs/eigen/Eigenvalues:
+
 /home/joaovictor/Code/gervLib/include/utils/Utils.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/HFIPivots.h:
+
+/usr/include/c++/13/cstring:
+
+/usr/include/c++/13/bits/uses_allocator.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/QR/CompleteOrthogonalDecomposition.h:
+
 /usr/include/c++/13/ext/string_conversions.h:
-
-/usr/include/c++/13/bits/uses_allocator.h:
-
-/usr/include/c++/13/cstring:
 
 /usr/include/c++/13/numbers:
 
@@ -527,6 +995,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_rusage.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Householder/HouseholderSequence.h:
+
 /usr/include/alloca.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
@@ -535,11 +1005,17 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/basic_string.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Random.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/ArrayBase.h:
+
 /usr/include/c++/13/bits/hash_bytes.h:
 
 /usr/include/c++/13/string_view:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/Householder:
 
 /usr/include/c++/13/ext/alloc_traits.h:
 
@@ -548,6 +1024,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/linux/errno.h:
 
 /usr/include/c++/13/bits/basic_string.tcc:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/plugins/ArrayCwiseUnaryOps.h:
 
 /usr/include/x86_64-linux-gnu/bits/timex.h:
 
@@ -559,9 +1037,13 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/stl_pair.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/SVD/JacobiSVD.h:
+
 /usr/include/c++/13/bits/unique_ptr.h:
 
 /usr/include/c++/13/bits/stl_vector.h:
+
+/home/joaovictor/Code/gervLib/include/pivots/ISPivots.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
@@ -575,6 +1057,10 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/range_access.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/RotationBase.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/13/include/mmintrin.h:
+
 /usr/include/c++/13/concepts:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
@@ -583,7 +1069,11 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bit:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/functors/StlFunctors.h:
+
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Matrix.h:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
 
@@ -592,6 +1082,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/limits:
 
 /usr/include/c++/13/bits/random.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Select.h:
 
 /usr/include/stdint.h:
 
@@ -606,6 +1098,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
 
 /usr/include/x86_64-linux-gnu/bits/sched.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/arch/Geometry_SSE.h:
 
 /usr/include/c++/13/pstl/pstl_config.h:
 
@@ -629,6 +1123,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/Core:
+
 /usr/include/c++/13/cstdint:
 
 /usr/include/c++/13/compare:
@@ -637,11 +1133,17 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/cxxabi_init_exception.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/CUDA/Complex.h:
+
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
 /usr/include/c++/13/bits/stl_uninitialized.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Reverse.h:
+
 /usr/include/c++/13/bits/cpp_type_traits.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/QR/FullPivHouseholderQR.h:
 
 /usr/include/wctype.h:
 
@@ -651,11 +1153,15 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /home/joaovictor/Code/gervLib/src/main.cpp:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/misc/Image.h:
+
 /usr/include/c++/13/bits/fstream.tcc:
 
 /usr/include/c++/13/bits/cxxabi_forced.h:
 
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/ConditionEstimator.h:
 
 /usr/include/c++/13/bits/string_view.tcc:
 
@@ -671,11 +1177,15 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/GlobalFunctions.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/Cholesky:
 
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
@@ -685,13 +1195,19 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/MathFunctionsImpl.h:
+
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h:
 
+/usr/include/uuid/uuid.h:
+
 /home/joaovictor/Code/gervLib/include/pivots/Pivot.h:
 
 /usr/include/c++/13/bits/functional_hash.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/AngleAxis.h:
 
 /usr/include/c++/13/bits/charconv.h:
 
@@ -704,6 +1220,10 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/bits/locale_classes.tcc:
 
 /usr/include/c++/13/iosfwd:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Umeyama.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/SVD:
 
 /usr/include/c++/13/optional:
 
@@ -725,11 +1245,15 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/plugins/BlockMethods.h:
+
 /usr/include/c++/13/bits/max_size_type.h:
 
 /usr/include/c++/13/bits/utility.h:
 
 /usr/include/c++/13/bits/ranges_util.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/DisableStupidWarnings.h:
 
 /usr/include/c++/13/bits/allocator.h:
 
@@ -743,6 +1267,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/stdc-predef.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/LU/PartialPivLU.h:
+
 /usr/include/c++/13/bits/shared_ptr_base.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
@@ -751,11 +1277,17 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/misc/RealSvd2x2.h:
+
 /usr/include/c++/13/bits/memoryfwd.h:
 
 /usr/include/c++/13/tr1/poly_laguerre.tcc:
 
 /usr/include/c++/13/bits/move.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/Tridiagonalization.h:
+
+/home/joaovictor/Code/gervLib/include/indexes/Index.h:
 
 /usr/include/c++/13/bits/functexcept.h:
 
@@ -779,6 +1311,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/clocale:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/MatrixBaseEigenvalues.h:
+
 /usr/include/ctype.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
@@ -799,11 +1333,17 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/LU/Determinant.h:
+
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Inverse.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
+
+/usr/include/c++/13/functional:
 
 /home/joaovictor/Code/gervLib/include/kmedoids/Kmedoids.h:
 
@@ -819,6 +1359,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/fstream:
 
+/usr/include/c++/13/bits/unordered_map.h:
+
 /home/joaovictor/Code/gervLib/include/kmedoids/Cluster.h:
 
 /usr/include/time.h:
@@ -830,6 +1372,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/pstl/execution_defs.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/MatrixBase.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 
@@ -843,6 +1387,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/locale:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/CwiseUnaryView.h:
+
 /usr/include/x86_64-linux-gnu/bits/setjmp.h:
 
 /usr/include/c++/13/bits/stl_multiset.h:
@@ -852,6 +1398,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/x86_64-linux-gnu/bits/confname.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/TriangularMatrixMatrix.h:
 
 /home/joaovictor/Code/gervLib/include/configure/Configure.h:
 
@@ -867,19 +1415,27 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/sched.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/Geometry:
+
 /usr/include/c++/13/backward/binders.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/ReturnByValue.h:
+
 /usr/include/stdlib.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/LU/FullPivLU.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h:
 
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/c++/13/bits/locale_facets.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/ComplexSchur.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
 
@@ -901,17 +1457,23 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/CommaInitializer.h:
+
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
 /usr/include/c++/13/tr1/exp_integral.tcc:
 
 /usr/include/c++/13/bits/locale_facets.tcc:
 
+/home/joaovictor/Code/gervLib/include/query/Query.h:
+
 /usr/include/c++/13/tr1/ell_integral.tcc:
 
 /usr/include/c++/13/bits/locale_facets_nonio.h:
 
 /usr/include/c++/13/cassert:
+
+/home/joaovictor/Code/gervLib/include/factory/DistanceFactory.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
@@ -923,9 +1485,13 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h:
 
+/usr/include/c++/13/bits/hashtable_policy.h:
+
 /usr/include/c++/13/bits/stl_iterator_base_funcs.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Transform.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
@@ -933,9 +1499,13 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/locale_facets_nonio.tcc:
 
+/home/joaovictor/Code/gervLib/include/pivots/SelectionPivots.h:
+
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
 /usr/include/c++/13/format:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/util/Meta.h:
 
 /usr/include/c++/13/bits/locale_conv.h:
 
@@ -944,6 +1514,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/ctime:
 
 /usr/include/c++/13/sstream:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Fuzzy.h:
 
 /usr/include/c++/13/istream:
 
@@ -965,7 +1537,11 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/shared_ptr.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/GeneralMatrixVector.h:
+
 /usr/include/c++/13/bits/random.tcc:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/QR/HouseholderQR.h:
 
 /usr/include/c++/13/bits/allocated_ptr.h:
 
@@ -975,17 +1551,25 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/bits/fs_dir.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/GeneralizedEigenSolver.h:
+
 /usr/include/x86_64-linux-gnu/asm/unistd_64.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Geometry/Rotation2D.h:
 
 /usr/include/c++/13/bits/uniform_int_dist.h:
 
 /usr/include/c++/13/vector:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/BooleanRedux.h:
 
 /usr/include/c++/13/bits/memory_resource.h:
 
 /usr/include/c++/13/bits/stl_bvector.h:
 
 /usr/include/c++/13/bits/vector.tcc:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Product.h:
 
 /usr/include/c++/13/set:
 
@@ -1007,15 +1591,25 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/TriangularMatrixVector.h:
+
 /usr/include/c++/13/backward/auto_ptr.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/VectorBlock.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/MapBase.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/GenericPacketMath.h:
+
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
 
 /usr/include/c++/13/tr1/bessel_function.tcc:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/VectorwiseOp.h:
 
 /usr/include/c++/13/bits/regex_scanner.h:
 
@@ -1031,11 +1625,15 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/tr1/riemann_zeta.tcc:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Jacobi/Jacobi.h:
+
 /usr/include/c++/13/pstl/glue_numeric_defs.h:
 
 /usr/include/c++/13/bits/stl_algo.h:
 
 /usr/include/c++/13/bits/algorithmfwd.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/SSE/Complex.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
@@ -1059,6 +1657,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/span:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/Swap.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
 /usr/include/syscall.h:
@@ -1071,9 +1671,19 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/x86_64-linux-gnu/bits/resource.h:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h:
+
 /usr/include/c++/13/bits/alloc_traits.h:
 
 /usr/include/c++/13/iostream:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/arch/CUDA/TypeCasting.h:
+
+/home/joaovictor/Code/gervLib/libs/uuid/libuuidpp.hpp:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/AssignEvaluator.h:
+
+/usr/include/string.h:
 
 /home/joaovictor/Code/gervLib/include/dataset/BasicArrayObject.h:
 
@@ -1083,6 +1693,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/memory:
 
+/home/joaovictor/Code/gervLib/libs/eigen/src/Core/products/Parallelizer.h:
+
 /usr/include/c++/13/bits/stl_raw_storage_iter.h:
 
 /usr/include/c++/13/climits:
@@ -1090,6 +1702,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/pstl/glue_algorithm_defs.h:
 
 /usr/include/c++/13/bits/atomic_base.h:
+
+/home/joaovictor/Code/gervLib/libs/eigen/src/Eigenvalues/RealQZ.h:
 
 /usr/include/c++/13/bits/stl_iterator.h:
 
@@ -1118,7 +1732,3 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/x86_64-linux-gnu/asm/unistd.h:
 
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
-
-/usr/include/string.h:
-
-/usr/include/c++/13/regex:

@@ -1,1 +1,1 @@
-/usr/bin/g++ -g CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o -o BasicArrayObjectTest 
+/usr/bin/g++ -g CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o -o BasicArrayObjectTest  -luuid 

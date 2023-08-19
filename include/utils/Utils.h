@@ -16,9 +16,16 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <fstream>
+#include <iostream>
+#include "libuuidpp.hpp"
 
 namespace gervLib::utils
 {
+
+    std::string generateExperimentID()
+    {
+        return libuuidpp::uuid::random().string();
+    }
 
     void createFolderIfNotExists(const std::string &path)
     {
@@ -290,6 +297,23 @@ namespace gervLib::utils
 
         }
 
+    }
+
+    void deleteDirectory(const std::filesystem::path& path) {
+        try {
+            if (std::filesystem::exists(path) && std::filesystem::is_directory(path)) {
+                for (const auto& entry : std::filesystem::directory_iterator(path)) {
+                    if (std::filesystem::is_directory(entry)) {
+                        deleteDirectory(entry.path());
+                    } else {
+                        std::filesystem::remove(entry.path());
+                    }
+                }
+                std::filesystem::remove(path); // Remove the directory itself
+            }
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }
     }
 
     std::string generateFileByPrefix(const std::string& path, const std::string& prefix, bool createFile = true, const std::string& extension = ".txt")

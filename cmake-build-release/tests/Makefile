@@ -392,6 +392,20 @@ QueryUtils/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/QueryUtils.dir/build.make tests/CMakeFiles/QueryUtils.dir/build
 .PHONY : QueryUtils/fast
 
+# Convenience name for target.
+tests/CMakeFiles/SequentialScanTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/SequentialScanTest.dir/rule
+.PHONY : tests/CMakeFiles/SequentialScanTest.dir/rule
+
+# Convenience name for target.
+SequentialScanTest: tests/CMakeFiles/SequentialScanTest.dir/rule
+.PHONY : SequentialScanTest
+
+# fast build rule for target.
+SequentialScanTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SequentialScanTest.dir/build.make tests/CMakeFiles/SequentialScanTest.dir/build
+.PHONY : SequentialScanTest/fast
+
 BPPPivotsTest.o: BPPPivotsTest.cpp.o
 .PHONY : BPPPivotsTest.o
 
@@ -824,6 +838,30 @@ SelectionPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SelectionPivotsTest.dir/build.make tests/CMakeFiles/SelectionPivotsTest.dir/SelectionPivotsTest.cpp.s
 .PHONY : SelectionPivotsTest.cpp.s
 
+SequentialScanTest.o: SequentialScanTest.cpp.o
+.PHONY : SequentialScanTest.o
+
+# target to build an object file
+SequentialScanTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SequentialScanTest.dir/build.make tests/CMakeFiles/SequentialScanTest.dir/SequentialScanTest.cpp.o
+.PHONY : SequentialScanTest.cpp.o
+
+SequentialScanTest.i: SequentialScanTest.cpp.i
+.PHONY : SequentialScanTest.i
+
+# target to preprocess a source file
+SequentialScanTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SequentialScanTest.dir/build.make tests/CMakeFiles/SequentialScanTest.dir/SequentialScanTest.cpp.i
+.PHONY : SequentialScanTest.cpp.i
+
+SequentialScanTest.s: SequentialScanTest.cpp.s
+.PHONY : SequentialScanTest.s
+
+# target to generate assembly for a file
+SequentialScanTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SequentialScanTest.dir/build.make tests/CMakeFiles/SequentialScanTest.dir/SequentialScanTest.cpp.s
+.PHONY : SequentialScanTest.cpp.s
+
 WDRPivotsTest.o: WDRPivotsTest.cpp.o
 .PHONY : WDRPivotsTest.o
 
@@ -875,6 +913,7 @@ help:
 	@echo "... RandomPivotsTest"
 	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
+	@echo "... SequentialScanTest"
 	@echo "... WDRPivotsTest"
 	@echo "... BPPPivotsTest.o"
 	@echo "... BPPPivotsTest.i"
@@ -930,6 +969,9 @@ help:
 	@echo "... SelectionPivotsTest.o"
 	@echo "... SelectionPivotsTest.i"
 	@echo "... SelectionPivotsTest.s"
+	@echo "... SequentialScanTest.o"
+	@echo "... SequentialScanTest.i"
+	@echo "... SequentialScanTest.s"
 	@echo "... WDRPivotsTest.o"
 	@echo "... WDRPivotsTest.i"
 	@echo "... WDRPivotsTest.s"

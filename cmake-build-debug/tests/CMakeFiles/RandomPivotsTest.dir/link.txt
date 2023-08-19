@@ -1,1 +1,1 @@
-/usr/bin/g++ -g CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o -o RandomPivotsTest 
+/usr/bin/g++ -g CMakeFiles/RandomPivotsTest.dir/RandomPivotsTest.cpp.o -o RandomPivotsTest  -luuid 

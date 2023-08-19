@@ -1,1 +1,1 @@
-/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/DistanceTest.dir/DistanceTest.cpp.o -o DistanceTest 
+/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/DistanceTest.dir/DistanceTest.cpp.o -o DistanceTest  -luuid 

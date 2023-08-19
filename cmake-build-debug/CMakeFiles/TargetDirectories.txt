@@ -21,6 +21,7 @@
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/KmedoidsPivotsTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/PageManagerTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/QueryUtils.dir
+/home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/SequentialScanTest.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/test.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/edit_cache.dir
 /home/joaovictor/Code/gervLib/cmake-build-debug/tests/CMakeFiles/rebuild_cache.dir

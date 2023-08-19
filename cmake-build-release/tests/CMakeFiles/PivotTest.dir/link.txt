@@ -1,1 +1,1 @@
-/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/PivotTest.dir/PivotTest.cpp.o -o PivotTest 
+/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/PivotTest.dir/PivotTest.cpp.o -o PivotTest  -luuid 

@@ -117,7 +117,7 @@ namespace gervLib::distance {
 
         [[nodiscard]] std::string getDistanceFunctionName() const { return distanceTypeMap[distanceType]; }
 
-        bool isEqual(DistanceFunction<T> *other) {
+        bool isEqual(std::unique_ptr<DistanceFunction<T>>& other) {
             return ((distCount == other->distCount) && (getDistanceFunctionName() == other->getDistanceFunctionName()));
         }
 

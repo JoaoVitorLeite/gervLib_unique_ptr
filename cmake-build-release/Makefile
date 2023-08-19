@@ -373,6 +373,19 @@ PageManagerTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PageManagerTest.dir/build.make tests/CMakeFiles/PageManagerTest.dir/build
 .PHONY : PageManagerTest/fast
 
+#=============================================================================
+# Target rules for targets named QueryUtils
+
+# Build rule for target.
+QueryUtils: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 QueryUtils
+.PHONY : QueryUtils
+
+# fast build rule for target.
+QueryUtils/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/QueryUtils.dir/build.make tests/CMakeFiles/QueryUtils.dir/build
+.PHONY : QueryUtils/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -420,6 +433,7 @@ help:
 	@echo "... PCAPivotsTest"
 	@echo "... PageManagerTest"
 	@echo "... PivotTest"
+	@echo "... QueryUtils"
 	@echo "... RandomPivotsTest"
 	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"

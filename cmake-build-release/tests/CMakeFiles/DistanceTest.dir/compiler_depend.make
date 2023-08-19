@@ -352,6 +352,10 @@ tests/CMakeFiles/DistanceTest.dir/DistanceTest.cpp.o: /home/joaovictor/Code/gerv
   /usr/include/x86_64-linux-gnu/sys/resource.h \
   /usr/include/x86_64-linux-gnu/bits/resource.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_rusage.h \
+  /usr/include/c++/13/fstream \
+  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+  /usr/include/c++/13/bits/fstream.tcc \
   /home/joaovictor/Code/gervLib/include/configure/Configure.h \
   /usr/include/c++/13/regex \
   /usr/include/c++/13/bitset \
@@ -373,22 +377,12 @@ tests/CMakeFiles/DistanceTest.dir/DistanceTest.cpp.o: /home/joaovictor/Code/gerv
   /usr/include/c++/13/bits/regex.tcc \
   /usr/include/c++/13/bits/regex_executor.h \
   /usr/include/c++/13/bits/regex_executor.tcc \
-  /usr/include/c++/13/fstream \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
-  /usr/include/c++/13/bits/fstream.tcc \
   /home/joaovictor/Code/gervLib/include/factory/DistanceFactory.h \
   /usr/include/c++/13/cassert \
   /usr/include/assert.h
 
 
 /usr/include/assert.h:
-
-/usr/include/c++/13/bits/fstream.tcc:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
-
-/usr/include/c++/13/fstream:
 
 /usr/include/c++/13/bits/regex_executor.tcc:
 
@@ -419,6 +413,12 @@ tests/CMakeFiles/DistanceTest.dir/DistanceTest.cpp.o: /home/joaovictor/Code/gerv
 /usr/include/c++/13/bitset:
 
 /usr/include/c++/13/regex:
+
+/usr/include/c++/13/bits/fstream.tcc:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
+
+/usr/include/c++/13/fstream:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_rusage.h:
 

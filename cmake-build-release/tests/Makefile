@@ -378,6 +378,20 @@ PageManagerTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PageManagerTest.dir/build.make tests/CMakeFiles/PageManagerTest.dir/build
 .PHONY : PageManagerTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/QueryUtils.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/QueryUtils.dir/rule
+.PHONY : tests/CMakeFiles/QueryUtils.dir/rule
+
+# Convenience name for target.
+QueryUtils: tests/CMakeFiles/QueryUtils.dir/rule
+.PHONY : QueryUtils
+
+# fast build rule for target.
+QueryUtils/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/QueryUtils.dir/build.make tests/CMakeFiles/QueryUtils.dir/build
+.PHONY : QueryUtils/fast
+
 BPPPivotsTest.o: BPPPivotsTest.cpp.o
 .PHONY : BPPPivotsTest.o
 
@@ -714,6 +728,30 @@ PivotTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/PivotTest.dir/build.make tests/CMakeFiles/PivotTest.dir/PivotTest.cpp.s
 .PHONY : PivotTest.cpp.s
 
+QueryUtils.o: QueryUtils.cpp.o
+.PHONY : QueryUtils.o
+
+# target to build an object file
+QueryUtils.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/QueryUtils.dir/build.make tests/CMakeFiles/QueryUtils.dir/QueryUtils.cpp.o
+.PHONY : QueryUtils.cpp.o
+
+QueryUtils.i: QueryUtils.cpp.i
+.PHONY : QueryUtils.i
+
+# target to preprocess a source file
+QueryUtils.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/QueryUtils.dir/build.make tests/CMakeFiles/QueryUtils.dir/QueryUtils.cpp.i
+.PHONY : QueryUtils.cpp.i
+
+QueryUtils.s: QueryUtils.cpp.s
+.PHONY : QueryUtils.s
+
+# target to generate assembly for a file
+QueryUtils.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/QueryUtils.dir/build.make tests/CMakeFiles/QueryUtils.dir/QueryUtils.cpp.s
+.PHONY : QueryUtils.cpp.s
+
 RandomPivotsTest.o: RandomPivotsTest.cpp.o
 .PHONY : RandomPivotsTest.o
 
@@ -833,6 +871,7 @@ help:
 	@echo "... PCAPivotsTest"
 	@echo "... PageManagerTest"
 	@echo "... PivotTest"
+	@echo "... QueryUtils"
 	@echo "... RandomPivotsTest"
 	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
@@ -879,6 +918,9 @@ help:
 	@echo "... PivotTest.o"
 	@echo "... PivotTest.i"
 	@echo "... PivotTest.s"
+	@echo "... QueryUtils.o"
+	@echo "... QueryUtils.i"
+	@echo "... QueryUtils.s"
 	@echo "... RandomPivotsTest.o"
 	@echo "... RandomPivotsTest.i"
 	@echo "... RandomPivotsTest.s"

@@ -326,6 +326,10 @@ tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o: /home/joao
   /usr/include/x86_64-linux-gnu/sys/resource.h \
   /usr/include/x86_64-linux-gnu/bits/resource.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_rusage.h \
+  /usr/include/c++/13/fstream \
+  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+  /usr/include/c++/13/bits/fstream.tcc \
   /home/joaovictor/Code/gervLib/include/configure/Configure.h \
   /usr/include/c++/13/iostream \
   /usr/include/c++/13/cstring \
@@ -340,6 +344,8 @@ tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o: /home/joao
 /usr/include/c++/13/iostream:
 
 /home/joaovictor/Code/gervLib/include/configure/Configure.h:
+
+/usr/include/c++/13/bits/fstream.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/resource.h:
 
@@ -408,6 +414,8 @@ tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o: /home/joao
 /usr/include/c++/13/bits/fs_path.h:
 
 /usr/include/c++/13/bits/parse_numbers.h:
+
+/usr/include/c++/13/fstream:
 
 /usr/include/c++/13/ctime:
 
@@ -699,6 +707,8 @@ tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o: /home/joao
 
 /usr/include/c++/13/bits/cxxabi_init_exception.h:
 
+/usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h:
+
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
 /usr/include/c++/13/bits/char_traits.h:
@@ -818,6 +828,8 @@ tests/CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o: /home/joao
 /usr/include/c++/13/ext/alloc_traits.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
 
 /usr/include/c++/13/string_view:
 

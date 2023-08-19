@@ -62,6 +62,7 @@ include_directories(include/pivots)
 include_directories(include/kmedoids)
 include_directories(include/indexes)
 include_directories(include/memory)
+include_directories(include/query)
 
 # Add source files
 add_executable(gervLib
@@ -98,6 +99,7 @@ add_executable(gervLib
         include/indexes/Index.h
         include/memory/Page.h
         include/memory/PageManager.h
+        include/query/Query.h
 )
 
 # Add libraries

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = -DENABLE_DEBUG -DENABLE_PROGRESS_BAR -DSOURCE_OUTPUT_PATH=\"/home/joaovictor/Code/gervLib/output_dir\"
 
-CXX_INCLUDES = -I/home/joaovictor/Code/gervLib/src -I/home/joaovictor/Code/gervLib/libs/uuid -I/home/joaovictor/Code/gervLib/libs/eigen -I/home/joaovictor/Code/gervLib/include/configure -I/home/joaovictor/Code/gervLib/include/utils -I/home/joaovictor/Code/gervLib/include/dataset -I/home/joaovictor/Code/gervLib/include/serialize -I/home/joaovictor/Code/gervLib/include/distance -I/home/joaovictor/Code/gervLib/include/factory -I/home/joaovictor/Code/gervLib/include/pivots -I/home/joaovictor/Code/gervLib/include/kmedoids -I/home/joaovictor/Code/gervLib/include/indexes -I/home/joaovictor/Code/gervLib/include/memory
+CXX_INCLUDES = -I/home/joaovictor/Code/gervLib/src -I/home/joaovictor/Code/gervLib/libs/uuid -I/home/joaovictor/Code/gervLib/libs/eigen -I/home/joaovictor/Code/gervLib/include/configure -I/home/joaovictor/Code/gervLib/include/utils -I/home/joaovictor/Code/gervLib/include/dataset -I/home/joaovictor/Code/gervLib/include/serialize -I/home/joaovictor/Code/gervLib/include/distance -I/home/joaovictor/Code/gervLib/include/factory -I/home/joaovictor/Code/gervLib/include/pivots -I/home/joaovictor/Code/gervLib/include/kmedoids -I/home/joaovictor/Code/gervLib/include/indexes -I/home/joaovictor/Code/gervLib/include/memory -I/home/joaovictor/Code/gervLib/include/query
 
 CXX_FLAGS = -g -std=c++20 -fdiagnostics-color=always -Wall -Wextra -pedantic -pipe -g -std=gnu++2a -fPIC -D_REENTRANT
 

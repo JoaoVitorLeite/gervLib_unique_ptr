@@ -381,8 +381,16 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
   /home/joaovictor/Code/gervLib/include/distance/DistanceFunction.h \
   /home/joaovictor/Code/gervLib/include/pivots/KmedoidsPivots.h \
   /home/joaovictor/Code/gervLib/include/kmedoids/Kmedoids.h \
-  /home/joaovictor/Code/gervLib/include/kmedoids/Cluster.h
+  /home/joaovictor/Code/gervLib/include/kmedoids/Cluster.h \
+  /home/joaovictor/Code/gervLib/include/memory/PageManager.h \
+  /home/joaovictor/Code/gervLib/include/memory/Page.h \
+  /usr/include/c++/13/cassert \
+  /usr/include/assert.h
 
+
+/usr/include/assert.h:
+
+/home/joaovictor/Code/gervLib/include/memory/PageManager.h:
 
 /home/joaovictor/Code/gervLib/include/pivots/RandomPivots.h:
 
@@ -393,6 +401,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/bits/regex_executor.h:
 
 /usr/include/c++/13/bits/regex.tcc:
+
+/home/joaovictor/Code/gervLib/include/memory/Page.h:
 
 /usr/include/c++/13/bits/regex_compiler.tcc:
 
@@ -943,6 +953,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /usr/include/c++/13/tr1/ell_integral.tcc:
 
 /usr/include/c++/13/bits/locale_facets_nonio.h:
+
+/usr/include/c++/13/cassert:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 

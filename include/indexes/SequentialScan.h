@@ -35,7 +35,7 @@ namespace gervLib::index
             this->pageSize = 0;
             this->prunning = 0;
             this->leafNodeAccess = 0;
-            this->indexType = INDEX_TYPE::SEQUENTIAL_SCAN;
+            this->indexType = INDEX_TYPE::SEQUENTIAL_SCAN_t;
             this->indexName = "SEQUENTIAL_SCAN";
             this->indexFolder = "";
         }
@@ -49,14 +49,14 @@ namespace gervLib::index
             this->pageSize = 0;
             this->prunning = 0;
             this->leafNodeAccess = 0;
-            this->indexType = INDEX_TYPE::SEQUENTIAL_SCAN;
+            this->indexType = INDEX_TYPE::SEQUENTIAL_SCAN_t;
             this->indexName = "SEQUENTIAL_SCAN";
 
             if (!folder.empty())
                 this->indexFolder = folder;
 
-            this->buildIndex();
             this->generateIndexFiles(true, true);
+            this->buildIndex();
 
         }
 
@@ -69,11 +69,11 @@ namespace gervLib::index
             this->pageSize = 0;
             this->prunning = 0;
             this->leafNodeAccess = 0;
-            this->indexType = INDEX_TYPE::SEQUENTIAL_SCAN;
+            this->indexType = INDEX_TYPE::SEQUENTIAL_SCAN_t;
             this->indexName = "SEQUENTIAL_SCAN";
             this->indexFolder = _folder.empty() ? utils::generatePathByPrefix(configure::baseOutputPath, this->indexName) : _folder;
 
-            if (!serializeFile.empty())
+            if (serializeFile.empty())
                 this->loadIndex();
             else
                 this->loadIndex(serializeFile);
@@ -82,13 +82,6 @@ namespace gervLib::index
         ~SequentialScan() override = default;
 
         void buildIndex() override { }
-
-        bool isEqual(std::unique_ptr<Index<O, T>>& other) override
-        {
-            return this->indexType == other->getIndexType() &&
-                   this->dataset->isEqual(*other->getDataset()) &&
-                   this->distanceFunction->isEqual(other->getDistanceFunction());
-        }
 
         std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
         {

@@ -41,6 +41,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -80,6 +81,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -151,6 +153,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -192,6 +195,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -233,6 +237,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -274,6 +279,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -315,6 +321,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -356,6 +363,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -397,6 +405,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -438,6 +447,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -479,6 +489,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -520,6 +531,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -561,6 +573,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -602,6 +615,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -643,6 +657,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -684,6 +699,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -725,6 +741,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -766,6 +783,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -807,6 +825,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -848,6 +867,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -889,6 +909,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -930,6 +951,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -971,6 +993,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1012,6 +1035,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1053,6 +1077,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1094,6 +1119,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1135,6 +1161,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1176,6 +1203,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1217,6 +1245,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1258,6 +1287,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1299,6 +1329,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1340,6 +1371,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1381,6 +1413,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1422,6 +1455,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1463,6 +1497,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1504,6 +1539,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1545,6 +1581,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1586,6 +1623,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1627,6 +1665,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1668,6 +1707,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1709,6 +1749,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1750,6 +1791,7 @@
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
 					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
 					<Add directory="/usr/include/c++/13"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
 					<Add directory="/usr/include/c++/13/backward"/>
@@ -1760,6 +1802,90 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 SequentialScanTest/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="LAESATest">
+				<Option output="/home/joaovictor/Code/gervLib/cmake-build-debug/tests/LAESATest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DSOURCE_OUTPUT_PATH=&quot;/home/joaovictor/Code/gervLib/output_dir&quot;"/>
+					<Add option="-DENABLE_DEBUG"/>
+					<Add option="-DENABLE_PROGRESS_BAR"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../src"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/uuid"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/eigen"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/utils"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/configure"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/dataset"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/serialize"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
+					<Add directory="/usr/include/c++/13"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
+					<Add directory="/usr/include/c++/13/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/13/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 LAESATest"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="LAESATest/fast">
+				<Option output="/home/joaovictor/Code/gervLib/cmake-build-debug/tests/LAESATest" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joaovictor/Code/gervLib/cmake-build-debug/tests"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DSOURCE_OUTPUT_PATH=&quot;/home/joaovictor/Code/gervLib/output_dir&quot;"/>
+					<Add option="-DENABLE_DEBUG"/>
+					<Add option="-DENABLE_PROGRESS_BAR"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../src"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/uuid"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../libs/eigen"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/utils"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/configure"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/dataset"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/serialize"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/distance"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/factory"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/pivots"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/kmedoids"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/indexes"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/memory"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/query"/>
+					<Add directory="/home/joaovictor/Code/gervLib/tests/../include/matrix"/>
+					<Add directory="/usr/include/c++/13"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/13"/>
+					<Add directory="/usr/include/c++/13/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/13/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 LAESATest/fast"/>
 					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joaovictor/Code/gervLib/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
@@ -1796,6 +1922,9 @@
 		<Unit filename="/home/joaovictor/Code/gervLib/include/indexes/Index.h">
 			<Option target="gervLib"/>
 		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/indexes/LAESA.h">
+			<Option target="gervLib"/>
+		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/indexes/SequentialScan.h">
 			<Option target="gervLib"/>
 		</Unit>
@@ -1803,6 +1932,9 @@
 			<Option target="gervLib"/>
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/kmedoids/Kmedoids.h">
+			<Option target="gervLib"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/matrix/Matrix.h">
 			<Option target="gervLib"/>
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/memory/Page.h">
@@ -1894,6 +2026,9 @@
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/tests/KmedoidsPivotsTest.cpp">
 			<Option target="KmedoidsPivotsTest"/>
+		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/tests/LAESATest.cpp">
+			<Option target="LAESATest"/>
 		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/tests/MaxSeparatedPivotsTest.cpp">
 			<Option target="MaxSeparatedPivotsTest"/>

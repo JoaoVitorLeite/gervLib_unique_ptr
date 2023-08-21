@@ -399,6 +399,19 @@ SequentialScanTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SequentialScanTest.dir/build.make tests/CMakeFiles/SequentialScanTest.dir/build
 .PHONY : SequentialScanTest/fast
 
+#=============================================================================
+# Target rules for targets named LAESATest
+
+# Build rule for target.
+LAESATest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LAESATest
+.PHONY : LAESATest
+
+# fast build rule for target.
+LAESATest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/build
+.PHONY : LAESATest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -441,6 +454,7 @@ help:
 	@echo "... HFIPivotsTest"
 	@echo "... ISPivotsTest"
 	@echo "... KmedoidsPivotsTest"
+	@echo "... LAESATest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"

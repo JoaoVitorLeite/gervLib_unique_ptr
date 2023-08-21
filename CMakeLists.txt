@@ -63,6 +63,7 @@ include_directories(include/kmedoids)
 include_directories(include/indexes)
 include_directories(include/memory)
 include_directories(include/query)
+include_directories(include/matrix)
 
 # Add source files
 add_executable(gervLib
@@ -101,6 +102,8 @@ add_executable(gervLib
         include/memory/PageManager.h
         include/query/Query.h
         include/indexes/SequentialScan.h
+        include/matrix/Matrix.h
+        include/indexes/LAESA.h
 )
 
 # Add libraries

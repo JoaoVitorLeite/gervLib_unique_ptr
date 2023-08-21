@@ -1,70 +1,70 @@
-Start testing: Aug 19 18:14 -03
+Start testing: Aug 20 20:57 -03
 ----------------------------------------------------------
-1/20 Testing: BasicArrayObjectTest
-1/20 Test: BasicArrayObjectTest
+1/21 Testing: BasicArrayObjectTest
+1/21 Test: BasicArrayObjectTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/BasicArrayObjectTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"BasicArrayObjectTest" start time: Aug 19 18:14 -03
+"BasicArrayObjectTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"BasicArrayObjectTest" end time: Aug 19 18:14 -03
+"BasicArrayObjectTest" end time: Aug 20 20:57 -03
 "BasicArrayObjectTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/20 Testing: DatasetTest
-2/20 Test: DatasetTest
+2/21 Testing: DatasetTest
+2/21 Test: DatasetTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/DatasetTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"DatasetTest" start time: Aug 19 18:14 -03
+"DatasetTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.32 sec
+Test time =   0.30 sec
 ----------------------------------------------------------
 Test Passed.
-"DatasetTest" end time: Aug 19 18:14 -03
+"DatasetTest" end time: Aug 20 20:57 -03
 "DatasetTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/20 Testing: DistanceTest
-3/20 Test: DistanceTest
+3/21 Testing: DistanceTest
+3/21 Test: DistanceTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/DistanceTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"DistanceTest" start time: Aug 19 18:14 -03
+"DistanceTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.06 sec
+Test time =   0.07 sec
 ----------------------------------------------------------
 Test Passed.
-"DistanceTest" end time: Aug 19 18:14 -03
+"DistanceTest" end time: Aug 20 20:57 -03
 "DistanceTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/20 Testing: PivotTest
-4/20 Test: PivotTest
+4/21 Testing: PivotTest
+4/21 Test: PivotTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/PivotTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"PivotTest" start time: Aug 19 18:14 -03
+"PivotTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"PivotTest" end time: Aug 19 18:14 -03
+"PivotTest" end time: Aug 20 20:57 -03
 "PivotTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-5/20 Testing: RandomPivotsTest
-5/20 Test: RandomPivotsTest
+5/21 Testing: RandomPivotsTest
+5/21 Test: RandomPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/RandomPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"RandomPivotsTest" start time: Aug 19 18:14 -03
+"RandomPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 Pivot 0: |    5     ||          15          |          10          | 
@@ -83,15 +83,15 @@ Pivot 3: |    15    ||          7           |          8           |
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"RandomPivotsTest" end time: Aug 19 18:14 -03
+"RandomPivotsTest" end time: Aug 20 20:57 -03
 "RandomPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-6/20 Testing: FFTPivotsTest
-6/20 Test: FFTPivotsTest
+6/21 Testing: FFTPivotsTest
+6/21 Test: FFTPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/FFTPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"FFTPivotsTest" start time: Aug 19 18:14 -03
+"FFTPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 Pivot 0: |    1     ||          19          |          4           | 
@@ -110,15 +110,15 @@ Pivot 3: |    13    ||          18          |          19          |
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"FFTPivotsTest" end time: Aug 19 18:14 -03
+"FFTPivotsTest" end time: Aug 20 20:57 -03
 "FFTPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-7/20 Testing: ConvexPivotsTest
-7/20 Test: ConvexPivotsTest
+7/21 Testing: ConvexPivotsTest
+7/21 Test: ConvexPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/ConvexPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"ConvexPivotsTest" start time: Aug 19 18:14 -03
+"ConvexPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 Pivot 0: |    4     ||          17          |          6           | 
@@ -137,15 +137,15 @@ Pivot 3: |    7     ||          4           |          17          |
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"ConvexPivotsTest" end time: Aug 19 18:14 -03
+"ConvexPivotsTest" end time: Aug 20 20:57 -03
 "ConvexPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-8/20 Testing: MaxSeparatedPivotsTest
-8/20 Test: MaxSeparatedPivotsTest
+8/21 Testing: MaxSeparatedPivotsTest
+8/21 Test: MaxSeparatedPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/MaxSeparatedPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"MaxSeparatedPivotsTest" start time: Aug 19 18:14 -03
+"MaxSeparatedPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 Pivot 0: |    1     ||          19          |          4           | 
@@ -164,15 +164,15 @@ Pivot 3: |    13    ||          18          |          19          |
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"MaxSeparatedPivotsTest" end time: Aug 19 18:14 -03
+"MaxSeparatedPivotsTest" end time: Aug 20 20:57 -03
 "MaxSeparatedPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-9/20 Testing: MaxVariancePivotsTest
-9/20 Test: MaxVariancePivotsTest
+9/21 Testing: MaxVariancePivotsTest
+9/21 Test: MaxVariancePivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/MaxVariancePivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"MaxVariancePivotsTest" start time: Aug 19 18:14 -03
+"MaxVariancePivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 ====================================================================================
@@ -269,15 +269,15 @@ Pivot 3: |    6     ||          16          |          19          |
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"MaxVariancePivotsTest" end time: Aug 19 18:14 -03
+"MaxVariancePivotsTest" end time: Aug 20 20:57 -03
 "MaxVariancePivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-10/20 Testing: SelectionPivotsTest
-10/20 Test: SelectionPivotsTest
+10/21 Testing: SelectionPivotsTest
+10/21 Test: SelectionPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/SelectionPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"SelectionPivotsTest" start time: Aug 19 18:14 -03
+"SelectionPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 Group 0: 9.83451
@@ -434,15 +434,15 @@ Element: |    19    ||          4           |          6           |
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"SelectionPivotsTest" end time: Aug 19 18:14 -03
+"SelectionPivotsTest" end time: Aug 20 20:57 -03
 "SelectionPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-11/20 Testing: PCAPivotsTest
-11/20 Test: PCAPivotsTest
+11/21 Testing: PCAPivotsTest
+11/21 Test: PCAPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/PCAPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"PCAPivotsTest" start time: Aug 19 18:14 -03
+"PCAPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 Pivot 0: |    19    ||          4           |          6           | 
@@ -461,15 +461,15 @@ Pivot 3: |    16    ||          8           |          6           |
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"PCAPivotsTest" end time: Aug 19 18:14 -03
+"PCAPivotsTest" end time: Aug 20 20:57 -03
 "PCAPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-12/20 Testing: SSSPivotsTest
-12/20 Test: SSSPivotsTest
+12/21 Testing: SSSPivotsTest
+12/21 Test: SSSPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/SSSPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"SSSPivotsTest" start time: Aug 19 18:14 -03
+"SSSPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 Pivot 0: |    8     ||          7           |          1           | 
@@ -488,15 +488,15 @@ Random Pivot 3: |    7     ||          4           |          17          |
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"SSSPivotsTest" end time: Aug 19 18:14 -03
+"SSSPivotsTest" end time: Aug 20 20:57 -03
 "SSSPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-13/20 Testing: HFIPivotsTest
-13/20 Test: HFIPivotsTest
+13/21 Testing: HFIPivotsTest
+13/21 Test: HFIPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/HFIPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"HFIPivotsTest" start time: Aug 19 18:14 -03
+"HFIPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 ============= Convex candidates (reset index): 8 =============================
@@ -866,15 +866,15 @@ Pivot 3: |    21    ||          0           |          0           |
 Test time =   0.02 sec
 ----------------------------------------------------------
 Test Passed.
-"HFIPivotsTest" end time: Aug 19 18:14 -03
+"HFIPivotsTest" end time: Aug 20 20:57 -03
 "HFIPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-14/20 Testing: ISPivotsTest
-14/20 Test: ISPivotsTest
+14/21 Testing: ISPivotsTest
+14/21 Test: ISPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/ISPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"ISPivotsTest" start time: Aug 19 18:14 -03
+"ISPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 ==============================================================================
@@ -1238,18 +1238,18 @@ Pivot 1: |    10    ||          8           |          3           |
 Pivot 2: |    0     ||          13          |          5           | 
 Pivot 3: |    6     ||          16          |          19          | 
 <end of output>
-Test time =   0.05 sec
+Test time =   0.04 sec
 ----------------------------------------------------------
 Test Passed.
-"ISPivotsTest" end time: Aug 19 18:14 -03
+"ISPivotsTest" end time: Aug 20 20:57 -03
 "ISPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-15/20 Testing: WDRPivotsTest
-15/20 Test: WDRPivotsTest
+15/21 Testing: WDRPivotsTest
+15/21 Test: WDRPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/WDRPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"WDRPivotsTest" start time: Aug 19 18:14 -03
+"WDRPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 ============= Pairs candidates: 300 ===============================================
@@ -1616,15 +1616,15 @@ Pivot 3: |    11    ||          9           |          9           |
 Test time =   0.02 sec
 ----------------------------------------------------------
 Test Passed.
-"WDRPivotsTest" end time: Aug 19 18:14 -03
+"WDRPivotsTest" end time: Aug 20 20:57 -03
 "WDRPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-16/20 Testing: BPPPivotsTest
-16/20 Test: BPPPivotsTest
+16/21 Testing: BPPPivotsTest
+16/21 Test: BPPPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/BPPPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"BPPPivotsTest" start time: Aug 19 18:14 -03
+"BPPPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 ==============================================================================================
@@ -1708,15 +1708,15 @@ Pivot 3: |    16    ||          8           |          6           |
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"BPPPivotsTest" end time: Aug 19 18:14 -03
+"BPPPivotsTest" end time: Aug 20 20:57 -03
 "BPPPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-17/20 Testing: KmedoidsPivotsTest
-17/20 Test: KmedoidsPivotsTest
+17/21 Testing: KmedoidsPivotsTest
+17/21 Test: KmedoidsPivotsTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/KmedoidsPivotsTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"KmedoidsPivotsTest" start time: Aug 19 18:14 -03
+"KmedoidsPivotsTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 Random Medoid: |    0     ||          13          |          5           | 
@@ -2125,45 +2125,45 @@ Pivot 3: |    12    ||          3           |          5           |
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"KmedoidsPivotsTest" end time: Aug 19 18:14 -03
+"KmedoidsPivotsTest" end time: Aug 20 20:57 -03
 "KmedoidsPivotsTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-18/20 Testing: PageManagerTest
-18/20 Test: PageManagerTest
+18/21 Testing: PageManagerTest
+18/21 Test: PageManagerTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/PageManagerTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"PageManagerTest" start time: Aug 19 18:14 -03
+"PageManagerTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.07 sec
+Test time =   0.04 sec
 ----------------------------------------------------------
 Test Passed.
-"PageManagerTest" end time: Aug 19 18:14 -03
+"PageManagerTest" end time: Aug 20 20:57 -03
 "PageManagerTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-19/20 Testing: QueryUtils
-19/20 Test: QueryUtils
+19/21 Testing: QueryUtils
+19/21 Test: QueryUtils
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/QueryUtils"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"QueryUtils" start time: Aug 19 18:14 -03
+"QueryUtils" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"QueryUtils" end time: Aug 19 18:14 -03
+"QueryUtils" end time: Aug 20 20:57 -03
 "QueryUtils" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-20/20 Testing: SequentialScanTest
-20/20 Test: SequentialScanTest
+20/21 Testing: SequentialScanTest
+20/21 Test: SequentialScanTest
 Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/SequentialScanTest"
 Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
-"SequentialScanTest" start time: Aug 19 18:14 -03
+"SequentialScanTest" start time: Aug 20 20:57 -03
 Output:
 ----------------------------------------------------------
 
@@ -2174,8 +2174,243 @@ Configuring global variables...
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"SequentialScanTest" end time: Aug 19 18:14 -03
+"SequentialScanTest" end time: Aug 20 20:57 -03
 "SequentialScanTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Aug 19 18:14 -03
+21/21 Testing: LAESATest
+21/21 Test: LAESATest
+Command: "/home/joaovictor/Code/gervLib/cmake-build-debug/tests/LAESATest"
+Directory: /home/joaovictor/Code/gervLib/cmake-build-debug/tests
+"LAESATest" start time: Aug 20 20:57 -03
+Output:
+----------------------------------------------------------
+
+Configuring global variables...
+
+
+Random Medoid: |    3     ||          12          |          7           | 
+Random Medoid: |    19    ||          4           |          6           | 
+
+================= Iteration: 0=================
+Clusters: 
+
+Medoid: |    3     ||          12          |          7           | 
+Objects: 
+|    0     ||          13          |          5           | 
+|    1     ||          19          |          4           | 
+|    3     ||          12          |          7           | 
+|    4     ||          17          |          6           | 
+|    5     ||          15          |          10          | 
+|    6     ||          16          |          19          | 
+|    9     ||          20          |          11          | 
+|    11    ||          9           |          9           | 
+|    13    ||          18          |          19          | 
+
+
+Medoid: |    19    ||          4           |          6           | 
+Objects: 
+|    2     ||          6           |          0           | 
+|    7     ||          4           |          17          | 
+|    8     ||          7           |          1           | 
+|    10    ||          8           |          3           | 
+|    12    ||          3           |          5           | 
+|    14    ||          1           |          4           | 
+|    15    ||          7           |          8           | 
+|    16    ||          8           |          6           | 
+|    17    ||          5           |          5           | 
+|    18    ||          0           |          0           | 
+|    19    ||          4           |          6           | 
+
+
+=========================================================================
+
+
+================= Iteration: 1=================
+Clusters: 
+
+Medoid: |    5     ||          15          |          10          | 
+Objects: 
+|    0     ||          13          |          5           | 
+|    1     ||          19          |          4           | 
+|    3     ||          12          |          7           | 
+|    4     ||          17          |          6           | 
+|    5     ||          15          |          10          | 
+|    6     ||          16          |          19          | 
+|    9     ||          20          |          11          | 
+|    13    ||          18          |          19          | 
+
+
+Medoid: |    17    ||          5           |          5           | 
+Objects: 
+|    2     ||          6           |          0           | 
+|    7     ||          4           |          17          | 
+|    8     ||          7           |          1           | 
+|    10    ||          8           |          3           | 
+|    11    ||          9           |          9           | 
+|    12    ||          3           |          5           | 
+|    14    ||          1           |          4           | 
+|    15    ||          7           |          8           | 
+|    16    ||          8           |          6           | 
+|    17    ||          5           |          5           | 
+|    18    ||          0           |          0           | 
+|    19    ||          4           |          6           | 
+
+
+=========================================================================
+
+Pivot 0: |    5     ||          15          |          10          | 
+Pivot 1: |    17    ||          5           |          5           | 
+Random Medoid: |    3     ||          12          |          7           | 
+Random Medoid: |    19    ||          4           |          6           | 
+
+================= Iteration: 0=================
+Clusters: 
+
+Medoid: |    3     ||          12          |          7           | 
+Objects: 
+|    0     ||          13          |          5           | 
+|    1     ||          19          |          4           | 
+|    3     ||          12          |          7           | 
+|    4     ||          17          |          6           | 
+|    5     ||          15          |          10          | 
+|    6     ||          16          |          19          | 
+|    9     ||          20          |          11          | 
+|    11    ||          9           |          9           | 
+|    13    ||          18          |          19          | 
+
+
+Medoid: |    19    ||          4           |          6           | 
+Objects: 
+|    2     ||          6           |          0           | 
+|    7     ||          4           |          17          | 
+|    8     ||          7           |          1           | 
+|    10    ||          8           |          3           | 
+|    12    ||          3           |          5           | 
+|    14    ||          1           |          4           | 
+|    15    ||          7           |          8           | 
+|    16    ||          8           |          6           | 
+|    17    ||          5           |          5           | 
+|    18    ||          0           |          0           | 
+|    19    ||          4           |          6           | 
+
+
+=========================================================================
+
+
+================= Iteration: 1=================
+Clusters: 
+
+Medoid: |    5     ||          15          |          10          | 
+Objects: 
+|    0     ||          13          |          5           | 
+|    1     ||          19          |          4           | 
+|    3     ||          12          |          7           | 
+|    4     ||          17          |          6           | 
+|    5     ||          15          |          10          | 
+|    6     ||          16          |          19          | 
+|    9     ||          20          |          11          | 
+|    13    ||          18          |          19          | 
+
+
+Medoid: |    17    ||          5           |          5           | 
+Objects: 
+|    2     ||          6           |          0           | 
+|    7     ||          4           |          17          | 
+|    8     ||          7           |          1           | 
+|    10    ||          8           |          3           | 
+|    11    ||          9           |          9           | 
+|    12    ||          3           |          5           | 
+|    14    ||          1           |          4           | 
+|    15    ||          7           |          8           | 
+|    16    ||          8           |          6           | 
+|    17    ||          5           |          5           | 
+|    18    ||          0           |          0           | 
+|    19    ||          4           |          6           | 
+
+
+=========================================================================
+
+Pivot 0: |    5     ||          15          |          10          | 
+Pivot 1: |    17    ||          5           |          5           | 
+Random Medoid: |    3     ||          12          |          7           | 
+Random Medoid: |    19    ||          4           |          6           | 
+
+================= Iteration: 0=================
+Clusters: 
+
+Medoid: |    3     ||          12          |          7           | 
+Objects: 
+|    0     ||          13          |          5           | 
+|    1     ||          19          |          4           | 
+|    3     ||          12          |          7           | 
+|    4     ||          17          |          6           | 
+|    5     ||          15          |          10          | 
+|    6     ||          16          |          19          | 
+|    9     ||          20          |          11          | 
+|    11    ||          9           |          9           | 
+|    13    ||          18          |          19          | 
+
+
+Medoid: |    19    ||          4           |          6           | 
+Objects: 
+|    2     ||          6           |          0           | 
+|    7     ||          4           |          17          | 
+|    8     ||          7           |          1           | 
+|    10    ||          8           |          3           | 
+|    12    ||          3           |          5           | 
+|    14    ||          1           |          4           | 
+|    15    ||          7           |          8           | 
+|    16    ||          8           |          6           | 
+|    17    ||          5           |          5           | 
+|    18    ||          0           |          0           | 
+|    19    ||          4           |          6           | 
+
+
+=========================================================================
+
+
+================= Iteration: 1=================
+Clusters: 
+
+Medoid: |    5     ||          15          |          10          | 
+Objects: 
+|    0     ||          13          |          5           | 
+|    1     ||          19          |          4           | 
+|    3     ||          12          |          7           | 
+|    4     ||          17          |          6           | 
+|    5     ||          15          |          10          | 
+|    6     ||          16          |          19          | 
+|    9     ||          20          |          11          | 
+|    13    ||          18          |          19          | 
+
+
+Medoid: |    17    ||          5           |          5           | 
+Objects: 
+|    2     ||          6           |          0           | 
+|    7     ||          4           |          17          | 
+|    8     ||          7           |          1           | 
+|    10    ||          8           |          3           | 
+|    11    ||          9           |          9           | 
+|    12    ||          3           |          5           | 
+|    14    ||          1           |          4           | 
+|    15    ||          7           |          8           | 
+|    16    ||          8           |          6           | 
+|    17    ||          5           |          5           | 
+|    18    ||          0           |          0           | 
+|    19    ||          4           |          6           | 
+
+
+=========================================================================
+
+Pivot 0: |    5     ||          15          |          10          | 
+Pivot 1: |    17    ||          5           |          5           | 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"LAESATest" end time: Aug 20 20:57 -03
+"LAESATest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Aug 20 20:57 -03

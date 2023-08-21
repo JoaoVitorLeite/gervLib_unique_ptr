@@ -14,20 +14,20 @@
 namespace gervLib::index
 {
 
-    enum INDEX_TYPE {SEQUENTIAL_SCAN, LAESA, VPTREE, UNKNOWN};
+    enum INDEX_TYPE {SEQUENTIAL_SCAN_t, LAESA_t, VPTREE_t, UNKNOWN};
 
     enum MEMORY_STATUS {IN_MEMORY, IN_DISK, NONE};
 
     std::map<INDEX_TYPE, std::string> indexTypeMap = {
-            {SEQUENTIAL_SCAN, "SEQUENTIAL_SCAN"},
-            {LAESA, "LAESA"},
-            {VPTREE, "VPTREE"}
+            {SEQUENTIAL_SCAN_t, "SEQUENTIAL_SCAN"},
+            {LAESA_t, "LAESA"},
+            {VPTREE_t, "VPTREE"}
     };
 
     std::map<std::string, INDEX_TYPE> indexTypeMapReverse = {
-            {"SEQUENTIAL_SCAN", SEQUENTIAL_SCAN},
-            {"LAESA", LAESA},
-            {"VPTREE", VPTREE}
+            {"SEQUENTIAL_SCAN", SEQUENTIAL_SCAN_t},
+            {"LAESA", LAESA_t},
+            {"VPTREE", VPTREE_t}
     };
 
     std::map<MEMORY_STATUS, std::string> memoryStatusMap = {
@@ -252,7 +252,9 @@ namespace gervLib::index
         {
 
             std::string indexPath = utils::getFileByPrefix(this->indexFolder, ".index");
-            std::ifstream file(indexPath, std::ios::binary);
+            std::filesystem::path path(this->indexFolder);
+            path /= indexPath;
+            std::ifstream file(path.string(), std::ios::binary);
 
             if(file.is_open())
             {
@@ -457,37 +459,35 @@ namespace gervLib::index
                 pageManager.reset();
         }
 
-        friend std::ostream& operator<<(std::ostream& os, const Index& index)
+        virtual void print(std::ostream& os) const
         {
 
-            os << "Index Name: " << index.indexName << std::endl;
-            os << "Index Type: " << indexTypeMap.at(index.indexType) << std::endl;
-            os << "Index Folder: " << index.indexFolder << std::endl;
-            os << "Build File: " << index.buildFile << std::endl;
-            os << "Experiment File: " << index.experimentFile << std::endl;
-            os << "Page Size: " << index.pageSize << std::endl;
+            os << "Index Name: " << indexName << std::endl;
+            os << "Index Type: " << indexTypeMap.at(indexType) << std::endl;
+            os << "Index Folder: " << indexFolder << std::endl;
+            os << "Build File: " << buildFile << std::endl;
+            os << "Experiment File: " << experimentFile << std::endl;
+            os << "Page Size: " << pageSize << std::endl;
 
-            if (index.dataset != nullptr)
-                os << "Dataset: " << std::endl << *index.dataset << std::endl;
+            if (dataset != nullptr)
+                os << "Dataset: " << std::endl << *dataset << std::endl;
             else
                 os << "Dataset: " << std::endl << "NULL" << std::endl;
 
-            if (index.distanceFunction != nullptr)
-                os << "Distance Function: " << std::endl << *index.distanceFunction << std::endl;
+            if (distanceFunction != nullptr)
+                os << "Distance Function: " << std::endl << *distanceFunction << std::endl;
             else
                 os << "Distance Function: " << std::endl << "NULL" << std::endl;
 
-            if (index.pivots != nullptr)
-                os << "Pivots: " << std::endl << *index.pivots << std::endl;
+            if (pivots != nullptr)
+                os << "Pivots: " << std::endl << *pivots << std::endl;
             else
                 os << "Pivots: " << std::endl << "NULL" << std::endl;
 
-            if (index.pageManager != nullptr)
-                os << "Page Manager: " << std::endl << *index.pageManager << std::endl;
+            if (pageManager != nullptr)
+                os << "Page Manager: " << std::endl << *pageManager << std::endl;
             else
                 os << "Page Manager: " << std::endl << "NULL" << std::endl;
-
-            return os;
 
         }
 
@@ -515,7 +515,7 @@ namespace gervLib::index
             if ((pivots == nullptr && other->getPivots() != nullptr) || (pivots != nullptr && other->getPivots() == nullptr))
                 return false;
 
-            if(pivots != nullptr && other->getPivots() != nullptr && !pivots->isEqual(other->getPivots()))
+            if (pivots != nullptr && other->getPivots() != nullptr && !pivots->isEqual(other->getPivots()))
                 return false;
 
             return true;
@@ -858,6 +858,12 @@ namespace gervLib::index
         }
 
     };
+
+    template <typename O, typename T>
+    std::ostream& operator<<(std::ostream& os, const Index<O, T>& printable) {
+        printable.print(os);
+        return os;
+    }
     
 }
 

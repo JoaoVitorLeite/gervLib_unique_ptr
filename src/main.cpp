@@ -12,6 +12,7 @@
 #include "PageManager.h"
 #include "SequentialScan.h"
 #include <cassert>
+#include "LAESA.h"
 
 using namespace gervLib::index;
 using namespace gervLib::configure;
@@ -28,35 +29,31 @@ int main(int argc, char **argv)
     gervLib::configure::configure();
     std::cout << std::boolalpha;
 
-    std::unique_ptr<Dataset<size_t, double>> data = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " ");
-    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> distanceFunction = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
-    BasicArrayObject<unsigned long, double> obj = data->getElement(0);
-    std::unique_ptr<SequentialScan<size_t, double>> sequentialScan = std::make_unique<SequentialScan<size_t, double>>(std::move(data), std::move(distanceFunction), "tmp_unit_test3");
+//    std::unique_ptr<Dataset<size_t, double>> data = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " ");
+//    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> distanceFunction = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
+//    std::unique_ptr<Pivot<size_t, double>> pivots = std::make_unique<KmedoidsPivots<size_t, double>>();
+//    std::unique_ptr<Index<size_t, double>> index = std::make_unique<LAESA<size_t, double>>(std::move(data), std::move(distanceFunction), std::move(pivots), 2, "tmp_laesa");
+//
+//    std::cout << *index << std::endl;
+//
+//    index->saveIndex();
+//
+////    index->clear();
+//
+//    std::unique_ptr<Index<size_t, double>> index2 = std::make_unique<LAESA<size_t, double>>("tmp_laesa", "");
+//
+//    std::cout << *index2 << std::endl;
+//    std::cout << index->isEqual(index2) << std::endl;
 
-    std::vector<ResultEntry<size_t>> results = sequentialScan->kNN(obj, 5, true);
+    // Create a unique_ptr and allocate a new object
+    std::unique_ptr<int> original_ptr = std::make_unique<int>(42);
 
-    std::unique_ptr<u_char[]> serialized = sequentialScan->serialize();
-    std::unique_ptr<Index<size_t, double>> deserialized = std::make_unique<SequentialScan<size_t, double>>();
-    deserialized->deserialize(std::move(serialized));
+    // Clone the object managed by original_ptr
+    std::unique_ptr<int> cloned_ptr = std::make_unique<int>(*original_ptr);
 
-    std::vector<ResultEntry<size_t>> results2 = deserialized->kNN(obj, 5, true);
-
-    assert(results[0].getElement() == results2[0].getElement());
-    assert(results[1].getElement() == results2[1].getElement());
-    assert(results[2].getElement() == results2[2].getElement());
-    assert(results[3].getElement() == results2[3].getElement());
-    assert(results[4].getElement() == results2[4].getElement());
-
-    assert(results[0].getDistance() == results2[0].getDistance());
-    assert(results[1].getDistance() == results2[1].getDistance());
-    assert(results[2].getDistance() == results2[2].getDistance());
-    assert(results[3].getDistance() == results2[3].getDistance());
-    assert(results[4].getDistance() == results2[4].getDistance());
-
-    assert(sequentialScan->isEqual(deserialized));
-
-    gervLib::utils::deleteDirectory("tmp_unit_test3");
-
+    cloned_ptr.reset();
+    std::cout << *original_ptr << std::endl;
+    original_ptr.reset();
 
     return 0;
 

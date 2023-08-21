@@ -406,6 +406,20 @@ SequentialScanTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SequentialScanTest.dir/build.make tests/CMakeFiles/SequentialScanTest.dir/build
 .PHONY : SequentialScanTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/LAESATest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/LAESATest.dir/rule
+.PHONY : tests/CMakeFiles/LAESATest.dir/rule
+
+# Convenience name for target.
+LAESATest: tests/CMakeFiles/LAESATest.dir/rule
+.PHONY : LAESATest
+
+# fast build rule for target.
+LAESATest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/build
+.PHONY : LAESATest/fast
+
 BPPPivotsTest.o: BPPPivotsTest.cpp.o
 .PHONY : BPPPivotsTest.o
 
@@ -621,6 +635,30 @@ KmedoidsPivotsTest.s: KmedoidsPivotsTest.cpp.s
 KmedoidsPivotsTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/KmedoidsPivotsTest.dir/build.make tests/CMakeFiles/KmedoidsPivotsTest.dir/KmedoidsPivotsTest.cpp.s
 .PHONY : KmedoidsPivotsTest.cpp.s
+
+LAESATest.o: LAESATest.cpp.o
+.PHONY : LAESATest.o
+
+# target to build an object file
+LAESATest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/LAESATest.cpp.o
+.PHONY : LAESATest.cpp.o
+
+LAESATest.i: LAESATest.cpp.i
+.PHONY : LAESATest.i
+
+# target to preprocess a source file
+LAESATest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/LAESATest.cpp.i
+.PHONY : LAESATest.cpp.i
+
+LAESATest.s: LAESATest.cpp.s
+.PHONY : LAESATest.s
+
+# target to generate assembly for a file
+LAESATest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/LAESATest.cpp.s
+.PHONY : LAESATest.cpp.s
 
 MaxSeparatedPivotsTest.o: MaxSeparatedPivotsTest.cpp.o
 .PHONY : MaxSeparatedPivotsTest.o
@@ -904,6 +942,7 @@ help:
 	@echo "... HFIPivotsTest"
 	@echo "... ISPivotsTest"
 	@echo "... KmedoidsPivotsTest"
+	@echo "... LAESATest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"
@@ -942,6 +981,9 @@ help:
 	@echo "... KmedoidsPivotsTest.o"
 	@echo "... KmedoidsPivotsTest.i"
 	@echo "... KmedoidsPivotsTest.s"
+	@echo "... LAESATest.o"
+	@echo "... LAESATest.i"
+	@echo "... LAESATest.s"
 	@echo "... MaxSeparatedPivotsTest.o"
 	@echo "... MaxSeparatedPivotsTest.i"
 	@echo "... MaxSeparatedPivotsTest.s"

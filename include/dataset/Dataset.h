@@ -651,6 +651,17 @@ namespace gervLib::dataset
 
         }
 
+        void insert(dataset::BasicArrayObject<O, T> obj)
+        {
+
+            if (dataset == nullptr)
+                dataset = std::make_unique<std::vector<dataset::BasicArrayObject<O, T>>>();
+
+            this->dimensionality = std::max(this->dimensionality, obj.size());
+            dataset->push_back(obj);
+
+        }
+
     };
 
 

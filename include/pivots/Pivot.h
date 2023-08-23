@@ -343,7 +343,8 @@ namespace gervLib::pivots {
                 pivots->setData(std::vector<dataset::BasicArrayObject<O, T>>(nPivots));
             }
             else {
-                pivots->setData(std::vector<dataset::BasicArrayObject<O, T>>());
+                //pivots->setData(std::vector<dataset::BasicArrayObject<O, T>>());
+                pivots->clear();
                 pivots->setData(std::vector<dataset::BasicArrayObject<O, T>>(nPivots));
             }
         }

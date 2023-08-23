@@ -13,6 +13,7 @@
 #include "SequentialScan.h"
 #include <cassert>
 #include "LAESA.h"
+#include "VPTree.h"
 
 using namespace gervLib::index;
 using namespace gervLib::configure;
@@ -29,10 +30,24 @@ int main(int argc, char **argv)
     gervLib::configure::configure();
     std::cout << std::boolalpha;
 
-//    std::unique_ptr<Dataset<size_t, double>> data = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " ");
-//    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> distanceFunction = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
-//    std::unique_ptr<Pivot<size_t, double>> pivots = std::make_unique<KmedoidsPivots<size_t, double>>();
-//    std::unique_ptr<Index<size_t, double>> index = std::make_unique<LAESA<size_t, double>>(std::move(data), std::move(distanceFunction), std::move(pivots), 2, "tmp_laesa");
+    std::unique_ptr<Dataset<size_t, double>> data = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ",");
+    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> distanceFunction = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
+    std::unique_ptr<Pivot<size_t, double>> pivots = std::make_unique<RandomPivots<size_t, double>>();
+    std::unique_ptr<vptree::VPTree<size_t, double>> vp =
+            std::make_unique<vptree::VPTree<size_t, double>>(std::move(data), std::move(distanceFunction),
+                    std::move(pivots), 2, 12, 0, false, true, true);
+
+    std::unique_ptr<Index<size_t, double>> vp2 = std::make_unique<vptree::VPTree<size_t, double>>();
+
+    std::unique_ptr<u_char[]> d = vp->serialize();
+
+    vp2->deserialize(std::move(d));
+
+    std::cout << std::endl << vp->isEqual(vp2) << std::endl;
+
+//    vp2->deserialize(std::move(d));
+
+    //    std::unique_ptr<Index<size_t, double>> index = std::make_unique<LAESA<size_t, double>>(std::move(data), std::move(distanceFunction), std::move(pivots), 2, "tmp_laesa");
 //
 //    std::cout << *index << std::endl;
 //
@@ -45,15 +60,7 @@ int main(int argc, char **argv)
 //    std::cout << *index2 << std::endl;
 //    std::cout << index->isEqual(index2) << std::endl;
 
-    // Create a unique_ptr and allocate a new object
-    std::unique_ptr<int> original_ptr = std::make_unique<int>(42);
 
-    // Clone the object managed by original_ptr
-    std::unique_ptr<int> cloned_ptr = std::make_unique<int>(*original_ptr);
-
-    cloned_ptr.reset();
-    std::cout << *original_ptr << std::endl;
-    original_ptr.reset();
 
     return 0;
 

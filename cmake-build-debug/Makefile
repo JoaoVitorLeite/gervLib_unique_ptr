@@ -412,6 +412,19 @@ LAESATest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/build
 .PHONY : LAESATest/fast
 
+#=============================================================================
+# Target rules for targets named VPTreeTest
+
+# Build rule for target.
+VPTreeTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 VPTreeTest
+.PHONY : VPTreeTest
+
+# fast build rule for target.
+VPTreeTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/build
+.PHONY : VPTreeTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -465,6 +478,7 @@ help:
 	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
 	@echo "... SequentialScanTest"
+	@echo "... VPTreeTest"
 	@echo "... WDRPivotsTest"
 	@echo "... gervLib"
 	@echo "... src/main.o"

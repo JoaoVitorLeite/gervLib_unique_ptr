@@ -823,7 +823,6 @@ namespace gervLib::index
 
         size_t getSerializedSize() override
         {
-
             size_t ans = sizeof(size_t) * 3; //page size, prunning and leafNodeAccess
             ans += sizeof(size_t) + indexName.size();
             ans += sizeof(size_t) + indexFolder.size();

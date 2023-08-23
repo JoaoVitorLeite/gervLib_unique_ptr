@@ -420,6 +420,20 @@ LAESATest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/build
 .PHONY : LAESATest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/VPTreeTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/VPTreeTest.dir/rule
+.PHONY : tests/CMakeFiles/VPTreeTest.dir/rule
+
+# Convenience name for target.
+VPTreeTest: tests/CMakeFiles/VPTreeTest.dir/rule
+.PHONY : VPTreeTest
+
+# fast build rule for target.
+VPTreeTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/build
+.PHONY : VPTreeTest/fast
+
 BPPPivotsTest.o: BPPPivotsTest.cpp.o
 .PHONY : BPPPivotsTest.o
 
@@ -900,6 +914,30 @@ SequentialScanTest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/SequentialScanTest.dir/build.make tests/CMakeFiles/SequentialScanTest.dir/SequentialScanTest.cpp.s
 .PHONY : SequentialScanTest.cpp.s
 
+VPTreeTest.o: VPTreeTest.cpp.o
+.PHONY : VPTreeTest.o
+
+# target to build an object file
+VPTreeTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/VPTreeTest.cpp.o
+.PHONY : VPTreeTest.cpp.o
+
+VPTreeTest.i: VPTreeTest.cpp.i
+.PHONY : VPTreeTest.i
+
+# target to preprocess a source file
+VPTreeTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/VPTreeTest.cpp.i
+.PHONY : VPTreeTest.cpp.i
+
+VPTreeTest.s: VPTreeTest.cpp.s
+.PHONY : VPTreeTest.s
+
+# target to generate assembly for a file
+VPTreeTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/VPTreeTest.cpp.s
+.PHONY : VPTreeTest.cpp.s
+
 WDRPivotsTest.o: WDRPivotsTest.cpp.o
 .PHONY : WDRPivotsTest.o
 
@@ -953,6 +991,7 @@ help:
 	@echo "... SSSPivotsTest"
 	@echo "... SelectionPivotsTest"
 	@echo "... SequentialScanTest"
+	@echo "... VPTreeTest"
 	@echo "... WDRPivotsTest"
 	@echo "... BPPPivotsTest.o"
 	@echo "... BPPPivotsTest.i"
@@ -1014,6 +1053,9 @@ help:
 	@echo "... SequentialScanTest.o"
 	@echo "... SequentialScanTest.i"
 	@echo "... SequentialScanTest.s"
+	@echo "... VPTreeTest.o"
+	@echo "... VPTreeTest.i"
+	@echo "... VPTreeTest.s"
 	@echo "... WDRPivotsTest.o"
 	@echo "... WDRPivotsTest.i"
 	@echo "... WDRPivotsTest.s"

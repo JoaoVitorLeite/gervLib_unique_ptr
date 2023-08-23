@@ -101,6 +101,7 @@ tests/all: tests/CMakeFiles/PageManagerTest.dir/all
 tests/all: tests/CMakeFiles/QueryUtils.dir/all
 tests/all: tests/CMakeFiles/SequentialScanTest.dir/all
 tests/all: tests/CMakeFiles/LAESATest.dir/all
+tests/all: tests/CMakeFiles/VPTreeTest.dir/all
 .PHONY : tests/all
 
 # Recursive "preinstall" directory target.
@@ -129,6 +130,7 @@ tests/clean: tests/CMakeFiles/PageManagerTest.dir/clean
 tests/clean: tests/CMakeFiles/QueryUtils.dir/clean
 tests/clean: tests/CMakeFiles/SequentialScanTest.dir/clean
 tests/clean: tests/CMakeFiles/LAESATest.dir/clean
+tests/clean: tests/CMakeFiles/VPTreeTest.dir/clean
 .PHONY : tests/clean
 
 #=============================================================================
@@ -138,7 +140,7 @@ tests/clean: tests/CMakeFiles/LAESATest.dir/clean
 CMakeFiles/gervLib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gervLib.dir/build.make CMakeFiles/gervLib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=43,44 "Built target gervLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=45,46 "Built target gervLib"
 .PHONY : CMakeFiles/gervLib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -528,7 +530,7 @@ tests/CMakeFiles/ISPivotsTest.dir/clean:
 tests/CMakeFiles/WDRPivotsTest.dir/all:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/WDRPivotsTest.dir/build.make tests/CMakeFiles/WDRPivotsTest.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/WDRPivotsTest.dir/build.make tests/CMakeFiles/WDRPivotsTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=41,42 "Built target WDRPivotsTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=43,44 "Built target WDRPivotsTest"
 .PHONY : tests/CMakeFiles/WDRPivotsTest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -702,6 +704,32 @@ LAESATest: tests/CMakeFiles/LAESATest.dir/rule
 tests/CMakeFiles/LAESATest.dir/clean:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/clean
 .PHONY : tests/CMakeFiles/LAESATest.dir/clean
+
+#=============================================================================
+# Target rules for target tests/CMakeFiles/VPTreeTest.dir
+
+# All Build rule for target.
+tests/CMakeFiles/VPTreeTest.dir/all:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles --progress-num=41,42 "Built target VPTreeTest"
+.PHONY : tests/CMakeFiles/VPTreeTest.dir/all
+
+# Build rule for subdir invocation for target.
+tests/CMakeFiles/VPTreeTest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/VPTreeTest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaovictor/Code/gervLib/cmake-build-release/CMakeFiles 0
+.PHONY : tests/CMakeFiles/VPTreeTest.dir/rule
+
+# Convenience name for target.
+VPTreeTest: tests/CMakeFiles/VPTreeTest.dir/rule
+.PHONY : VPTreeTest
+
+# clean rule for target.
+tests/CMakeFiles/VPTreeTest.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/clean
+.PHONY : tests/CMakeFiles/VPTreeTest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

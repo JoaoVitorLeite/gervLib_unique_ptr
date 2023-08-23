@@ -584,8 +584,13 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
   /usr/include/c++/13/queue \
   /usr/include/c++/13/bits/stl_queue.h \
   /home/joaovictor/Code/gervLib/include/indexes/LAESA.h \
-  /home/joaovictor/Code/gervLib/include/matrix/Matrix.h
+  /home/joaovictor/Code/gervLib/include/matrix/Matrix.h \
+  /home/joaovictor/Code/gervLib/include/indexes/VPTree.h \
+  /home/joaovictor/Code/gervLib/include/factory/IndexFactory.h \
+  /home/joaovictor/Code/gervLib/include/nAryTree/NAryTree.h
 
+
+/home/joaovictor/Code/gervLib/include/nAryTree/NAryTree.h:
 
 /usr/include/c++/13/queue:
 
@@ -1231,6 +1236,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 
 /usr/include/c++/13/ext/numeric_traits.h:
 
+/home/joaovictor/Code/gervLib/include/indexes/VPTree.h:
+
 /usr/include/c++/13/bits/concept_check.h:
 
 /usr/include/features-time64.h:
@@ -1396,6 +1403,8 @@ CMakeFiles/gervLib.dir/src/main.cpp.o: /home/joaovictor/Code/gervLib/src/main.cp
 /home/joaovictor/Code/gervLib/include/matrix/Matrix.h:
 
 /usr/include/c++/13/bits/stl_multiset.h:
+
+/home/joaovictor/Code/gervLib/include/factory/IndexFactory.h:
 
 /usr/include/c++/13/bits/locale_classes.h:
 

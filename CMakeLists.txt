@@ -64,6 +64,7 @@ include_directories(include/indexes)
 include_directories(include/memory)
 include_directories(include/query)
 include_directories(include/matrix)
+include_directories(include/nAryTree)
 
 # Add source files
 add_executable(gervLib
@@ -104,6 +105,9 @@ add_executable(gervLib
         include/indexes/SequentialScan.h
         include/matrix/Matrix.h
         include/indexes/LAESA.h
+        include/nAryTree/NAryTree.h
+        include/indexes/VPTree.h
+        include/factory/IndexFactory.h
 )
 
 # Add libraries

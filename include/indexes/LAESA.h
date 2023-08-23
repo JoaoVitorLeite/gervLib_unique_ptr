@@ -164,7 +164,7 @@ namespace gervLib::index
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
         {
-            throw std::runtime_error("SequentialScan::kNNIncremental not implemented yet");
+            throw std::runtime_error("LAESA::kNNIncremental not implemented yet");
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override {

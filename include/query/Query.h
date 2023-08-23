@@ -423,6 +423,63 @@ namespace gervLib::query
 
     };
 
+    template <typename R>
+    class Partition
+    {
+
+    private:
+        double min{}, max{};
+        R element;
+
+    public:
+        Partition() = default;
+
+        Partition(R element, double min, double max) : min(min), max(max), element(element) {}
+
+        virtual ~Partition() = default;
+
+        double getMin() const { return min; }
+
+        double getMax() const { return max; }
+
+        R getElement() const { return element; }
+
+        void setMin(double _min) { this->min = _min; }
+
+        void setMax(double _max) { this->max = _max; }
+
+        void setElement(R _element) { this->element = _element; }
+
+        bool operator<(const Partition& p) const
+        {
+            if (min != p.min)
+            {
+                return min < p.min;
+            }
+            else
+            {
+                return max < p.max;
+            }
+        }
+
+        bool operator>(const Partition& p) const
+        {
+            if (min != p.min)
+            {
+                return min > p.min;
+            }
+            else
+            {
+                return max > p.max;
+            }
+        }
+
+        bool operator==(const Partition& p) const
+        {
+            return min == p.min && max == p.max;
+        }
+
+    };
 
 }
 

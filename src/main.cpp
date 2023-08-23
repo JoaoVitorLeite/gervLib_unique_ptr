@@ -30,35 +30,58 @@ int main(int argc, char **argv)
     gervLib::configure::configure();
     std::cout << std::boolalpha;
 
-    std::unique_ptr<Dataset<size_t, double>> data = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ",");
-    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> distanceFunction = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
-    std::unique_ptr<Pivot<size_t, double>> pivots = std::make_unique<RandomPivots<size_t, double>>();
-    std::unique_ptr<vptree::VPTree<size_t, double>> vp =
-            std::make_unique<vptree::VPTree<size_t, double>>(std::move(data), std::move(distanceFunction),
-                    std::move(pivots), 2, 12, 0, false, true, true);
+    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
+            data2 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
+            test = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ",");
+    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> dist1 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>(),
+            dist2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
 
-    std::unique_ptr<Index<size_t, double>> vp2 = std::make_unique<vptree::VPTree<size_t, double>>();
+    auto pvt = std::make_unique<RandomPivots<size_t, double>>();
+    pvt->setSeed(16);
 
-    std::unique_ptr<u_char[]> d = vp->serialize();
+    std::unique_ptr<vptree::VPTree<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, true, false, false, "tmp_unit_test11");
+    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
 
-    vp2->deserialize(std::move(d));
+    for(size_t i = 0; i < test->getCardinality(); i++)
+    {
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 100, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true);
 
-    std::cout << std::endl << vp->isEqual(vp2) << std::endl;
+        for(size_t j = 0; j < res1.size(); j++)
+        {
+            if (res1[j].getDistance() != res2[j].getDistance()) {
+                //assert(res1[j].getDistance() == res2[j].getDistance());
+                std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance()<< std::endl;
+                throw std::runtime_error("Error");
+            }
+        }
+    }
 
+//    std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(0), 100, true);
+//    std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(0), 100, true);
+//
+//    for(size_t j = 0; j < res1.size(); j++)
+//    {
+//        if (res1[j].getDistance() != res2[j].getDistance()) {
+//                //assert(res1[j].getDistance() == res2[j].getDistance());
+//            std::cout << "Error index " << 0 << ": " << res1[j].getDistance() << " != " << res2[j].getDistance() << std::endl;
+//            throw std::runtime_error("Error");
+//        }
+//    }
+
+    gervLib::utils::deleteDirectory("tmp_unit_test11");
+    gervLib::utils::deleteDirectory("tmp_unit_test12");
+    return 0;
+
+
+//    std::unique_ptr<Index<size_t, double>> vp2 = std::make_unique<vptree::VPTree<size_t, double>>();
+//
+//    std::unique_ptr<u_char[]> d = vp->serialize();
+//
 //    vp2->deserialize(std::move(d));
+//
+//    std::cout << std::endl << vp->isEqual(vp2) << std::endl;
 
-    //    std::unique_ptr<Index<size_t, double>> index = std::make_unique<LAESA<size_t, double>>(std::move(data), std::move(distanceFunction), std::move(pivots), 2, "tmp_laesa");
-//
-//    std::cout << *index << std::endl;
-//
-//    index->saveIndex();
-//
-////    index->clear();
-//
-//    std::unique_ptr<Index<size_t, double>> index2 = std::make_unique<LAESA<size_t, double>>("tmp_laesa", "");
-//
-//    std::cout << *index2 << std::endl;
-//    std::cout << index->isEqual(index2) << std::endl;
 
 
 

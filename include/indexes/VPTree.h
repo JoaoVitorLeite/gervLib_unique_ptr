@@ -701,6 +701,96 @@ namespace gervLib::index::vptree
 
         }
 
+        enum PositionRelativeToPartition{INSIDE, RING, OUTSIDE};
+
+        PositionRelativeToPartition checkSqPosition(double dist, double mu, double max) {
+            if (dist < mu)
+                return PositionRelativeToPartition::INSIDE;
+            else if (dist <= max)
+                return PositionRelativeToPartition::RING;
+            else
+                return PositionRelativeToPartition::OUTSIDE;
+        }
+
+        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> getMinMaxDist(dataset::BasicArrayObject<O, T>& query, double dist, query::Partition<Node<O, T>*> partition)
+        {
+            PositionRelativeToPartition sqPosition = checkSqPosition(dist, partition.getElement()->getMu(), partition.getElement()->getCoverage());
+            query::Partition<Node<O, T>*> left, right;
+            left.setElement(partition.getElement()->getLeft().get());
+            right.setElement(partition.getElement()->getRight().get());
+
+            if (sqPosition == PositionRelativeToPartition::INSIDE)
+            {
+
+                //Min left
+                left.setMin(0.0);
+
+                //Max left
+                if (partition.getMax() > partition.getElement()->getMu() + dist)
+                    left.setMax(partition.getElement()->getMu() + dist);
+                else
+                    left.setMax(partition.getMax());
+
+                //Min right
+                right.setMin(partition.getElement()->getMu() - dist);
+
+                //Max right
+                if (partition.getMax() > partition.getElement()->getCoverage() + dist)
+                    right.setMax(partition.getElement()->getCoverage() + dist);
+                else
+                    right.setMax(partition.getMax());
+
+            }
+            else if (sqPosition == PositionRelativeToPartition::RING)
+            {
+
+                //Min left
+                left.setMin(dist - partition.getElement()->getMu());
+
+                //Max left
+                if (partition.getMax() > dist + partition.getElement()->getMu())
+                    left.setMax(dist + partition.getElement()->getMu());
+                else
+                    left.setMax(partition.getMax());
+
+                //Min right
+                right.setMin(0.0);
+
+                //Max right
+                if (partition.getMax() > partition.getElement()->getCoverage() + dist)
+                    right.setMax(partition.getElement()->getCoverage() + dist);
+                else
+                    right.setMax(partition.getMax());
+
+            }
+            else
+            {
+
+                //Min left
+                left.setMin(dist - partition.getElement()->getMu());
+
+                //Max left
+                if (partition.getMax() > dist + partition.getElement()->getMu())
+                    left.setMax(dist + partition.getElement()->getMu());
+                else
+                    left.setMax(partition.getMax());
+
+                //Min right
+                right.setMin(dist - partition.getElement()->getCoverage());
+
+                //Max right
+                if (partition.getMax() > dist + partition.getElement()->getCoverage())
+                    right.setMax(dist + partition.getElement()->getCoverage());
+                else
+                    right.setMax(partition.getMax());
+
+            }
+
+            return std::make_pair(left, right);
+
+        }
+
+
     protected:
         std::string headerBuildFile() override
         {
@@ -857,16 +947,25 @@ namespace gervLib::index::vptree
                     leafNode->setCoverage(distances.back().first);
                     std::filesystem::path leafIndexPath(this->indexFolder);
                     leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
-                    std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(std::move(currentNode.second),
-                                                                    distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(this->distanceFunction->getDistanceType()),
-                                                                    pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType()), this->numPivots, leafIndexPath.string());
-                    leafNode->setIndex(std::move(idx));
+                    currentNode.second->erase(this->pivots->getPivot(0));
+
+//                    std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = std::make_unique<distance::EuclideanDistance<dataset::BasicArrayObject<O, T>>>();
+//                    std::unique_ptr<pivots::Pivot<O, T>> pv = std::make_unique<pivots::RandomPivots<O, T>>();
+//                    std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(std::move(currentNode.second), std::move(df), std::move(pv), this->numPivots);
+//                    leafNode->setIndex(std::move(idx));
+
+//                    std::unique_ptr<Index<O, T>> idx = std::make_unique<index::SequentialScan<O, T>>(std::move(currentNode.second),
+//                                                                    distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(this->distanceFunction->getDistanceType()),
+//                                                                    leafIndexPath.string());
+//                    leafNode->setIndex(std::move(idx));
+
+                    leafNode->setDataset(std::move(currentNode.second));
 
                     if (storeLeafNode)
                     {
+                        leafNode->setMemoryStatus(gervLib::index::MEMORY_STATUS::IN_DISK);
                         std::unique_ptr<u_char[]> leafData = leafNode->serialize();
                         this->pageManager->save(leafNode->getNodeID(), std::move(leafData), leafNode->getSerializedSize());
-                        leafNode->setMemoryStatus(gervLib::index::MEMORY_STATUS::IN_DISK);
                         leafNode->clear();
                     }
                     else
@@ -929,9 +1028,9 @@ namespace gervLib::index::vptree
                     }
 
                     if (this->storeDirectoryNode) {
+                        directoryNode->setMemoryStatus(gervLib::index::MEMORY_STATUS::IN_DISK);
                         std::unique_ptr<u_char[]> directoryData = directoryNode->serialize();
                         this->pageManager->save(directoryNode->getNodeID(), std::move(directoryData), directoryNode->getSerializedSize());
-                        directoryNode->setMemoryStatus(gervLib::index::MEMORY_STATUS::IN_DISK);
                         directoryNode->clear();
                     }
                     else
@@ -976,7 +1075,175 @@ namespace gervLib::index::vptree
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
         {
-            throw std::runtime_error("VPTree::kNNIncremental not implemented yet");
+
+            utils::Timer timer{};
+            timer.start();
+            this->distanceFunction->resetStatistics();
+            this->prunning = 0;
+            size_t ioW = configure::IOWrite, ioR = configure::IORead;
+            std::priority_queue<query::Partition<Node<O, T>*>, std::vector<query::Partition<Node<O, T>*>>, std::greater<query::Partition<Node<O, T>*>>> nodeQueue;
+            std::priority_queue<query::ResultEntry<O>, std::vector<query::ResultEntry<O>>, std::greater<query::ResultEntry<O>>> elementQueue;
+            query::Result<O> result;
+            result.setMaxSize(k);
+            query::Partition<Node<O, T>*> currentPartition;
+            Node<O, T>* currentNode;
+            LeafNode<O, T>* currentLeafNode;
+            double dist;
+
+            nodeQueue.push(query::Partition<Node<O, T>*>(root.get(), 0.0, std::numeric_limits<double>::max()));
+
+            while (result.size() < k && !(nodeQueue.empty() && elementQueue.empty()))
+            {
+
+                if (elementQueue.empty())
+                {
+
+                    currentPartition = nodeQueue.top();
+                    nodeQueue.pop();
+                    currentNode = currentPartition.getElement();
+
+                    if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                    {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getNodeID());
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
+                    if (currentNode->isLeafNode())
+                    {
+
+                        currentLeafNode = (LeafNode<O, T>*) currentNode;
+
+                        dist = this->distanceFunction->operator()(query, *currentLeafNode->getPivot());
+                        elementQueue.push(query::ResultEntry<O>(currentLeafNode->getPivot()->getOID(), dist));
+
+                        if (currentLeafNode->getIndex() != nullptr)
+                        {
+                            std::vector<query::ResultEntry<O>> leafQuery = currentLeafNode->getIndex()->kNN(query, k, false);
+
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentLeafNode->getIndex()->getPrunning();
+
+                        }
+                        else
+                        {
+
+                            for (size_t i = 0; i < currentLeafNode->getDataset()->getCardinality(); i++)
+                            {
+
+                                dist = this->distanceFunction->operator()(query, currentLeafNode->getDataset()->getElement(i));
+                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getDataset()->getElement(i).getOID(), dist));
+
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        dist = this->distanceFunction->operator()(query, *currentNode->getPivot());
+
+                        if (!storePivotsInLeaf)
+                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot()->getOID(), dist));
+
+                        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> partitions = getMinMaxDist(query, dist, currentPartition);
+                        nodeQueue.push(partitions.first);
+                        nodeQueue.push(partitions.second);
+                    }
+
+                    if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                    {
+                        currentNode->clear();
+                    }
+
+                }
+                else if (!nodeQueue.empty() && nodeQueue.top().getMin() < elementQueue.top().getDistance())
+                {
+
+                    currentPartition = nodeQueue.top();
+                    nodeQueue.pop();
+                    currentNode = currentPartition.getElement();
+
+                    if (currentNode->isLeafNode())
+                    {
+
+                        currentLeafNode = (LeafNode<O, T>*) currentNode;
+
+                        dist = this->distanceFunction->operator()(query, *currentLeafNode->getPivot());
+                        elementQueue.push(query::ResultEntry<O>(currentLeafNode->getPivot()->getOID(), dist));
+
+                        if (currentLeafNode->getIndex() != nullptr)
+                        {
+                            std::vector<query::ResultEntry<O>> leafQuery = currentLeafNode->getIndex()->kNN(query, k, false);
+
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentLeafNode->getIndex()->getPrunning();
+                        }
+                        else
+                        {
+
+                            for (size_t i = 0; i < currentLeafNode->getDataset()->getCardinality(); i++)
+                            {
+
+                                dist = this->distanceFunction->operator()(query, currentLeafNode->getDataset()->getElement(i));
+                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getDataset()->getElement(i).getOID(), dist));
+
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        dist = this->distanceFunction->operator()(query, *currentNode->getPivot());
+
+                        if (!storePivotsInLeaf)
+                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot()->getOID(), dist));
+
+                        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> partitions = getMinMaxDist(query, dist, currentPartition);
+                        nodeQueue.push(partitions.first);
+                        nodeQueue.push(partitions.second);
+                    }
+
+                    if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                    {
+                        currentNode->clear();
+                    }
+
+                }
+                else
+                {
+
+                    result.push(elementQueue.top());
+                    elementQueue.pop();
+
+                }
+
+            }
+
+            std::vector<query::ResultEntry<O>> ans = result.getResults();
+            std::reverse(ans.begin(), ans.end());
+
+            std::string expt_id = utils::generateExperimentID();
+            timer.stop();
+
+            if (saveResults)
+            {
+                this->saveResultToFile(ans, query, "kNNIncremental", expt_id, {expt_id, std::to_string(k), "-1",
+                                                                                  std::to_string(timer.getElapsedTime()),
+                                                                                  std::to_string(timer.getElapsedTimeSystem()),
+                                                                                  std::to_string(timer.getElapsedTimeUser()),
+                                                                                  std::to_string(this->distanceFunction->getDistanceCount()),
+                                                                                  std::to_string(this->prunning),
+                                                                                  std::to_string(configure::IOWrite - ioW),
+                                                                                  std::to_string(configure::IORead - ioR)});
+            }
+
+            return ans;
+
         }
 
         std::unique_ptr<Node<O, T>>& getRoot()

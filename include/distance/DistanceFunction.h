@@ -53,7 +53,7 @@ namespace gervLib::distance {
     class DistanceFunction : public gervLib::serialize::Serialize {
 
     private:
-        size_t distCount = 0;
+        inline static size_t distCount = 0;
 
     protected:
         DISTANCE_TYPE distanceType;
@@ -64,7 +64,9 @@ namespace gervLib::distance {
         }
 
     public:
-        explicit DistanceFunction(size_t distance = 0) : distCount(distance), distanceType(UNKNOWN) {}
+        explicit DistanceFunction(size_t distance = 0) : distanceType(UNKNOWN) {
+            distCount = distance;
+        }
 
         virtual ~DistanceFunction() = default;
 

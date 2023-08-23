@@ -126,6 +126,53 @@ int test3()
 
 }
 
+int test4()
+{
+
+    std::unique_ptr<Dataset<size_t, double>> data = std::make_unique<Dataset<size_t, double>>("../../data/cities_norm.csv", ","),
+            data1 = std::make_unique<Dataset<size_t, double>>(*data), data2 = std::make_unique<Dataset<size_t, double>>(*data);
+
+    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> df1 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>(),
+            df2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
+
+    std::unique_ptr<SequentialScan<size_t, double>> sequentialScan = std::make_unique<SequentialScan<size_t, double>>(std::move(data1), std::move(df1), "tmp_unit_test4");
+
+    std::unique_ptr<Pivot<size_t, double>> pivots = std::make_unique<KmedoidsPivots<size_t, double>>();
+    std::unique_ptr<Index<size_t, double>> laesa = std::make_unique<LAESA<size_t, double>>(std::move(data2), std::move(df2), std::move(pivots), 2, "tmp_unit_test5");
+
+    std::vector<ResultEntry<size_t>> resultsLaesa, resultsSequentialScan;
+
+    for(size_t i = 0; i < data->getCardinality(); i++)
+    {
+
+        resultsLaesa = laesa->kNN(data->getElement(i), 100, true);
+        resultsSequentialScan = sequentialScan->kNN(data->getElement(i), 100, true);
+
+        for(size_t j = 0; j < resultsLaesa.size(); j++)
+        {
+
+            if(resultsLaesa[j] != resultsSequentialScan[j])
+            {
+
+                std::cout << "Error: LAESA and SequentialScan results differ for element " << i << std::endl;
+                return 1;
+
+            }
+
+        }
+
+        resultsLaesa.clear();
+        resultsSequentialScan.clear();
+
+    }
+
+    gervLib::utils::deleteDirectory("tmp_unit_test4");
+    gervLib::utils::deleteDirectory("tmp_unit_test5");
+
+    return 0;
+
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -137,6 +184,7 @@ int main(int argc, char *argv[])
     res += test1();
     res += test2();
     res += test3();
+    res += test4();
 
     return res == 0 ? 0 : 1;
 

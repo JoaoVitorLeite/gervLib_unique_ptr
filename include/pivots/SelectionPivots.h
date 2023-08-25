@@ -239,6 +239,8 @@ namespace gervLib::pivots
 
         void setNumberOfGroups(double size){ nGroups = size; }
 
+        void setNumberOfGroups(std::variant<size_t, double> size){ nGroups = size; }
+
         void operator()(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
                         std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>>& df, size_t nPivots) override
         {

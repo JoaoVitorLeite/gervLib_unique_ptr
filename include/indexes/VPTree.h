@@ -712,7 +712,7 @@ namespace gervLib::index::vptree
                 return PositionRelativeToPartition::OUTSIDE;
         }
 
-        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> getMinMaxDist(dataset::BasicArrayObject<O, T>& query, double dist, query::Partition<Node<O, T>*> partition)
+        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> getMinMaxDist(double dist, query::Partition<Node<O, T>*> partition)
         {
             PositionRelativeToPartition sqPosition = checkSqPosition(dist, partition.getElement()->getMu(), partition.getElement()->getCoverage());
             query::Partition<Node<O, T>*> left, right;
@@ -915,6 +915,9 @@ namespace gervLib::index::vptree
                 //this->pivots->clear();
                 this->pivots->operator()(currentNode.second, this->distanceFunction, 1);
 
+                if (!storePivotsInLeaf)
+                    currentNode.second->erase(this->pivots->getPivot(0));
+
                 for (size_t i = 0; i < currentNode.second->getCardinality(); i++)
                 {
 
@@ -943,16 +946,10 @@ namespace gervLib::index::vptree
                     leafNode->setCoverage(distances.back().first);
                     std::filesystem::path leafIndexPath(this->indexFolder);
                     leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
-
-                    std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = std::make_unique<distance::EuclideanDistance<dataset::BasicArrayObject<O, T>>>();
-                    std::unique_ptr<pivots::Pivot<O, T>> pv = std::make_unique<pivots::RandomPivots<O, T>>();
+                    std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(this->distanceFunction->getDistanceType());
+                    std::unique_ptr<pivots::Pivot<O, T>> pv = pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType(), this->pivots);
                     std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(std::move(currentNode.second), std::move(df), std::move(pv), this->numPivots, leafIndexPath);
                     leafNode->setIndex(std::move(idx));
-
-//                    std::unique_ptr<Index<O, T>> idx = std::make_unique<index::SequentialScan<O, T>>(std::move(currentNode.second),
-//                                                                    distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(this->distanceFunction->getDistanceType()),
-//                                                                    leafIndexPath.string());
-//                    leafNode->setIndex(std::move(idx));
 
 //                    leafNode->setDataset(std::move(currentNode.second));
 
@@ -970,13 +967,6 @@ namespace gervLib::index::vptree
                 else
                 {
 
-//                    auto partition = std::stable_partition(distances.begin(), distances.end(), [mu](std::pair<double, size_t> a) {
-//                        return a.first <= mu;
-//                    });
-
-//                    std::vector<std::pair<double, size_t>> left(distances.begin(), partition);
-//                    std::vector<std::pair<double, size_t>> right(partition, distances.end());
-
                     std::vector<std::pair<double, size_t>> left, right;
 
                     for (auto& pair : distances)
@@ -986,8 +976,6 @@ namespace gervLib::index::vptree
                         else
                             right.push_back(pair);
                     }
-
-//                    std::cout << "Create dir node with " << left.size() << " left and " << right.size() << " right" << std::endl;
 
                     auto *directoryNode = (DirectoryNode<O, T> *) currentNode.first;
                     directoryNode->setPivot(std::make_unique<dataset::BasicArrayObject<O, T>>(this->pivots->getPivot(0)));
@@ -1147,30 +1135,21 @@ namespace gervLib::index::vptree
                         currentLeafNode = (LeafNode<O, T>*) currentNode;
                         this->leafNodeAccess++;
 
-//                        dist = this->distanceFunction->operator()(query, *currentLeafNode->getPivot());
-//                        elementQueue.push(query::ResultEntry<O>(currentLeafNode->getPivot()->getOID(), dist));
+                        if (!storePivotsInLeaf)
+                        {
+                            dist = this->distanceFunction->operator()(query, *currentLeafNode->getPivot());
+                            elementQueue.push(query::ResultEntry<O>(currentLeafNode->getPivot()->getOID(), dist));
+                        }
 
                         if (currentLeafNode->getIndex() != nullptr)
                         {
                             laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
                             std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
-                            std::cout << "Leaf query size: " << leafQuery.size() << ", Prunning: " << laesa->getPrunning() << ", Dataset size: " << laesa->getDataset()->getCardinality() << std::endl;
-
-                            assert((leafQuery.size() + laesa->getPrunning()) == laesa->getDataset()->getCardinality());
-
-//                            std::vector<query::ResultEntry<O>> leafQuery = currentLeafNode->getIndex()->prunningQuery(query, k);
 
                             for (auto& entry : leafQuery)
                                 elementQueue.push(entry);
 
                             this->prunning += currentLeafNode->getIndex()->getPrunning();
-//                            for (size_t i = 0; i < currentLeafNode->getIndex()->getDataset()->getCardinality(); i++)
-//                            {
-//
-//                                dist = this->distanceFunction->operator()(query, currentLeafNode->getIndex()->getDataset()->getElement(i));
-//                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getIndex()->getDataset()->getElement(i).getOID(), dist));
-//
-//                            }
 
                         }
                         else
@@ -1191,10 +1170,10 @@ namespace gervLib::index::vptree
                     {
                         dist = this->distanceFunction->operator()(query, *currentNode->getPivot());
 
-//                        if (!storePivotsInLeaf)
-//                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot()->getOID(), dist));
+                        if (!storePivotsInLeaf)
+                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot()->getOID(), dist));
 
-                        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> partitions = getMinMaxDist(query, dist, currentPartition);
+                        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> partitions = getMinMaxDist(dist, currentPartition);
                         nodeQueue.push(partitions.first);
                         nodeQueue.push(partitions.second);
                     }
@@ -1212,22 +1191,28 @@ namespace gervLib::index::vptree
                     nodeQueue.pop();
                     currentNode = currentPartition.getElement();
 
+                    if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                    {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getNodeID());
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
                     if (currentNode->isLeafNode())
                     {
 
                         currentLeafNode = (LeafNode<O, T>*) currentNode;
                         this->leafNodeAccess++;
 
-//                        dist = this->distanceFunction->operator()(query, *currentLeafNode->getPivot());
-//                        elementQueue.push(query::ResultEntry<O>(currentLeafNode->getPivot()->getOID(), dist));
+                        if (!storePivotsInLeaf)
+                        {
+                            dist = this->distanceFunction->operator()(query, *currentLeafNode->getPivot());
+                            elementQueue.push(query::ResultEntry<O>(currentLeafNode->getPivot()->getOID(), dist));
+                        }
 
                         if (currentLeafNode->getIndex() != nullptr)
                         {
                             laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
                             std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
-                            std::cout << "Leaf query size: " << leafQuery.size() << ", Prunning: " << laesa->getPrunning() << ", Dataset size: " << laesa->getDataset()->getCardinality() << std::endl;
-
-                            assert((leafQuery.size() + laesa->getPrunning()) == laesa->getDataset()->getCardinality());
 
                             for (auto& entry : leafQuery)
                                 elementQueue.push(entry);
@@ -1253,10 +1238,10 @@ namespace gervLib::index::vptree
                     {
                         dist = this->distanceFunction->operator()(query, *currentNode->getPivot());
 
-//                        if (!storePivotsInLeaf)
-//                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot()->getOID(), dist));
+                        if (!storePivotsInLeaf)
+                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot()->getOID(), dist));
 
-                        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> partitions = getMinMaxDist(query, dist, currentPartition);
+                        std::pair<query::Partition<Node<O, T>*>, query::Partition<Node<O, T>*>> partitions = getMinMaxDist(dist, currentPartition);
                         nodeQueue.push(partitions.first);
                         nodeQueue.push(partitions.second);
                     }

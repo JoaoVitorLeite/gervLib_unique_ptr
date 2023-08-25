@@ -84,11 +84,8 @@ int test3()
         std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 5, true);
 
         for(size_t j = 0; j < res1.size(); j++)
-        {
-            if (res1[j].getDistance() != res2[j].getDistance())
-                assert(res1[j].getDistance() == res2[j].getDistance());
-                //std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance() << std::endl;
-        }
+            assert(res1[j].getDistance() == res2[j].getDistance());
+
     }
 
     gervLib::utils::deleteDirectory("tmp_unit_test9");
@@ -112,15 +109,12 @@ int test4()
 
     for(size_t i = 0; i < test->getCardinality(); i++)
     {
-        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 5, true);
-        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 5, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 100, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true);
 
         for(size_t j = 0; j < res1.size(); j++)
-        {
-            if (res1[j].getDistance() != res2[j].getDistance())
-                //assert(res1[j].getDistance() == res2[j].getDistance());
-                std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance() << std::endl;
-        }
+            assert(res1[j].getDistance() == res2[j].getDistance());
+
     }
 
     gervLib::utils::deleteDirectory("tmp_unit_test11");

@@ -60,6 +60,48 @@ namespace gervLib::pivots
                 throw std::invalid_argument("Invalid PIVOT_TYPE");
         }
 
+        static std::unique_ptr<pivots::Pivot<O, T>> createPivot(pivots::PIVOT_TYPE type, std::unique_ptr<pivots::Pivot<O, T>>& pvt)
+        {
+
+            std::unique_ptr<pivots::Pivot<O, T>> ans;
+
+            if (type == RANDOM)
+                ans = std::make_unique<RandomPivots<O, T>>();
+            else if (type == SELECTION)
+                ans = std::make_unique<SelectionPivots<O, T>>();
+            else if (type == KMEDOIDS)
+                ans = std::make_unique<KmedoidsPivots<O, T>>();
+            else if (type == PCA)
+                ans = std::make_unique<PCAPivots<O, T>>();
+            else if (type == FFT)
+                ans = std::make_unique<FFTPivots<O, T>>();
+            else if (type == BPP)
+                ans = std::make_unique<BPPPivots<O, T>>();
+            else if (type == HFI)
+                ans = std::make_unique<HFIPivots<O, T>>();
+            else if (type == WDR)
+                ans = std::make_unique<WDRPivots<O, T>>();
+            else if (type == MAXVARIANCE)
+                ans = std::make_unique<MaxVariancePivots<O, T>>();
+            else if (type == MAXSEPARATED)
+                ans = std::make_unique<MaxSeparatedPivots<O, T>>();
+            else if (type == CONVEX)
+                ans = std::make_unique<ConvexPivots<O, T>>();
+            else if (type == IS)
+                ans = std::make_unique<ISPivots<O, T>>();
+            else if (type == SSS)
+                ans = std::make_unique<SSSPivots<O, T>>();
+            else
+                throw std::invalid_argument("Invalid PIVOT_TYPE");
+
+            ans->setSeed(pvt->getSeed());
+            ans->setSampleSize(pvt->getSampleSize());
+            ans->setNumberOfDropPivots(pvt->getNumberOfDropPivots());
+
+            return ans;
+
+        }
+
     };
 
 }

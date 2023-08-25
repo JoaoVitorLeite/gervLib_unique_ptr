@@ -28,7 +28,7 @@ namespace gervLib::matrix
             data = std::make_unique<T[]>(rows * cols);
         }
 
-        ~Matrix()
+        virtual ~Matrix()
         {
             if (data != nullptr)
                 data.reset();

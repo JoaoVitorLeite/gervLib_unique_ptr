@@ -264,6 +264,19 @@ namespace gervLib::query
 
         }
 
+        std::unique_ptr<ResultEntry<O>> push_pop(ResultEntry<O> entry)
+        {
+            pq->push(entry);
+
+            if (pq->size() > max_size) {
+                std::unique_ptr<ResultEntry<O>> top = std::make_unique<ResultEntry<O>>(pq->top());
+                pq->pop();
+                return top;
+            }
+
+            return nullptr;
+        }
+
         ResultEntry<O> top() { return pq->top(); }
 
         void pop() { pq->pop(); }

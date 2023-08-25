@@ -39,13 +39,25 @@ int main(int argc, char **argv)
     auto pvt = std::make_unique<RandomPivots<size_t, double>>();
     pvt->setSeed(16);
 
-    std::unique_ptr<vptree::VPTree<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, true, false, false, "tmp_unit_test11");
+    std::unique_ptr<vptree::VPTree<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 500, 8000, true, false, false, "tmp_unit_test11");
     std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
+
+    std::vector<vptree::Node<size_t, double>*> nodes = vp->getLeafNodes();
+    int sum = 0;
+    for (auto node : nodes) {
+        auto leaf = dynamic_cast<vptree::LeafNode<size_t, double>*>(node);
+        if (leaf->getIndex() != nullptr)
+            sum += leaf->getIndex()->getDataset()->getCardinality();
+        else
+            sum += leaf->getDataset()->getCardinality();
+    }
+
+    std::cout << "SUM = " << sum << std::endl;
 
     for(size_t i = 0; i < test->getCardinality(); i++)
     {
-        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 100, true);
-        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 5, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 5, true);
 
         for(size_t j = 0; j < res1.size(); j++)
         {
@@ -55,11 +67,12 @@ int main(int argc, char **argv)
                 throw std::runtime_error("Error");
             }
         }
+//        std::cout << "LEAF = " << vp->getLeafNodeAccess() << std::endl;
     }
 
-//    std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(0), 100, true);
-//    std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(0), 100, true);
-//
+//    std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(47), 5, true);
+//    std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(6), 100, true);
+
 //    for(size_t j = 0; j < res1.size(); j++)
 //    {
 //        if (res1[j].getDistance() != res2[j].getDistance()) {

@@ -167,6 +167,101 @@ namespace gervLib::index
             throw std::runtime_error("LAESA::kNNIncremental not implemented yet");
         }
 
+        std::vector<gervLib::query::ResultEntry<O>> prunningQuery(dataset::BasicArrayObject<O, T>& query, size_t k)
+        {
+
+            this->distanceFunction->resetStatistics();
+            this->prunning = 0;
+            std::vector<query::ResultEntry<O>> results, results_aux;
+            std::vector<std::pair<double, O>> shapiro;
+            std::vector<bool> bitmap(this->dataset->getCardinality(), false);
+            gervLib::query::Result<O> resultPQ(false, k);
+            std::unique_ptr<query::ResultEntry<O>> resultEntry;
+
+            for (size_t i = 0; i < this->pivots->getNumberOfPivots(); i++)
+                shapiro.push_back(std::make_pair(this->distanceFunction->operator()(query, this->pivots->getPivot(i)), i));
+
+            std::sort(shapiro.begin(), shapiro.end());
+
+            double dist, distToPivot, lowerBound, upperBound, radius = std::numeric_limits<double>::max();
+            size_t p;
+
+            for (size_t x = 0; x < shapiro.size(); x++)
+            {
+
+                p = shapiro[x].second;
+
+                if(!bitmap[this->pivots->getPivot(p).getOID()])
+                {
+
+                    distToPivot = shapiro[x].first;
+
+                    for (size_t i = 0; i < this->dataset->getCardinality(); i++)
+                    {
+
+                        if(!bitmap[i])
+                        {
+
+                            lowerBound = std::abs(distToPivot - matrix->getValue(p, i));
+                            upperBound = distToPivot + matrix->getValue(p, i);
+
+                            if (upperBound <= radius)
+                            {
+
+                                resultEntry = resultPQ.push_pop(gervLib::query::ResultEntry<O>(this->dataset->getElement(i).getOID(), this->distanceFunction->operator()(query, this->dataset->getElement(i))));
+                                bitmap[i] = true;
+
+                                if (resultEntry != nullptr)
+                                {
+                                    results_aux.push_back(*resultEntry);
+                                    resultEntry.reset();
+                                }
+
+                                if (resultPQ.size() >= k)
+                                    radius = resultPQ.top().getDistance();
+
+                            }
+
+                            if (lowerBound > radius)
+                            {
+
+                                bitmap[i] = true;
+                                this->prunning++;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            results = resultPQ.getResults();
+            std::reverse(results.begin(), results.end());
+            resultPQ.clear();
+
+            for (auto entry : results_aux)
+                results.push_back(entry);
+
+            for (size_t i = 0; i < this->dataset->getCardinality(); i++)
+            {
+
+                if (!bitmap[i])
+                {
+
+                    dist = this->distanceFunction->operator()(query, this->dataset->getElement(i));
+                    results.push_back(gervLib::query::ResultEntry<O>(this->dataset->getElement(i).getOID(), dist));
+
+                }
+
+            }
+
+            return results;
+
+        }
+
         std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override {
 
             utils::Timer timer{};

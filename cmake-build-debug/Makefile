@@ -425,6 +425,19 @@ VPTreeTest/fast:
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/build
 .PHONY : VPTreeTest/fast
 
+#=============================================================================
+# Target rules for targets named MVPTreeTest
+
+# Build rule for target.
+MVPTreeTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MVPTreeTest
+.PHONY : MVPTreeTest
+
+# fast build rule for target.
+MVPTreeTest/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MVPTreeTest.dir/build.make tests/CMakeFiles/MVPTreeTest.dir/build
+.PHONY : MVPTreeTest/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -468,6 +481,7 @@ help:
 	@echo "... ISPivotsTest"
 	@echo "... KmedoidsPivotsTest"
 	@echo "... LAESATest"
+	@echo "... MVPTreeTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"

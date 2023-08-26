@@ -371,6 +371,8 @@ namespace gervLib::index::vptree
 
         void insert(std::unique_ptr<dataset::BasicArrayObject<O, T>> &object)
         {
+            if (dataset == nullptr)
+                dataset = std::make_unique<dataset::Dataset<O, T>>();
             this->dataset->insert(*object);
         }
 

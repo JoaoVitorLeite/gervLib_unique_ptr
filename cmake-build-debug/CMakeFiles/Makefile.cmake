@@ -67,4 +67,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "tests/CMakeFiles/SequentialScanTest.dir/DependInfo.cmake"
   "tests/CMakeFiles/LAESATest.dir/DependInfo.cmake"
   "tests/CMakeFiles/VPTreeTest.dir/DependInfo.cmake"
+  "tests/CMakeFiles/MVPTreeTest.dir/DependInfo.cmake"
   )

@@ -171,7 +171,7 @@ namespace gervLib::utils
             return (end_time_u.tv_sec - start_time_u.tv_sec) * 1000000L + (end_time_u.tv_usec - start_time_u.tv_usec) +
                    (end_time_s.tv_sec - start_time_s.tv_sec) * 1000000L + (end_time_s.tv_usec - start_time_s.tv_usec);
 #else
-            return std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time).count();
+            return std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
 #endif
         }
 

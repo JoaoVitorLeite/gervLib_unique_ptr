@@ -434,6 +434,20 @@ VPTreeTest/fast:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/VPTreeTest.dir/build.make tests/CMakeFiles/VPTreeTest.dir/build
 .PHONY : VPTreeTest/fast
 
+# Convenience name for target.
+tests/CMakeFiles/MVPTreeTest.dir/rule:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/MVPTreeTest.dir/rule
+.PHONY : tests/CMakeFiles/MVPTreeTest.dir/rule
+
+# Convenience name for target.
+MVPTreeTest: tests/CMakeFiles/MVPTreeTest.dir/rule
+.PHONY : MVPTreeTest
+
+# fast build rule for target.
+MVPTreeTest/fast:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MVPTreeTest.dir/build.make tests/CMakeFiles/MVPTreeTest.dir/build
+.PHONY : MVPTreeTest/fast
+
 BPPPivotsTest.o: BPPPivotsTest.cpp.o
 .PHONY : BPPPivotsTest.o
 
@@ -673,6 +687,30 @@ LAESATest.s: LAESATest.cpp.s
 LAESATest.cpp.s:
 	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/LAESATest.dir/build.make tests/CMakeFiles/LAESATest.dir/LAESATest.cpp.s
 .PHONY : LAESATest.cpp.s
+
+MVPTreeTest.o: MVPTreeTest.cpp.o
+.PHONY : MVPTreeTest.o
+
+# target to build an object file
+MVPTreeTest.cpp.o:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MVPTreeTest.dir/build.make tests/CMakeFiles/MVPTreeTest.dir/MVPTreeTest.cpp.o
+.PHONY : MVPTreeTest.cpp.o
+
+MVPTreeTest.i: MVPTreeTest.cpp.i
+.PHONY : MVPTreeTest.i
+
+# target to preprocess a source file
+MVPTreeTest.cpp.i:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MVPTreeTest.dir/build.make tests/CMakeFiles/MVPTreeTest.dir/MVPTreeTest.cpp.i
+.PHONY : MVPTreeTest.cpp.i
+
+MVPTreeTest.s: MVPTreeTest.cpp.s
+.PHONY : MVPTreeTest.s
+
+# target to generate assembly for a file
+MVPTreeTest.cpp.s:
+	cd /home/joaovictor/Code/gervLib/cmake-build-release && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/MVPTreeTest.dir/build.make tests/CMakeFiles/MVPTreeTest.dir/MVPTreeTest.cpp.s
+.PHONY : MVPTreeTest.cpp.s
 
 MaxSeparatedPivotsTest.o: MaxSeparatedPivotsTest.cpp.o
 .PHONY : MaxSeparatedPivotsTest.o
@@ -981,6 +1019,7 @@ help:
 	@echo "... ISPivotsTest"
 	@echo "... KmedoidsPivotsTest"
 	@echo "... LAESATest"
+	@echo "... MVPTreeTest"
 	@echo "... MaxSeparatedPivotsTest"
 	@echo "... MaxVariancePivotsTest"
 	@echo "... PCAPivotsTest"
@@ -1023,6 +1062,9 @@ help:
 	@echo "... LAESATest.o"
 	@echo "... LAESATest.i"
 	@echo "... LAESATest.s"
+	@echo "... MVPTreeTest.o"
+	@echo "... MVPTreeTest.i"
+	@echo "... MVPTreeTest.s"
 	@echo "... MaxSeparatedPivotsTest.o"
 	@echo "... MaxSeparatedPivotsTest.i"
 	@echo "... MaxSeparatedPivotsTest.s"

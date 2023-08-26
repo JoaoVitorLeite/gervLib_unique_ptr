@@ -108,6 +108,7 @@ add_executable(gervLib
         include/nAryTree/NAryTree.h
         include/indexes/VPTree.h
         include/factory/IndexFactory.h
+        include/indexes/MVPTree.h
 )
 
 # Add libraries

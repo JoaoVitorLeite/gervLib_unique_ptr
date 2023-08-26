@@ -2014,6 +2014,9 @@
 		<Unit filename="/home/joaovictor/Code/gervLib/include/indexes/LAESA.h">
 			<Option target="gervLib"/>
 		</Unit>
+		<Unit filename="/home/joaovictor/Code/gervLib/include/indexes/MVPTree.h">
+			<Option target="gervLib"/>
+		</Unit>
 		<Unit filename="/home/joaovictor/Code/gervLib/include/indexes/SequentialScan.h">
 			<Option target="gervLib"/>
 		</Unit>

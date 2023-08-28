@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/PivotTest.dir/PivotTest.cpp.o -o PivotTest  -luuid 

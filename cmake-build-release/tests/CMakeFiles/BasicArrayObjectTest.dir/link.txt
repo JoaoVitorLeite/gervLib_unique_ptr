@@ -1,1 +1,0 @@
-/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/BasicArrayObjectTest.dir/BasicArrayObjectTest.cpp.o -o BasicArrayObjectTest  -luuid 

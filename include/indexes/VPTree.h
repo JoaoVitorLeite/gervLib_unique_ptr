@@ -872,8 +872,8 @@ namespace gervLib::index::vptree
             this->storePivotsInLeaf = false;
             this->storeLeafNode = false;
             this->storeDirectoryNode = false;
-            this->indexType = INDEX_TYPE::LAESA_t;
-            this->indexName = "LAESA";
+            this->indexType = INDEX_TYPE::VPTREE_t;
+            this->indexName = "VPTREE";
             this->indexFolder = _folder.empty() ? utils::generatePathByPrefix(configure::baseOutputPath, this->indexName) : _folder;
 
             if (serializedFile.empty())

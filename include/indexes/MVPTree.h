@@ -7,6 +7,8 @@
 
 #include "Index.h"
 #include "IndexFactory.h"
+#include <queue>
+#include <map>
 
 namespace gervLib::index::mvptree
 {
@@ -779,6 +781,1263 @@ namespace gervLib::index::mvptree
 
 
     };
+
+    template <typename O, typename T>
+    std::ostream& operator<<(std::ostream& os, const Node<O, T>& printable) {
+        printable.print(os);
+        return os;
+    }
+
+    template <typename O, typename T>
+    class MVPTree : public Index<O, T>
+    {
+
+    private:
+        std::unique_ptr<Node<O, T>> root;
+        size_t numPerLeaf{}, numPivots{}, branchFactor{}, levelsPerNode{}, fanout{}, numMaxSplits{};
+        bool storePivotsInLeaf{}, storeDirectoryNode{}, storeLeafNode{};
+        std::string serializedTree{};
+
+    private:
+        enum cases{R0, R1, R2, R3, R4};
+
+    private:
+        std::vector<double> calculatePivotDistances(dataset::BasicArrayObject<O, T>& vp, std::unique_ptr<dataset::Dataset<O, T>>& dataset)
+        {
+            std::vector<double> ans = std::vector<double>(dataset->getCardinality(), 0.0);
+
+            for (size_t i = 0; i < dataset->size(); i++)
+                ans[i] = this->distanceFunction->operator()(vp, dataset->getElement(i));
+
+            return ans;
+        }
+
+        void calculateSplits(Node<O, T>* node, std::vector<double>& dists, size_t n, size_t split_index)
+        {
+            size_t len = branchFactor - 1;
+
+            if (!dists.empty())
+            {
+                if (node->getSplit(n, split_index * len) == -1.0)
+                {
+                    std::vector<double> tmp = dists;
+                    std::sort(tmp.begin(), tmp.end());
+                    double factor = (tmp.size() * 1.0)/branchFactor;
+
+                    for(size_t i = 0; i < len; i++)
+                    {
+
+                        size_t pos = (i + 1) * factor;
+                        size_t lo = floor(pos);
+                        size_t hi = (pos <= tmp.size()) ? ceil(pos) : 0;
+                        node->setSplit(n, split_index * len + i, (tmp[lo] + tmp[hi])/2.0);
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        std::unique_ptr<dataset::Dataset<O, T>> cullPoints(std::unique_ptr<dataset::Dataset<O, T>>& dataset, std::vector<double> dists, double m, bool less)
+        {
+            std::unique_ptr<dataset::Dataset<O, T>> ans = std::make_unique<dataset::Dataset<O, T>>();
+            ans->setPath(dataset->getPath());
+            ans->setSeed(dataset->getSeed());
+            ans->setDimensionality(dataset->getDimensionality());
+
+            for(size_t i = 0; i < dataset->getCardinality(); i++)
+            {
+
+                if(less)
+                {
+
+                    if(dists[i] <= m)
+                    {
+
+                        ans->insert(dataset->getElement(i));
+
+                    }
+
+                }
+                else
+                {
+
+                    if(dists[i] > m)
+                    {
+
+                        ans->insert(dataset->getElement(i));
+
+                    }
+
+                }
+
+            }
+
+            if (ans->getCardinality() == 0)
+                ans.reset();
+
+            return ans;
+        }
+
+        std::vector<std::unique_ptr<dataset::Dataset<O, T>>> splitNode(Node<O, T>* node, std::unique_ptr<dataset::Dataset<O, T>> dataset)
+        {
+
+            std::map<long long, std::unique_ptr<dataset::Dataset<O, T>>> pnts, pnts2;
+            pnts[0] = std::move(dataset);
+
+            std::vector<std::unique_ptr<dataset::Dataset<O, T>>> ans(this->fanout);
+
+            size_t len = branchFactor - 1, n = 0;
+            double m;
+            std::unique_ptr<dataset::Dataset<O, T>> culledPts = nullptr;
+
+            do{
+
+                for(auto it = pnts.begin(); it != pnts.end(); it++)
+                {
+
+                    long long node_index = it->first;
+                    std::unique_ptr<dataset::Dataset<O, T>> node_dataset = std::move(it->second);
+                    dataset::BasicArrayObject<O, T> vp = node->getPivot(n);
+                    std::vector<double> dists = calculatePivotDistances(vp, node_dataset);
+
+                    if (!dists.empty())
+                    {
+                        calculateSplits(node, dists, n, node_index);
+
+                        for(size_t j = 0; j < len; j++)
+                        {
+                            m = node->getSplit(n, node_index * len + j);
+                            culledPts = cullPoints(node_dataset, dists, m, true);
+
+                            if(culledPts != nullptr)
+                            {
+
+                                pnts2[node_index * branchFactor + j] = std::move(culledPts);
+
+                            }
+
+                        }
+
+                        m = node->getSplit(n, node_index * len + len - 1);
+                        culledPts = cullPoints(node_dataset, dists, m, false);
+
+                        if(culledPts != nullptr)
+                        {
+
+                            pnts2[node_index * branchFactor + branchFactor - 1] = std::move(culledPts);
+
+                        }
+
+                    }
+
+                    node_dataset->clear();
+                    node_dataset.reset();
+
+                }
+
+                pnts = std::move(pnts2);
+                n++;
+
+            } while (n < levelsPerNode);
+
+            for(auto it = pnts.begin(); it != pnts.end(); it++)
+            {
+
+                long long index = it->first;
+                std::unique_ptr<dataset::Dataset<O, T>> list = std::move(it->second);
+
+                if(list != nullptr)
+                {
+
+                    ans[index] = std::move(list);
+
+                }
+
+            }
+
+            return ans;
+
+        }
+
+        void deleteRecursive(std::unique_ptr<Node<O, T>> node)
+        {
+
+            if (node == nullptr)
+                return;
+
+            if (!node->isLeafNode()) {
+
+                for (size_t i = 0; i < fanout; i++)
+                    deleteRecursive(std::move(node->getChildren(i)));
+
+            }
+
+            node->clear();
+            node.reset();
+
+        }
+
+        void clearRecursive(std::unique_ptr<Node<O, T>>& node)
+        {
+
+            if (node == nullptr)
+                return;
+
+            if (!node->isLeafNode()) {
+
+                for (size_t i = 0; i < fanout; i++)
+                    clearRecursive(node->getChildren(i));
+
+            }
+
+            node->clear();
+
+        }
+
+        bool isEqualHelper(std::unique_ptr<Node<O, T>>& node1, std::unique_ptr<Node<O, T>>& node2)
+        {
+            if (node1 == nullptr && node2 == nullptr)
+                return true;
+
+            if ((node1 != nullptr && node2 == nullptr) || (node1 == nullptr && node2 != nullptr))
+                return false;
+
+            if (!node1->isEqual(node2))
+                return false;
+
+            if (!node1->isLeafNode())
+            {
+                for (size_t i = 0; i < fanout; i++)
+                {
+                    if (!isEqualHelper(node1->getChildren(i), node2->getChildren(i)))
+                        return false;
+                }
+            }
+
+            return true;
+
+        }
+
+        std::string serializeTreeRecursive(std::unique_ptr<Node<O, T>>& node)
+        {
+            if (node == nullptr)
+                return "null ";
+
+            if (node->getMemoryStatus() != index::MEMORY_STATUS::IN_DISK)
+            {
+                std::unique_ptr<u_char[]> data = node->serialize();
+                this->pageManager->save(node->getNodeID(), std::move(data), node->getSerializedSize());
+                node->setMemoryStatus(index::MEMORY_STATUS::IN_DISK);
+            }
+
+            std::string result = (node->isLeafNode() ? "L" : "D") + std::to_string(node->getNodeID()) + " " + std::to_string(fanout) + " ";
+
+            if (node->isLeafNode())
+                for (size_t i = 0; i < fanout; i++)
+                    result += "null ";
+            else
+                for (size_t i = 0; i < fanout; i++)
+                    result += serializeTreeRecursive(node->getChildren(i));
+
+            return result;
+
+        }
+
+        std::unique_ptr<naryTree::NodeNAry> deserializeTreeRecursive(std::stringstream& ss)
+        {
+            std::string valStr;
+            ss >> valStr;
+
+            if (valStr == "null")
+                return nullptr;
+
+            size_t numChildren;
+            ss >> numChildren;
+
+            std::unique_ptr<naryTree::NodeNAry> node = std::make_unique<naryTree::NodeNAry>(valStr);
+
+            for (size_t i = 0; i < numChildren; i++)
+                node->children.push_back(deserializeTreeRecursive(ss));
+
+            return node;
+        }
+
+        void buildTree(std::unique_ptr<Node<O, T>>& node, std::unique_ptr<naryTree::NodeNAry>& aux)
+        {
+
+            if (aux == nullptr)
+                return;
+
+            if (aux->value[0] == 'L')
+            {
+                node = std::make_unique<LeafNode<O, T>>();
+                node->setNodeID(std::stoull(aux->value.substr(1)));
+
+                if (!storeLeafNode) {
+                    node->setMemoryStatus(index::MEMORY_STATUS::IN_MEMORY);
+                    std::unique_ptr<u_char[]> data = this->pageManager->load(node->getNodeID());
+                    node->deserialize(std::move(data));
+                }
+                else
+                    node->setMemoryStatus(index::MEMORY_STATUS::IN_DISK);
+
+            }
+            else
+            {
+                node = std::make_unique<DirectoryNode<O, T>>();
+                node->setNodeID(std::stoull(aux->value.substr(1)));
+
+                if (!storeDirectoryNode) {
+                    node->setMemoryStatus(index::MEMORY_STATUS::IN_MEMORY);
+                    std::unique_ptr<u_char[]> data = this->pageManager->load(node->getNodeID());
+                    node->deserialize(std::move(data));
+                }
+                else
+                    node->setMemoryStatus(index::MEMORY_STATUS::IN_DISK);
+
+                node->setNumberOfFanout(fanout);
+
+                for (size_t i = 0; i < fanout; i++)
+                {
+                    buildTree(node->getChildren(i), aux->children[i]);
+                }
+
+            }
+
+        }
+
+        double minDist(cases sqCase, cases nodeCase, double d_sq_p1, double d_sq_p2, double mu1, double M, double mu2, double mu3)
+        {
+            double ans{};
+
+            if (sqCase == R0)
+            {
+
+                if(nodeCase == R0)
+                    ans = 0.0;
+                else if(nodeCase == R1)
+                    ans = fabs(d_sq_p2 - mu2);
+                else if(nodeCase == R2)
+                {
+
+                    if(d_sq_p2 > mu3 && ((fabs(d_sq_p1 - mu1) + fabs(d_sq_p2 - mu3)) > (mu1 + mu3)))
+                    {
+                        ans = fabs(d_sq_p2 - mu3);
+                    }
+                    else
+                    {
+                        ans = fabs(d_sq_p1 - mu1);
+
+                    }
+
+                }
+                else if(nodeCase == R3)
+                {
+
+                    if ((d_sq_p2 + d_sq_p1 + mu1) <= mu3)
+                    {
+                        ans = fabs(d_sq_p2 - mu3);
+                    }
+                    else
+                    {
+                        if ((d_sq_p2 + d_sq_p1 + mu2) <= mu3)
+                        {
+                            ans = fabs(d_sq_p2 - mu3);
+                        } else {
+                            ans = fabs(d_sq_p1 - mu1);
+                        }
+                    }
+
+                }
+                else
+                    throw std::runtime_error("non-existent case");
+
+            }
+            else if(sqCase == R1)
+            {
+
+                if(nodeCase == R0)
+                    ans = fabs(d_sq_p2 - mu2);
+                else if(nodeCase == R1)
+                    ans = 0.0;
+                else if(nodeCase == R2)
+                {
+
+                    if(d_sq_p2 > mu3 && ((fabs(d_sq_p1 - mu1) + fabs(d_sq_p2 - mu3)) > (mu1 + mu3)))
+                    {
+                        ans = fabs(d_sq_p2 - mu3);
+                    }
+                    else
+                    {
+                        ans = fabs(d_sq_p1 - mu1);
+                    }
+
+                }
+                else if(nodeCase == R3)
+                {
+
+                    if ((d_sq_p2 + d_sq_p1 + mu1) <= mu3)
+                    {
+                        ans = fabs(d_sq_p2 - mu3);
+                    }
+                    else
+                    {
+                        ans = fabs(d_sq_p1 - mu1);
+
+                    }
+
+                }
+                else
+                    throw std::runtime_error("non-existent case");
+
+            }
+            else if(sqCase == R2)
+            {
+
+                if(nodeCase == R0)
+                {
+                    if ((d_sq_p1 > d_sq_p2) && ((d_sq_p2 + d_sq_p1 + mu2) <= mu1)){
+                        ans = fabs(d_sq_p2 - mu2);
+                    } else {
+                        ans = fabs(d_sq_p1 - mu1);
+                    }
+                }
+                else if(nodeCase == R1)
+                {
+                    ans = fabs(d_sq_p1 - mu1);
+                }
+                else if(nodeCase == R2)
+                    ans = 0.0;
+                else if(nodeCase == R3)
+                {
+                    ans = fabs(d_sq_p2 - mu3);
+                }
+                else
+                    throw std::runtime_error("non-existent case");
+
+            }
+            else if(sqCase == R3)
+            {
+
+                if(nodeCase == R0)
+                {
+                    if ((d_sq_p1 > d_sq_p2) && ((d_sq_p2 + d_sq_p1 + mu2) <= mu1)){
+                        ans = fabs(d_sq_p2 - mu2);
+                    } else {
+                        ans = fabs(d_sq_p1 - mu1);
+                    }
+
+                }
+                else if(nodeCase == R1){
+                    ans = fabs(d_sq_p1 - mu1);
+                }
+                else if(nodeCase == R2){
+                    ans = fabs(d_sq_p2 - mu3);
+                }
+                else if(nodeCase == R3)
+                    ans = 0.0;
+                else
+                    throw std::runtime_error("non-existent case");
+
+            }
+            else if(sqCase == R4)
+            {
+
+                if(nodeCase == R0)
+                {
+                    if ((d_sq_p1 > d_sq_p2) && ((d_sq_p2 + d_sq_p1 + mu2) <= mu1)){ //mu2 está contido em mu1
+                        ans = fabs(d_sq_p2 - mu2);
+                    } else {
+                        ans = fabs(d_sq_p1 - mu1);
+                    }
+                }
+                else if(nodeCase == R1){
+                    ans = fabs(d_sq_p1 - mu1);
+                }
+                else if(nodeCase == R2){
+                    ans = std::min(fabs(d_sq_p1 - M), fabs(d_sq_p2 - mu3));
+                }
+                else if(nodeCase == R3){
+                    ans = fabs(d_sq_p1 - M);
+
+                }
+                else
+                    throw std::runtime_error("non-existent case");
+
+            }
+
+            return ans;
+
+        }
+
+        double maxDist(cases sqCase, cases nodeCase, double d_sq_p1, double d_sq_p2, double mu1, double M, double mu2, double mu3)
+        {
+
+            double ans{};
+
+            if (sqCase == R0)
+            {
+                if (nodeCase == R0)
+                    ans = std::min(d_sq_p1 + mu1, d_sq_p2 + mu2);
+                else if (nodeCase == R1)
+                    ans = d_sq_p1 + mu1;
+                else if (nodeCase == R2)
+                    ans = std::min(d_sq_p1 + M, d_sq_p2 + mu3);
+                else if (nodeCase == R3)
+                    ans = d_sq_p1 + M;
+                else
+                    throw std::runtime_error("non-existent case");
+            }
+            else if (sqCase == R1)
+            {
+                if (nodeCase == R0)
+                    ans = std::min(d_sq_p1 + mu1, d_sq_p2 + mu2);
+                else if (nodeCase == R1)
+                    ans = d_sq_p1 + mu1;
+                else if (nodeCase == R2)
+                    ans = std::min(d_sq_p1 + M, d_sq_p2 + mu3);
+                else if (nodeCase == R3)
+                    ans = d_sq_p1 + M;
+                else
+                    throw std::runtime_error("non-existent case");
+            }
+            else if (sqCase == R2)
+            {
+                if (nodeCase == R0)
+                    ans = std::min(d_sq_p1 + mu1, d_sq_p2 + mu2);
+                else if (nodeCase == R1)
+                    ans = d_sq_p1 + mu1;
+                else if (nodeCase == R2)
+                    ans = std::min(d_sq_p1 + M, d_sq_p2 + mu3);
+                else if (nodeCase == R3)
+                    ans = d_sq_p1 + M;
+                else
+                    throw std::runtime_error("non-existent case");
+            }
+            else if (sqCase == R3)
+            {
+                if (nodeCase == R0)
+                    ans = std::min(d_sq_p1 + mu1, d_sq_p2 + mu2);
+                else if (nodeCase == R1)
+                    ans = d_sq_p1 + mu1;
+                else if (nodeCase == R2)
+                    ans = std::min(d_sq_p1 + M, d_sq_p2 + mu3);
+                else if (nodeCase == R3)
+                    ans = d_sq_p1 + M;
+                else
+                    throw std::runtime_error("non-existent case");
+            }
+            else if (sqCase == R4)
+            {
+                if (nodeCase == R0)
+                    ans = std::min(d_sq_p1 + mu1, d_sq_p2 + mu2);
+                else if (nodeCase == R1)
+                    ans = d_sq_p1 + mu1;
+                else if (nodeCase == R2)
+                    ans = std::min(d_sq_p1 + M, d_sq_p2 + mu3);
+                else if (nodeCase == R3)
+                    ans = d_sq_p1 + M;
+                else
+                    throw std::runtime_error("non-existent case");
+            }
+
+            return ans;
+
+        }
+
+    protected:
+        std::string headerBuildFile() override
+        {
+            return "time,sys_time,user_time,distCount,iowrite,ioread";
+        }
+
+        std::string headerExperimentFile() override
+        {
+            return "expt_id,k,r,time,sys_time,user_time,distCount,prunning,iowrite,ioread";
+        }
+
+    public:
+        MVPTree()
+        {
+            this->dataset = nullptr;
+            this->distanceFunction = nullptr;
+            this->pivots = nullptr;
+            this->pageManager = nullptr;
+            this->root = nullptr;
+            this->pageSize = 0;
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            this->numPerLeaf = 0;
+            this->numPivots = 0;
+            this->branchFactor = 0;
+            this->levelsPerNode = 0;
+            this->fanout = 0;
+            this->numMaxSplits = 0;
+            this->storePivotsInLeaf = false;
+            this->storeDirectoryNode = false;
+            this->storeLeafNode = false;
+            this->indexType = INDEX_TYPE::MVPTREE;
+            this->indexName = "MVPTREE";
+            this->indexFolder = "";
+        }
+
+        MVPTree(std::unique_ptr<dataset::Dataset<O, T>> _dataset,
+                std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> _df,
+                std::unique_ptr<pivots::Pivot<O, T>> _pivots, size_t _numPivots, size_t _numPerLeaf, size_t _pageSize = 0, size_t _branchFactor = 2,
+                size_t _levelsPerNode = 2, size_t _fanout = 4, size_t _numMaxSplits = 2, bool _storePivotsInLeaf = true, bool _storeDirectoryNode = false,
+                bool _storeLeafNode = false, std::string folder = "")
+        {
+            this->dataset = std::move(_dataset);
+            this->distanceFunction = std::move(_df);
+            this->pivots = std::move(_pivots);
+            this->root = nullptr;
+            this->pageSize = _pageSize;
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            this->numPerLeaf = _numPerLeaf;
+            this->numPivots = _numPivots;
+            this->branchFactor = _branchFactor;
+            this->levelsPerNode = _levelsPerNode;
+            this->fanout = _fanout;
+            this->numMaxSplits = _numMaxSplits;
+            this->storePivotsInLeaf = _storePivotsInLeaf;
+            this->storeDirectoryNode = _storeDirectoryNode;
+            this->storeLeafNode = _storeLeafNode;
+            this->indexType = INDEX_TYPE::MVPTREE;
+            this->indexName = "MVPTREE";
+
+            if (!folder.empty())
+                this->indexFolder = folder;
+
+            this->generateIndexFiles(true, true);
+
+            this->pageManager = std::make_unique<memory::PageManager<O>>("mvp_page", this->indexFolder, this->pageSize);
+
+            this->buildIndex();
+
+        }
+
+        explicit MVPTree(std::string _folder, std::string serializedFile = "")
+        {
+            this->dataset = nullptr;
+            this->distanceFunction = nullptr;
+            this->pivots = nullptr;
+            this->pageManager = nullptr;
+            this->root = nullptr;
+            this->pageSize = 0;
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            this->numPerLeaf = 0;
+            this->numPivots = 0;
+            this->branchFactor = 0;
+            this->levelsPerNode = 0;
+            this->fanout = 0;
+            this->numMaxSplits = 0;
+            this->storePivotsInLeaf = false;
+            this->storeDirectoryNode = false;
+            this->storeLeafNode = false;
+            this->indexType = INDEX_TYPE::MVPTREE;
+            this->indexName = "MVPTREE";
+            this->indexFolder = _folder.empty() ? utils::generatePathByPrefix(configure::baseOutputPath, this->indexName) : _folder;
+
+            if (serializedFile.empty())
+                this->loadIndex();
+            else
+                this->loadIndex(serializedFile);
+        }
+
+        ~MVPTree()
+        {
+            deleteRecursive(std::move(root));
+        }
+
+        void clear() override
+        {
+            clearRecursive(root);
+        }
+
+        bool isEqual(std::unique_ptr<Index<O, T>>& other) override
+        {
+            if(!gervLib::index::Index<O, T>::isEqual(other))
+                return false;
+
+            auto* _other = dynamic_cast<MVPTree<O, T>*>(other.get());
+
+            return isEqualHelper(this->root, _other->root);
+
+        }
+
+        std::unique_ptr<Node<O, T>>& getRoot()
+        {
+            return this->root;
+        }
+
+        void print(std::ostream& os) const override {
+
+            std::stack<std::pair<Node < O, T> *, size_t>>
+            nodeStack;
+            nodeStack.push(std::make_pair(root.get(), 0));
+
+            os << "\n\n**********************************************************************************************************************************************************************************\n\n";
+            os << "MVPTree" << std::endl;
+            os << "Number of pivots: " << numPivots << std::endl;
+            os << "Number of pivots per node: " << levelsPerNode << std::endl;
+            os << "Number of points per leaf: " << numPerLeaf << std::endl;
+            os << "Branching factor: " << branchFactor << std::endl;
+            os << "Fanout: " << fanout << std::endl;
+            os << "Number of max splits: " << numMaxSplits << std::endl;
+            os << "Store pivots in leaf: " << (storePivotsInLeaf ? "true" : "false") << std::endl;
+            os << "Store directory node: " << (storeDirectoryNode ? "true" : "false") << std::endl;
+            os << "Store leaf node: " << (storeLeafNode ? "true" : "false") << std::endl;
+
+            while (!nodeStack.empty())
+            {
+
+                auto currentNode = nodeStack.top();
+                nodeStack.pop();
+
+                os << "**********************************************************************************************************************************************************************************\n\n";
+                os << *currentNode.first << std::endl;
+
+                if (!currentNode.first->isLeafNode()) {
+
+                    for (size_t i = 0; i < fanout; i++) {
+                        if (currentNode.first->getChildren(i) != nullptr)
+                            nodeStack.push(
+                                    std::make_pair(currentNode.first->getChildren(i).get(), currentNode.second + 1));
+                    }
+
+                }
+
+            }
+
+        }
+
+        //TODO: implement kNN, kNNIncremental
+
+        void buildIndex() override
+        {
+
+            utils::Timer timer{};
+            timer.start();
+            this->distanceFunction->resetStatistics();
+            size_t ioW = configure::IOWrite, ioR = configure::IORead;
+            size_t currentNodeID = 0;
+            std::queue<std::pair<Node<O, T>*, std::unique_ptr<dataset::Dataset<O, T>>>> nodeQueue;
+            std::pair<Node<O, T>*, std::unique_ptr<dataset::Dataset<O, T>>> currentNode;
+
+            if (this->dataset->getCardinality() <= numPerLeaf)
+                root = std::make_unique<LeafNode<O, T>>();
+            else
+                root = std::make_unique<DirectoryNode<O, T>>();
+
+            nodeQueue.push(std::make_pair(root.get(), std::move(this->dataset)));
+
+            while (!nodeQueue.empty())
+            {
+                currentNode = std::move(nodeQueue.front());
+                nodeQueue.pop();
+
+                currentNode.first->setNumberOfPivots(levelsPerNode);
+                this->pivots->operator()(currentNode.second, this->distanceFunction, levelsPerNode);
+
+                for (size_t i = 0; i < levelsPerNode; i++) {
+                    currentNode.first->setPivot(i, this->pivots->getPivot(i));
+
+                    if (!storePivotsInLeaf)
+                    {
+                        currentNode.second->erase(this->pivots->getPivot(i));
+                    }
+
+                }
+
+                if (currentNode.second->getCardinality() <= (numPerLeaf + levelsPerNode))
+                {
+                    auto* leafNode = (LeafNode<O, T>*) currentNode.first;
+                    leafNode->setNodeID(currentNodeID++);
+                    std::filesystem::path leafIndexPath(this->indexFolder);
+                    leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
+                    std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(this->distanceFunction->getDistanceType());
+                    std::unique_ptr<pivots::Pivot<O, T>> pv = pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType(), this->pivots);
+                    std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(std::move(currentNode.second), std::move(df), std::move(pv), this->numPivots, leafIndexPath);
+                    leafNode->setIndex(std::move(idx));
+
+                    if (storeLeafNode)
+                    {
+                        leafNode->setMemoryStatus(gervLib::index::MEMORY_STATUS::IN_DISK);
+                        std::unique_ptr<u_char[]> leafData = leafNode->serialize();
+                        this->pageManager->save(leafNode->getNodeID(), std::move(leafData), leafNode->getSerializedSize());
+                        leafNode->clear();
+                    }
+                    else
+                        leafNode->setMemoryStatus(gervLib::index::MEMORY_STATUS::IN_MEMORY);
+
+                }
+                else
+                {
+                    currentNode.first->setNumberOfFanout(fanout);
+                    currentNode.first->setNumberOfSplits(levelsPerNode, numMaxSplits);
+                    std::vector<std::unique_ptr<dataset::Dataset<O, T>>> childrensDataset = splitNode(currentNode.first, std::move(currentNode.second));
+
+                    for(size_t i = 0; i < fanout; i++)
+                    {
+
+                        if(childrensDataset[i] != nullptr)
+                        {
+
+                            if (childrensDataset[i]->getCardinality() <= (numPerLeaf + levelsPerNode))
+                            {
+                                currentNode.first->setChildren(i, std::make_unique<LeafNode<O, T>>());
+                                nodeQueue.push(std::make_pair(currentNode.first->getChildren(i).get(), std::move(childrensDataset[i])));
+                            }
+                            else
+                            {
+                                currentNode.first->setChildren(i, std::make_unique<DirectoryNode<O, T>>());
+                                nodeQueue.push(std::make_pair(currentNode.first->getChildren(i).get(), std::move(childrensDataset[i])));
+                            }
+
+                        }
+
+                    }
+
+                    auto *directoryNode = (DirectoryNode<O, T> *) currentNode.first;
+                    directoryNode->setNodeID(currentNodeID++);
+
+                    if (this->storeDirectoryNode) {
+                        directoryNode->setMemoryStatus(gervLib::index::MEMORY_STATUS::IN_DISK);
+                        std::unique_ptr<u_char[]> directoryData = directoryNode->serialize();
+                        this->pageManager->save(directoryNode->getNodeID(), std::move(directoryData), directoryNode->getSerializedSize());
+                        directoryNode->clear();
+                    }
+                    else
+                        directoryNode->setMemoryStatus(gervLib::index::MEMORY_STATUS::IN_MEMORY);
+
+                }
+
+            }
+
+            timer.stop();
+
+            std::ofstream buildFile(this->buildFile, std::ios::app);
+            buildFile << timer.getElapsedTime()
+                      << ","
+                      << timer.getElapsedTimeSystem()
+                      << ","
+                      << timer.getElapsedTimeUser()
+                      << ","
+                      << this->distanceFunction->getDistanceCount()
+                      << ","
+                      << std::to_string(configure::IOWrite - ioW)
+                      << ","
+                      << std::to_string(configure::IORead - ioR) << std::endl;
+            buildFile.close();
+
+        }
+
+        std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
+        {
+            throw std::runtime_error("MVPTree::kNN(): Not implemented yet.");
+        }
+
+        std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
+        {
+
+            utils::Timer timer{};
+            timer.start();
+            this->distanceFunction->resetStatistics();
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            size_t ioW = configure::IOWrite, ioR = configure::IORead;
+            std::priority_queue<query::Partition<Node<O, T>*>, std::vector<query::Partition<Node<O, T>*>>, std::greater<query::Partition<Node<O, T>*>>> nodeQueue;
+            std::priority_queue<query::ResultEntry<O>, std::vector<query::ResultEntry<O>>, std::greater<query::ResultEntry<O>>> elementQueue;
+            query::Result<O> result;
+            result.setMaxSize(k);
+            query::Partition<Node<O, T>*> currentPartition;
+            Node<O, T>* currentNode;
+            LeafNode<O, T>* currentLeafNode;
+            LAESA<O, T>* laesa;
+            double dist, d_sq_p1, d_sq_p2;
+            std::vector<cases> casesNodeVec = {R0, R1, R2, R3};
+
+            nodeQueue.push(query::Partition<Node<O, T>*>(root.get(), 0.0, std::numeric_limits<double>::max()));
+
+            while (result.size() < k && !(nodeQueue.empty() && elementQueue.empty())) {
+
+                if (elementQueue.empty())
+                {
+
+                    currentPartition = nodeQueue.top();
+                    nodeQueue.pop();
+                    currentNode = currentPartition.getElement();
+
+                    if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                    {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getNodeID());
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
+                    if (currentNode->isLeafNode())
+                    {
+
+                        currentLeafNode = (LeafNode<O, T>*) currentNode;
+                        this->leafNodeAccess++;
+
+                        if (!storePivotsInLeaf)
+                        {
+
+                            for (size_t i = 0 ; i < levelsPerNode; i++)
+                            {
+                                dist = this->distanceFunction->operator()(query, currentLeafNode->getPivot(i));
+                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getPivot(i).getOID(), dist));
+                            }
+
+                        }
+
+                        if (currentLeafNode->getIndex() != nullptr)
+                        {
+                            laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentLeafNode->getIndex()->getPrunning();
+
+                        }
+                        else
+                        {
+
+                            for (size_t i = 0; i < currentLeafNode->getDataset()->getCardinality(); i++)
+                            {
+
+                                dist = this->distanceFunction->operator()(query, currentLeafNode->getDataset()->getElement(i));
+                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getDataset()->getElement(i).getOID(), dist));
+
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+
+                        cases sqCase;
+                        d_sq_p1 = this->distanceFunction->operator()(query, currentNode->getPivot(0));
+                        d_sq_p2 = this->distanceFunction->operator()(query, currentNode->getPivot(1));
+
+                        if (!storePivotsInLeaf)
+                        {
+                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot(0).getOID(), d_sq_p1));
+                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot(1).getOID(), d_sq_p2));
+                        }
+
+                        if(d_sq_p1 <= currentNode->getSplit(0, 0) && d_sq_p2 <= currentNode->getSplit(1, 0))
+                            sqCase = R0;
+                        else if(d_sq_p1 <= currentNode->getSplit(0, 0) && d_sq_p2 > currentNode->getSplit(1, 0))
+                            sqCase = R1;
+                        else if(d_sq_p1 > currentNode->getSplit(0, 0) && d_sq_p2 <= currentNode->getSplit(1, 1))
+                            sqCase = R2;
+                        else if(d_sq_p1 > currentNode->getSplit(0, 0) && d_sq_p2 > currentNode->getSplit(1, 1))
+                            sqCase = R3;
+                        else
+                            sqCase = R4;
+
+                        for(size_t i = 0; i < fanout; i++)
+                        {
+
+                            if(currentNode->getChildren(i) != nullptr)
+                            {
+
+                                nodeQueue.push(query::Partition<Node<O, T>*>(currentNode->getChildren(i).get(),
+                                                               minDist(sqCase, casesNodeVec[i], d_sq_p1, d_sq_p2, currentNode->getSplit(0, 0), currentPartition.getMax(), currentNode->getSplit(1, 0), currentNode->getSplit(1, 1)),
+                                                               maxDist(sqCase, casesNodeVec[i], d_sq_p1, d_sq_p2, currentNode->getSplit(0, 0), currentPartition.getMax(), currentNode->getSplit(1, 0), currentNode->getSplit(1, 1))));
+
+                            }
+
+                        }
+
+                    }
+
+                    if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                    {
+                        currentNode->clear();
+                    }
+
+                }
+                else if (!nodeQueue.empty() && nodeQueue.top().getMin() < elementQueue.top().getDistance())
+                {
+                    currentPartition = nodeQueue.top();
+                    nodeQueue.pop();
+                    currentNode = currentPartition.getElement();
+
+                    if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                    {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getNodeID());
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
+                    if (currentNode->isLeafNode())
+                    {
+
+                        currentLeafNode = (LeafNode<O, T>*) currentNode;
+                        this->leafNodeAccess++;
+
+                        if (!storePivotsInLeaf)
+                        {
+
+                            for (size_t i = 0 ; i < levelsPerNode; i++)
+                            {
+                                dist = this->distanceFunction->operator()(query, currentLeafNode->getPivot(i));
+                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getPivot(i).getOID(), dist));
+                            }
+
+                        }
+
+                        if (currentLeafNode->getIndex() != nullptr)
+                        {
+                            laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentLeafNode->getIndex()->getPrunning();
+
+                        }
+                        else
+                        {
+
+                            for (size_t i = 0; i < currentLeafNode->getDataset()->getCardinality(); i++)
+                            {
+
+                                dist = this->distanceFunction->operator()(query, currentLeafNode->getDataset()->getElement(i));
+                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getDataset()->getElement(i).getOID(), dist));
+
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+
+                        cases sqCase;
+                        d_sq_p1 = this->distanceFunction->operator()(query, currentNode->getPivot(0));
+                        d_sq_p2 = this->distanceFunction->operator()(query, currentNode->getPivot(1));
+
+                        if (!storePivotsInLeaf)
+                        {
+                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot(0).getOID(), d_sq_p1));
+                            elementQueue.push(query::ResultEntry<O>(currentNode->getPivot(1).getOID(), d_sq_p2));
+                        }
+
+                        if(d_sq_p1 <= currentNode->getSplit(0, 0) && d_sq_p2 <= currentNode->getSplit(1, 0))
+                            sqCase = R0;
+                        else if(d_sq_p1 <= currentNode->getSplit(0, 0) && d_sq_p2 > currentNode->getSplit(1, 0))
+                            sqCase = R1;
+                        else if(d_sq_p1 > currentNode->getSplit(0, 0) && d_sq_p2 <= currentNode->getSplit(1, 1))
+                            sqCase = R2;
+                        else if(d_sq_p1 > currentNode->getSplit(0, 0) && d_sq_p2 > currentNode->getSplit(1, 1))
+                            sqCase = R3;
+                        else
+                            sqCase = R4;
+
+                        for(size_t i = 0; i < fanout; i++)
+                        {
+
+                            if(currentNode->getChildren(i) != nullptr)
+                            {
+
+                                nodeQueue.push(query::Partition<Node<O, T>*>(currentNode->getChildren(i).get(),
+                                                               minDist(sqCase, casesNodeVec[i], d_sq_p1, d_sq_p2, currentNode->getSplit(0, 0), currentPartition.getMax(), currentNode->getSplit(1, 0), currentNode->getSplit(1, 1)),
+                                                               maxDist(sqCase, casesNodeVec[i], d_sq_p1, d_sq_p2, currentNode->getSplit(0, 0), currentPartition.getMax(), currentNode->getSplit(1, 0), currentNode->getSplit(1, 1))));
+
+                            }
+
+                        }
+
+                    }
+
+                    if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                    {
+                        currentNode->clear();
+                    }
+                }
+                else
+                {
+
+                    result.push(elementQueue.top());
+                    elementQueue.pop();
+
+                }
+
+            }
+
+            std::vector<query::ResultEntry<O>> ans = result.getResults();
+            std::reverse(ans.begin(), ans.end());
+
+            std::string expt_id = utils::generateExperimentID();
+            timer.stop();
+
+            if (saveResults)
+            {
+                this->saveResultToFile(ans, query, "kNNIncremental", expt_id, {expt_id, std::to_string(k), "-1",
+                                                                               std::to_string(timer.getElapsedTime()),
+                                                                               std::to_string(timer.getElapsedTimeSystem()),
+                                                                               std::to_string(timer.getElapsedTimeUser()),
+                                                                               std::to_string(this->distanceFunction->getDistanceCount()),
+                                                                               std::to_string(this->prunning),
+                                                                               std::to_string(configure::IOWrite - ioW),
+                                                                               std::to_string(configure::IORead - ioR)});
+            }
+
+            return ans;
+
+
+        }
+
+        std::unique_ptr<u_char[]> serialize() override
+        {
+
+            std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
+            size_t offset = 0, sz;
+
+            sz = gervLib::index::Index<O, T>::getSerializedSize();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> indexData = gervLib::index::Index<O, T>::serialize();
+            memcpy(data.get() + offset, indexData.get(), sz);
+            offset += sz;
+            indexData.reset();
+
+            memcpy(data.get() + offset, &numPerLeaf, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &numPivots, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &branchFactor, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &levelsPerNode, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &fanout, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &numMaxSplits, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = (storePivotsInLeaf ? 1 : 0);
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = (storeDirectoryNode ? 1 : 0);
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = (storeLeafNode ? 1 : 0);
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = serializedTree.size();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, serializedTree.c_str(), sz);
+            offset += sz;
+
+            serializedTree.clear();
+
+            return data;
+
+        }
+
+        void deserialize(std::unique_ptr<u_char[]> _data) override
+        {
+
+            size_t offset = 0, sz;
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> indexData = std::make_unique<u_char[]>(sz);
+            memcpy(indexData.get(), _data.get() + offset, sz);
+            offset += sz;
+
+            gervLib::index::Index<O, T>::deserialize(std::move(indexData));
+
+            memcpy(&numPerLeaf, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&numPivots, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&branchFactor, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&levelsPerNode, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&fanout, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&numMaxSplits, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            storePivotsInLeaf = (sz == 1);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            storeDirectoryNode = (sz == 1);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            storeLeafNode = (sz == 1);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::string aux;
+            aux.resize(sz);
+
+            memcpy(&aux[0], _data.get() + offset, sz);
+            offset += sz;
+
+            std::stringstream ss(aux);
+            std::unique_ptr<naryTree::NodeNAry> tree = deserializeTreeRecursive(ss);
+
+            if (root != nullptr)
+                root.reset();
+
+            buildTree(root, tree);
+
+            _data.reset();
+
+        }
+
+        size_t getSerializedSize() override
+        {
+            size_t ans = 0;
+
+            this->serializedTree = serializeTreeRecursive(root);
+
+            ans += sizeof(size_t) + gervLib::index::Index<O, T>::getSerializedSize();
+            ans += sizeof(size_t) + serializedTree.size();
+            ans += sizeof(size_t) * 9;
+
+            return ans;
+
+        }
+
+    };
+
 
 }
 

@@ -14,7 +14,7 @@
 namespace gervLib::index
 {
 
-    enum INDEX_TYPE {SEQUENTIAL_SCAN_t, LAESA_t, VPTREE_t, MVPTREE, UNKNOWN};
+    enum INDEX_TYPE {SEQUENTIAL_SCAN_t, LAESA_t, VPTREE_t, MVPTREE, KDTREE, UNKNOWN};
 
     enum MEMORY_STATUS {IN_MEMORY, IN_DISK, NONE};
 
@@ -22,14 +22,16 @@ namespace gervLib::index
             {SEQUENTIAL_SCAN_t, "SEQUENTIAL_SCAN"},
             {LAESA_t, "LAESA"},
             {VPTREE_t, "VPTREE"},
-            {MVPTREE, "MVPTREE"}
+            {MVPTREE, "MVPTREE"},
+            {KDTREE, "KDTREE"},
     };
 
     std::map<std::string, INDEX_TYPE> indexTypeMapReverse = {
             {"SEQUENTIAL_SCAN", SEQUENTIAL_SCAN_t},
             {"LAESA", LAESA_t},
             {"VPTREE", VPTREE_t},
-            {"MVPTREE", MVPTREE}
+            {"MVPTREE", MVPTREE},
+            {"KDTREE", KDTREE}
     };
 
     std::map<MEMORY_STATUS, std::string> memoryStatusMap = {

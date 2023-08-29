@@ -1320,6 +1320,7 @@ namespace gervLib::index::vptree
             os << "Store pivots in leaf: " << (storePivotsInLeaf ? "true" : "false") << std::endl;
             os << "Store leaf node: " << (storeLeafNode ? "true" : "false") << std::endl;
             os << "Store directory node: " << (storeDirectoryNode ? "true" : "false") << std::endl;
+            os << "Use LAESA: " << (useLAESA ? "true" : "false") << std::endl;
 
             while (!nodeStack.empty())
             {

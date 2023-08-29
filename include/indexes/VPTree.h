@@ -579,7 +579,7 @@ namespace gervLib::index::vptree
     private:
         std::unique_ptr<Node<O, T>> root;
         size_t numPerLeaf{}, numPivots{};
-        bool storePivotsInLeaf{}, storeLeafNode{}, storeDirectoryNode{};
+        bool storePivotsInLeaf{}, storeLeafNode{}, storeDirectoryNode{}, useLAESA{};
         std::string serializedTree{};
 
     private:
@@ -820,6 +820,7 @@ namespace gervLib::index::vptree
             this->storePivotsInLeaf = false;
             this->storeLeafNode = false;
             this->storeDirectoryNode = false;
+            this->useLAESA = false;
             this->indexType = INDEX_TYPE::VPTREE_t;
             this->indexName = "VPTREE";
             this->indexFolder = "";
@@ -828,7 +829,7 @@ namespace gervLib::index::vptree
         VPTree(std::unique_ptr<dataset::Dataset<O, T>> _dataset,
                std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> _df,
                std::unique_ptr<pivots::Pivot<O, T>> _pivots, size_t _numPivots, size_t _numPerLeaf, size_t _pageSize = 0,
-               bool _storePivotsInLeaf = true, bool _storeDirectoryNode = false, bool _storeLeafNode = false, std::string folder="")
+               bool _storePivotsInLeaf = true, bool _storeDirectoryNode = false, bool _storeLeafNode = false, bool _useLAESA = true, std::string folder="")
         {
 
             this->dataset = std::move(_dataset);
@@ -843,6 +844,7 @@ namespace gervLib::index::vptree
             this->storePivotsInLeaf = _storePivotsInLeaf;
             this->storeLeafNode = _storeLeafNode;
             this->storeDirectoryNode = _storeDirectoryNode;
+            this->useLAESA = _useLAESA;
             this->indexType = INDEX_TYPE::VPTREE_t;
             this->indexName = "VPTREE";
 
@@ -872,6 +874,7 @@ namespace gervLib::index::vptree
             this->storePivotsInLeaf = false;
             this->storeLeafNode = false;
             this->storeDirectoryNode = false;
+            this->useLAESA = false;
             this->indexType = INDEX_TYPE::VPTREE_t;
             this->indexName = "VPTREE";
             this->indexFolder = _folder.empty() ? utils::generatePathByPrefix(configure::baseOutputPath, this->indexName) : _folder;
@@ -900,6 +903,13 @@ namespace gervLib::index::vptree
             std::pair<Node<O, T>*, std::unique_ptr<dataset::Dataset<O, T>>> currentNode;
             std::vector<std::pair<double, size_t>> distances;
             double dist, mu;
+            std::unique_ptr<pivots::Pivot<O, T>> globalPivots;
+
+            if (useLAESA)
+            {
+                globalPivots = pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType(), this->pivots);
+                globalPivots->operator()(this->dataset, this->distanceFunction, this->numPivots);
+            }
 
             if (this->dataset->getCardinality() <= numPerLeaf)
                 root = std::make_unique<LeafNode<O, T>>();
@@ -914,7 +924,6 @@ namespace gervLib::index::vptree
                 currentNode = std::move(nodeQueue.front());
                 nodeQueue.pop();
 
-                //this->pivots->clear();
                 this->pivots->operator()(currentNode.second, this->distanceFunction, 1);
 
                 if (!storePivotsInLeaf)
@@ -946,14 +955,21 @@ namespace gervLib::index::vptree
                     leafNode->setNodeID(currentNodeID++);
                     leafNode->setMu(mu);
                     leafNode->setCoverage(distances.back().first);
-                    std::filesystem::path leafIndexPath(this->indexFolder);
-                    leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
-                    std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(this->distanceFunction->getDistanceType());
-                    std::unique_ptr<pivots::Pivot<O, T>> pv = pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType(), this->pivots);
-                    std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(std::move(currentNode.second), std::move(df), std::move(pv), this->numPivots, leafIndexPath);
-                    leafNode->setIndex(std::move(idx));
 
-//                    leafNode->setDataset(std::move(currentNode.second));
+                    if (useLAESA) {
+
+                        std::filesystem::path leafIndexPath(this->indexFolder);
+                        leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
+                        std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
+                                this->distanceFunction->getDistanceType());
+                        std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
+                                std::move(currentNode.second), std::move(df), pivots::PivotFactory<O, T>::clone(globalPivots), this->numPivots,
+                                leafIndexPath);
+                        leafNode->setIndex(std::move(idx));
+
+                    }
+                    else
+                        leafNode->setDataset(std::move(currentNode.second));
 
                     if (storeLeafNode)
                     {
@@ -1367,6 +1383,10 @@ namespace gervLib::index::vptree
             memcpy(data.get() + offset, &sz, sizeof(size_t));
             offset += sizeof(size_t);
 
+            sz = (useLAESA ? 1 : 0);
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
             sz = serializedTree.size();
             memcpy(data.get() + offset, &sz, sizeof(size_t));
             offset += sizeof(size_t);
@@ -1412,6 +1432,10 @@ namespace gervLib::index::vptree
 
             memcpy(&sz, _data.get() + offset, sizeof(size_t));
             offset += sizeof(size_t);
+            useLAESA = (sz == 1);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
 
             std::string aux;
             aux.resize(sz);
@@ -1438,7 +1462,7 @@ namespace gervLib::index::vptree
             this->serializedTree = serializeTreeRecursive(root);
 
             ans += sizeof(size_t) + gervLib::index::Index<O, T>::getSerializedSize();
-            ans += sizeof(size_t) * 5;
+            ans += sizeof(size_t) * 6;
 
             ans += sizeof(size_t) + serializedTree.size();
 

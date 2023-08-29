@@ -86,7 +86,7 @@ int test2()
     assert(deserialized->getMemoryStatus() == MEMORY_STATUS::IN_MEMORY);
     assert(deserialized->getIndex()->isEqual(laesa2));
 
-    gervLib::utils::deleteDirectory("tmp_unit_test13");
+    gervLib::utils::deleteDirectory("tmp_unit_test14");
     return 0;
 
 }
@@ -102,8 +102,8 @@ int test3()
     auto pvt = std::make_unique<RandomPivots<size_t, double>>();
 
     std::unique_ptr<mvptree::MVPTree<size_t, double>> mvp = std::make_unique<mvptree::MVPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2,
-                                                                                                               500, 4096, 2, 2, 4, 2, false, true, true, false, "tmp_unit_test14");
-    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test15");
+                                                                                                               500, 4096, 2, 2, 4, 2, false, true, true, false, "tmp_unit_test15");
+    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test16");
 
     for(size_t i = 0; i < test->getCardinality(); i++)
     {
@@ -115,8 +115,8 @@ int test3()
 
     }
 
-    gervLib::utils::deleteDirectory("tmp_unit_test14");
     gervLib::utils::deleteDirectory("tmp_unit_test15");
+    gervLib::utils::deleteDirectory("tmp_unit_test16");
     return 0;
 }
 
@@ -131,7 +131,7 @@ int test4()
     auto pvt = std::make_unique<RandomPivots<size_t, double>>();
 
     std::unique_ptr<mvptree::MVPTree<size_t, double>> mvp = std::make_unique<mvptree::MVPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2,
-                                                                                                               500, 4096, 2, 2, 4, 2, false, true, true, false, "tmp_unit_test16");
+                                                                                                               500, 4096, 2, 2, 4, 2, false, true, true, false, "tmp_unit_test17");
 
     std::unique_ptr<u_char []> serialized = mvp->serialize();
     std::unique_ptr<Index<size_t, double>> deserialized = std::make_unique<mvptree::MVPTree<size_t, double>>();
@@ -139,7 +139,7 @@ int test4()
 
     assert(mvp->isEqual(deserialized));
 
-    gervLib::utils::deleteDirectory("tmp_unit_test16");
+    gervLib::utils::deleteDirectory("tmp_unit_test17");
     return 0;
 
 }

@@ -55,7 +55,8 @@ int main(int argc, char **argv)
 
     auto pvt = std::make_unique<RandomPivots<size_t, double>>();
 
-    std::unique_ptr<mvptree::MVPTree<size_t, double>> mvp = std::make_unique<mvptree::MVPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 4096);
+    std::unique_ptr<mvptree::MVPTree<size_t, double>> mvp = std::make_unique<mvptree::MVPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2,
+            500, 4096, 2, 2, 4, 2, false, true, true, false, "tmp_unit_test11");
     std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
 
     for(size_t i = 0; i < test->getCardinality(); i++)
@@ -66,13 +67,15 @@ int main(int argc, char **argv)
         for(size_t j = 0; j < res1.size(); j++)
             assert(res1[j].getDistance() == res2[j].getDistance());
 
+        std::cout << mvp->getPrunning() << std::endl;
+
     }
 
     gervLib::utils::deleteDirectory("tmp_unit_test11");
     gervLib::utils::deleteDirectory("tmp_unit_test12");
 
 
-//    std::unique_ptr<vptree::VPTree<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 500, 8000, false, true, true, "tmp_unit_test11");
+//    std::unique_ptr<vptree::VPTree<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, false, true, true, "tmp_unit_test11");
 //    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
 //
 //    for(size_t i = 0; i < test->getCardinality(); i++)
@@ -86,9 +89,10 @@ int main(int argc, char **argv)
 //                std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance()<< std::endl;
 //                throw std::runtime_error("Error");
 //            }
+//            std::cout << vp->getPrunning() << std::endl;
 //        }
 //    }
-//
+
 ////    std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(47), 5, true);
 ////    std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(6), 100, true);
 //

@@ -102,6 +102,18 @@ namespace gervLib::pivots
 
         }
 
+        static std::unique_ptr<pivots::Pivot<O, T>> clone(std::unique_ptr<pivots::Pivot<O, T>>& pvt)
+        {
+            std::unique_ptr<pivots::Pivot<O, T>> ans = createPivot(pvt->getPivotType(), pvt);
+            ans->setNumberOfPivots(pvt->getNumberOfPivots());
+
+            for (size_t i = 0; i < pvt->getNumberOfPivots(); i++)
+                ans->setPivot(i, pvt->getPivot(i));
+
+            return ans;
+
+        }
+
     };
 
 }

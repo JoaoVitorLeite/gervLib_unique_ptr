@@ -7,6 +7,7 @@
 
 #include "Index.h"
 #include "IndexFactory.h"
+#include "NAryTree.h"
 #include <queue>
 #include <map>
 
@@ -795,7 +796,7 @@ namespace gervLib::index::mvptree
     private:
         std::unique_ptr<Node<O, T>> root;
         size_t numPerLeaf{}, numPivots{}, branchFactor{}, levelsPerNode{}, fanout{}, numMaxSplits{};
-        bool storePivotsInLeaf{}, storeDirectoryNode{}, storeLeafNode{};
+        bool storePivotsInLeaf{}, storeDirectoryNode{}, storeLeafNode{}, useLAESA{};
         std::string serializedTree{};
 
     private:
@@ -1379,6 +1380,7 @@ namespace gervLib::index::mvptree
             this->storePivotsInLeaf = false;
             this->storeDirectoryNode = false;
             this->storeLeafNode = false;
+            this->useLAESA = false;
             this->indexType = INDEX_TYPE::MVPTREE;
             this->indexName = "MVPTREE";
             this->indexFolder = "";
@@ -1388,7 +1390,7 @@ namespace gervLib::index::mvptree
                 std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> _df,
                 std::unique_ptr<pivots::Pivot<O, T>> _pivots, size_t _numPivots, size_t _numPerLeaf, size_t _pageSize = 0, size_t _branchFactor = 2,
                 size_t _levelsPerNode = 2, size_t _fanout = 4, size_t _numMaxSplits = 2, bool _storePivotsInLeaf = true, bool _storeDirectoryNode = false,
-                bool _storeLeafNode = false, std::string folder = "")
+                bool _storeLeafNode = false, bool _useLAESA = true, std::string folder = "")
         {
             this->dataset = std::move(_dataset);
             this->distanceFunction = std::move(_df);
@@ -1406,6 +1408,7 @@ namespace gervLib::index::mvptree
             this->storePivotsInLeaf = _storePivotsInLeaf;
             this->storeDirectoryNode = _storeDirectoryNode;
             this->storeLeafNode = _storeLeafNode;
+            this->useLAESA = _useLAESA;
             this->indexType = INDEX_TYPE::MVPTREE;
             this->indexName = "MVPTREE";
 
@@ -1439,6 +1442,7 @@ namespace gervLib::index::mvptree
             this->storePivotsInLeaf = false;
             this->storeDirectoryNode = false;
             this->storeLeafNode = false;
+            this->useLAESA = false;
             this->indexType = INDEX_TYPE::MVPTREE;
             this->indexName = "MVPTREE";
             this->indexFolder = _folder.empty() ? utils::generatePathByPrefix(configure::baseOutputPath, this->indexName) : _folder;
@@ -1492,6 +1496,7 @@ namespace gervLib::index::mvptree
             os << "Store pivots in leaf: " << (storePivotsInLeaf ? "true" : "false") << std::endl;
             os << "Store directory node: " << (storeDirectoryNode ? "true" : "false") << std::endl;
             os << "Store leaf node: " << (storeLeafNode ? "true" : "false") << std::endl;
+            os << "Use LAESA: " << (useLAESA ? "true" : "false") << std::endl;
 
             while (!nodeStack.empty())
             {
@@ -1516,8 +1521,6 @@ namespace gervLib::index::mvptree
 
         }
 
-        //TODO: implement kNN, kNNIncremental
-
         void buildIndex() override
         {
 
@@ -1528,6 +1531,13 @@ namespace gervLib::index::mvptree
             size_t currentNodeID = 0;
             std::queue<std::pair<Node<O, T>*, std::unique_ptr<dataset::Dataset<O, T>>>> nodeQueue;
             std::pair<Node<O, T>*, std::unique_ptr<dataset::Dataset<O, T>>> currentNode;
+            std::unique_ptr<pivots::Pivot<O, T>> globalPivots;
+
+            if (useLAESA)
+            {
+                globalPivots = pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType(), this->pivots);
+                globalPivots->operator()(this->dataset, this->distanceFunction, this->numPivots);
+            }
 
             if (this->dataset->getCardinality() <= numPerLeaf)
                 root = std::make_unique<LeafNode<O, T>>();
@@ -1558,12 +1568,21 @@ namespace gervLib::index::mvptree
                 {
                     auto* leafNode = (LeafNode<O, T>*) currentNode.first;
                     leafNode->setNodeID(currentNodeID++);
-                    std::filesystem::path leafIndexPath(this->indexFolder);
-                    leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
-                    std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(this->distanceFunction->getDistanceType());
-                    std::unique_ptr<pivots::Pivot<O, T>> pv = pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType(), this->pivots);
-                    std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(std::move(currentNode.second), std::move(df), std::move(pv), this->numPivots, leafIndexPath);
-                    leafNode->setIndex(std::move(idx));
+
+                    if (useLAESA) {
+                        std::filesystem::path leafIndexPath(this->indexFolder);
+                        leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
+                        std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
+                                this->distanceFunction->getDistanceType());
+
+                        std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
+                                std::move(currentNode.second), std::move(df),
+                                pivots::PivotFactory<O, T>::clone(globalPivots), this->numPivots, leafIndexPath);
+
+                        leafNode->setIndex(std::move(idx));
+                    }
+                    else
+                        leafNode->setDataset(std::move(currentNode.second));
 
                     if (storeLeafNode)
                     {
@@ -1698,6 +1717,7 @@ namespace gervLib::index::mvptree
 
                         if (currentLeafNode->getIndex() != nullptr)
                         {
+
                             laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
                             std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
 
@@ -1809,7 +1829,6 @@ namespace gervLib::index::mvptree
                         }
                         else
                         {
-
                             for (size_t i = 0; i < currentLeafNode->getDataset()->getCardinality(); i++)
                             {
 
@@ -1944,6 +1963,10 @@ namespace gervLib::index::mvptree
             memcpy(data.get() + offset, &sz, sizeof(size_t));
             offset += sizeof(size_t);
 
+            sz = (useLAESA ? 1 : 0);
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
             sz = serializedTree.size();
             memcpy(data.get() + offset, &sz, sizeof(size_t));
             offset += sizeof(size_t);
@@ -2003,6 +2026,10 @@ namespace gervLib::index::mvptree
 
             memcpy(&sz, _data.get() + offset, sizeof(size_t));
             offset += sizeof(size_t);
+            useLAESA = (sz == 1);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
 
             std::string aux;
             aux.resize(sz);
@@ -2030,7 +2057,7 @@ namespace gervLib::index::mvptree
 
             ans += sizeof(size_t) + gervLib::index::Index<O, T>::getSerializedSize();
             ans += sizeof(size_t) + serializedTree.size();
-            ans += sizeof(size_t) * 9;
+            ans += sizeof(size_t) * 10;
 
             return ans;
 

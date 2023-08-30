@@ -110,6 +110,7 @@ add_executable(gervLib
         include/factory/IndexFactory.h
         include/indexes/MVPTree.h
         include/indexes/KdTree.h
+        include/indexes/OmniKdTree.h
 )
 
 # Add libraries

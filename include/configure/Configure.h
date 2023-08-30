@@ -8,6 +8,8 @@
 #include "Utils.h"
 #include <iostream>
 #include <variant>
+#include <gmpxx.h>
+#include <type_traits>
 
 namespace gervLib::configure {
 
@@ -39,6 +41,15 @@ namespace gervLib::configure {
         gervLib::utils::createFolderIfNotExists(baseOutputPath);
 
     }
+
+    template <typename T>
+    struct is_mpz_class : std::false_type {};
+
+    template <>
+    struct is_mpz_class<mpz_class> : std::true_type {};
+
+    template <typename T>
+    inline constexpr bool is_mpz_class_v = is_mpz_class<T>::value;
 
 }
 

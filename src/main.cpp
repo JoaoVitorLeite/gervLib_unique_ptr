@@ -20,6 +20,7 @@
 #include "btree_multimap.hpp"
 #include "gmpxx.h"
 #include "HilbertCurve.h"
+#include "EquiDepth.h"
 
 using namespace gervLib::index;
 using namespace gervLib::configure;
@@ -30,6 +31,7 @@ using namespace gervLib::pivots;
 using namespace gervLib::memory;
 using namespace gervLib::query;
 using namespace gervLib::hilbert;
+using namespace gervLib::equidepth;
 
 
 int main(int argc, char **argv)
@@ -65,6 +67,22 @@ int main(int argc, char **argv)
     std::cout << hc2->distance_from_point(point).get_str() << std::endl;
 
     std::cout << *hc << std::endl << *hc2 << std::endl;
+
+    std::cout << is_mpz_class_v<decltype(p)> << std::endl;
+
+    std::vector<std::vector<double>> v = {{1.0, 22.0, 43.0, 14.0, 56.6},
+                                          {1.27, 12.0, 37.6, 74.3, 5.5},
+                                          {946.0, 2.14, 0.03, 1.14, 15.17},
+                                          {17.0, 72.0, 3.14, 0.4, 5.0},
+                                          {23.0, 4.0, 3.17, 4.0, 36.36}};
+
+    std::unique_ptr<EquiDepth<mpz_class>> ed = std::make_unique<EquiDepth<mpz_class>>(4, 5);
+    ed->build(v);
+
+    ed->print();
+    ed->saveToFile();
+    ed->readFromFile();
+    ed->print();
 
 //    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
 //            data2 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),

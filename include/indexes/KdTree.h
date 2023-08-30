@@ -7,6 +7,7 @@
 
 #include "Index.h"
 #include "IndexFactory.h"
+#include "NAryTree.h"
 
 namespace gervLib::index::kdtree
 {
@@ -705,8 +706,6 @@ namespace gervLib::index::kdtree
             return std::make_pair(std::move(cp1), std::move(cp2));
 
         }
-
-    private:
         void deleteRecursive(std::unique_ptr<Node<O, T>> node)
         {
             if (node == nullptr)
@@ -827,6 +826,114 @@ namespace gervLib::index::kdtree
 
         }
 
+        bool isInterval(double infBound, double supBound, double test)
+        {
+
+            return ((test >= infBound) && (test <= supBound));
+
+        }
+
+        double minDist(dataset::BasicArrayObject<O, T>& query, std::unique_ptr<std::vector<std::pair<double, double>>>& bounds)
+        {
+            double limInfCase3 = -1.0;
+            double limInfCase2 = -1.0;
+            double answer = -1.0;
+            bool within = true;
+
+            for(size_t x = 0; x < bounds->size(); x++)
+            {
+
+                if(!isInterval(std::abs(bounds->at(x).first), std::abs(bounds->at(x).second), query.operator[](x)))
+                {
+
+                    within = false;
+
+                    limInfCase3 = std::max(limInfCase3,
+
+                                           std::min(
+
+                                                   std::abs(query.operator[](x) - std::abs(bounds->at(x).first)),
+
+                                                   std::abs(query.operator[](x) - std::abs(bounds->at(x).second))
+
+                                           )
+
+                    );
+                }
+                else
+                {
+
+                    limInfCase2 = std::min(limInfCase2,
+
+                                           std::min(
+
+                                                   std::abs(query.operator[](x) - std::abs(bounds->at(x).first)),
+
+                                                   std::abs(query.operator[](x) - std::abs(bounds->at(x).second))
+
+                                           )
+
+                    );
+
+                }
+
+            }
+
+            if(within)
+            {
+
+                answer = 0.0;
+
+            }
+            else
+            {
+
+                if(limInfCase2 != -1.0)
+                {
+
+                    answer = limInfCase2;
+
+                }
+                else
+                {
+
+                    answer = limInfCase3;
+
+                }
+
+            }
+
+            return answer;
+        }
+
+        double maxDist(dataset::BasicArrayObject<O, T>& query, std::unique_ptr<std::vector<std::pair<double, double>>>& bounds)
+        {
+            double answer = -1.0;
+
+            answer = std::numeric_limits<double>::max();
+
+            for(size_t x = 0; x < bounds->size(); x++)
+            {
+
+                if (std::numeric_limits<double>::max() -  std::abs(bounds->at(x).first) >= query.operator[](x))
+                {
+
+                    answer = std::min(answer, query.operator[](x) + std::abs(bounds->at(x).first));
+
+                }
+
+                if (std::numeric_limits<double>::max() -  std::abs(bounds->at(x).second) >= query.operator[](x))
+                {
+
+                    answer = std::min(answer, query.operator[](x) + std::abs(bounds->at(x).second));
+
+                }
+
+            }
+
+            return answer;
+        }
+
     public:
         KdTree()
         {
@@ -906,7 +1013,7 @@ namespace gervLib::index::kdtree
 
         }
 
-        //TODO implement kNN, kNNIncremental, serialize, deserialize, getSerializedSize
+        //TODO implement kNN, kNNIncremental
 
         ~KdTree() override
         {
@@ -1188,10 +1295,325 @@ namespace gervLib::index::kdtree
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
         {
-            throw std::runtime_error("KdTree::kNNIncremental: not implemented");
+
+            utils::Timer timer{};
+            timer.start();
+            this->distanceFunction->resetStatistics();
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            size_t ioW = configure::IOWrite, ioR = configure::IORead;
+            std::priority_queue<query::Partition<Node<O, T>*>, std::vector<query::Partition<Node<O, T>*>>, std::greater<query::Partition<Node<O, T>*>>> nodeQueue;
+            std::priority_queue<query::ResultEntry<O>, std::vector<query::ResultEntry<O>>, std::greater<query::ResultEntry<O>>> elementQueue;
+            query::Result<O> result;
+            result.setMaxSize(k);
+            query::Partition<Node<O, T>*> currentPartition;
+            Node<O, T>* currentNode;
+            LeafNode<O, T>* currentLeafNode;
+            LAESA<O, T>* laesa;
+            double dist;
+
+            nodeQueue.push(query::Partition<Node<O, T>*>(root.get(), 0.0, std::numeric_limits<double>::max()));
+
+            while (result.size() < k && !(nodeQueue.empty() && elementQueue.empty())) {
+
+                if (elementQueue.empty())
+                {
+
+                    currentPartition = nodeQueue.top();
+                    nodeQueue.pop();
+                    currentNode = currentPartition.getElement();
+
+                    if (currentNode->isLeafNode())
+                    {
+
+                        if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getNodeID());
+                            currentNode->deserialize(std::move(nodeData));
+                        }
+
+                        currentLeafNode = (LeafNode<O, T>*) currentNode;
+                        this->leafNodeAccess++;
+
+                        if (currentLeafNode->getIndex() != nullptr)
+                        {
+                            laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentLeafNode->getIndex()->getPrunning();
+
+                        }
+                        else
+                        {
+
+                            for (size_t i = 0; i < currentLeafNode->getDataset()->getCardinality(); i++)
+                            {
+
+                                dist = this->distanceFunction->operator()(query, currentLeafNode->getDataset()->getElement(i));
+                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getDataset()->getElement(i).getOID(), dist));
+
+                            }
+
+                        }
+
+                        if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            currentNode->clear();
+                        }
+
+                    }
+                    else
+                    {
+
+                        if (currentNode->getLeft()->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getLeft()->getNodeID());
+                            currentNode->getLeft()->deserialize(std::move(nodeData));
+                        }
+
+                        if (currentNode->getRight()->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getRight()->getNodeID());
+                            currentNode->getRight()->deserialize(std::move(nodeData));
+                        }
+
+                        nodeQueue.push(query::Partition<Node<O, T>*>(currentNode->getLeft().get(), minDist(query, currentNode->getLeft()->getBoundary()), maxDist(query, currentNode->getLeft()->getBoundary())));
+                        nodeQueue.push(query::Partition<Node<O, T>*>(currentNode->getRight().get(), minDist(query, currentNode->getRight()->getBoundary()), maxDist(query, currentNode->getRight()->getBoundary())));
+
+                        if (currentNode->getLeft()->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            currentNode->getLeft()->clear();
+                        }
+
+                        if (currentNode->getRight()->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            currentNode->getRight()->clear();
+                        }
+
+                    }
+
+                }
+                else if (!nodeQueue.empty() && nodeQueue.top().getMin() < elementQueue.top().getDistance())
+                {
+
+                    currentPartition = nodeQueue.top();
+                    nodeQueue.pop();
+                    currentNode = currentPartition.getElement();
+
+                    if (currentNode->isLeafNode())
+                    {
+
+                        if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getNodeID());
+                            currentNode->deserialize(std::move(nodeData));
+                        }
+
+                        currentLeafNode = (LeafNode<O, T>*) currentNode;
+                        this->leafNodeAccess++;
+
+                        if (currentLeafNode->getIndex() != nullptr)
+                        {
+                            laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentLeafNode->getIndex()->getPrunning();
+
+                        }
+                        else
+                        {
+
+                            for (size_t i = 0; i < currentLeafNode->getDataset()->getCardinality(); i++)
+                            {
+
+                                dist = this->distanceFunction->operator()(query, currentLeafNode->getDataset()->getElement(i));
+                                elementQueue.push(query::ResultEntry<O>(currentLeafNode->getDataset()->getElement(i).getOID(), dist));
+
+                            }
+
+                        }
+
+                        if (currentNode->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            currentNode->clear();
+                        }
+
+                    }
+                    else
+                    {
+
+                        if (currentNode->getLeft()->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getLeft()->getNodeID());
+                            currentNode->getLeft()->deserialize(std::move(nodeData));
+                        }
+
+                        if (currentNode->getRight()->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->getRight()->getNodeID());
+                            currentNode->getRight()->deserialize(std::move(nodeData));
+                        }
+
+                        nodeQueue.push(query::Partition<Node<O, T>*>(currentNode->getLeft().get(), minDist(query, currentNode->getLeft()->getBoundary()), maxDist(query, currentNode->getLeft()->getBoundary())));
+                        nodeQueue.push(query::Partition<Node<O, T>*>(currentNode->getRight().get(), minDist(query, currentNode->getRight()->getBoundary()), maxDist(query, currentNode->getRight()->getBoundary())));
+
+                        if (currentNode->getLeft()->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            currentNode->getLeft()->clear();
+                        }
+
+                        if (currentNode->getRight()->getMemoryStatus() == MEMORY_STATUS::IN_DISK)
+                        {
+                            currentNode->getRight()->clear();
+                        }
+
+                    }
+
+                }
+                else
+                {
+
+                    result.push(elementQueue.top());
+                    elementQueue.pop();
+
+                }
+
+            }
+
+            std::vector<query::ResultEntry<O>> ans = result.getResults();
+            std::reverse(ans.begin(), ans.end());
+
+            std::string expt_id = utils::generateExperimentID();
+            timer.stop();
+
+            if (saveResults)
+            {
+                this->saveResultToFile(ans, query, "kNNIncremental", expt_id, {expt_id, std::to_string(k), "-1",
+                                                                               std::to_string(timer.getElapsedTime()),
+                                                                               std::to_string(timer.getElapsedTimeSystem()),
+                                                                               std::to_string(timer.getElapsedTimeUser()),
+                                                                               std::to_string(this->distanceFunction->getDistanceCount()),
+                                                                               std::to_string(this->prunning),
+                                                                               std::to_string(configure::IOWrite - ioW),
+                                                                               std::to_string(configure::IORead - ioR)});
+            }
+
+            return ans;
+
         }
 
+        std::unique_ptr<u_char[]> serialize() override
+        {
+            std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
+            size_t offset = 0, sz;
 
+            sz = gervLib::index::Index<O, T>::getSerializedSize();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> indexData = gervLib::index::Index<O, T>::serialize();
+            memcpy(data.get() + offset, indexData.get(), sz);
+            offset += sz;
+            indexData.reset();
+
+            memcpy(data.get() + offset, &numPerLeaf, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &numPivots, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = (storeDirectoryNode ? 1 : 0);
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = (storeLeafNode ? 1 : 0);
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = (useLAESA ? 1 : 0);
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = sizeof(size_t) + serializedTree.size();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, serializedTree.c_str(), serializedTree.size());
+            offset += serializedTree.size();
+
+            return data;
+        }
+
+        void deserialize(std::unique_ptr<u_char[]> _data) override
+        {
+            size_t offset = 0, sz;
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> indexData = std::make_unique<u_char[]>(sz);
+            memcpy(indexData.get(), _data.get() + offset, sz);
+            offset += sz;
+            gervLib::index::Index<O, T>::deserialize(std::move(indexData));
+
+            memcpy(&numPerLeaf, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&numPivots, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            storeDirectoryNode = (sz == 1);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            storeLeafNode = (sz == 1);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            useLAESA = (sz == 1);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::string aux;
+            aux.resize(sz);
+
+            memcpy(&aux[0], _data.get() + offset, sz);
+            offset += sz;
+
+            std::stringstream ss(aux);
+            auto root_helper = deserializeTreeRecursive(ss);
+
+            if (root != nullptr)
+                root.reset();
+
+            buildTree(root, root_helper);
+
+            _data.reset();
+
+        }
+
+        size_t getSerializedSize() override
+        {
+            size_t ans = 0;
+
+            this->serializedTree = serializeTreeRecursive(root);
+
+            ans += sizeof(size_t) + gervLib::index::Index<O, T>::getSerializedSize();
+            ans += sizeof(size_t) * 5;
+
+            ans += sizeof(size_t) + serializedTree.size();
+
+            return ans;
+        }
 
     };
 

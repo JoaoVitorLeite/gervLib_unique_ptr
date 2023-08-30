@@ -17,6 +17,9 @@
 #include "MVPTree.h"
 #include "OmniKdTree.h"
 //#include "KdTree.h"
+#include "btree_multimap.hpp"
+#include "gmpxx.h"
+#include "HilbertCurve.h"
 
 using namespace gervLib::index;
 using namespace gervLib::configure;
@@ -26,6 +29,8 @@ using namespace gervLib::distance;
 using namespace gervLib::pivots;
 using namespace gervLib::memory;
 using namespace gervLib::query;
+using namespace gervLib::hilbert;
+
 
 int main(int argc, char **argv)
 {
@@ -33,32 +38,60 @@ int main(int argc, char **argv)
     gervLib::configure::configure();
     std::cout << std::boolalpha;
 
-    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
-            data2 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
-            test = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ",");
-    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> dist1 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>(),
-            dist2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
+    unsigned long long p = (unsigned long long)log2(20-1) + 1;
+    unsigned long long n = 2;
+    std::unique_ptr<HilbertCurve<unsigned long long>> hc = std::make_unique<HilbertCurve_ull>(p, n);
 
-    auto pvt = std::make_unique<RandomPivots<size_t, double>>();
-    pvt->setSeed(16);
+    std::vector<unsigned long long> distances(20);
+    std::iota(distances.begin(), distances.end(), 0);
+    std::vector<std::vector<unsigned long long>> points = hc->points_from_distances(distances);
 
-    std::unique_ptr<omni::OmniKdTree<size_t, double>> omni = std::make_unique<omni::OmniKdTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, false, true, true, "tmp_unit_test11");
-    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
-
-    for(size_t i = 0; i < test->getCardinality(); i++)
+    for (size_t i = 0; i < distances.size(); i++)
     {
-        std::vector<gervLib::query::ResultEntry<size_t>> res1 = omni->kNNIncremental(test->getElement(i), 100, true);
-        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true);
-
-        for(size_t j = 0; j < res1.size(); j++)
-        {
-            if (res1[j].getDistance() != res2[j].getDistance()) {
-                std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance()<< std::endl;
-                //throw std::runtime_error("Error");
-            }
-//            std::cout << omni->getPrunning() << std::endl;
-        }
+        std::cout << "HC (" << distances[i] << "): ";
+        for (size_t j = 0; j < points[i].size(); j++)
+            std::cout << points[i][j] << " ";
+        std::cout << std::endl;
     }
+
+    std::cout << std::endl << std::endl;
+
+    mpz_class p2 = log2(200-1) + 1;
+    mpz_class n2 = 10;
+    std::unique_ptr<HilbertCurve<mpz_class >> hc2 = std::make_unique<HilbertCurve_mpz>(p2, n2);
+    std::vector<mpz_class> point = {1, 5, 3, 2, 4, 6, 7, 8, 9, 10};
+    mpz_class distance = 0;
+
+    std::cout << hc2->distance_from_point(point).get_str() << std::endl;
+
+    std::cout << *hc << std::endl << *hc2 << std::endl;
+
+//    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
+//            data2 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
+//            test = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ",");
+//    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> dist1 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>(),
+//            dist2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
+//
+//    auto pvt = std::make_unique<RandomPivots<size_t, double>>();
+//    pvt->setSeed(16);
+//
+//    std::unique_ptr<omni::OmniKdTree<size_t, double>> omni = std::make_unique<omni::OmniKdTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, false, true, true, "tmp_unit_test11");
+//    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
+//
+//    for(size_t i = 0; i < test->getCardinality(); i++)
+//    {
+//        std::vector<gervLib::query::ResultEntry<size_t>> res1 = omni->kNNIncremental(test->getElement(i), 100, true);
+//        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true);
+//
+//        for(size_t j = 0; j < res1.size(); j++)
+//        {
+//            if (res1[j].getDistance() != res2[j].getDistance()) {
+//                std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance()<< std::endl;
+//                //throw std::runtime_error("Error");
+//            }
+////            std::cout << omni->getPrunning() << std::endl;
+//        }
+//    }
 
 //    std::unique_ptr<mvptree::MVPTree<size_t, double>> mvp = std::make_unique<mvptree::MVPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 4096);
 //    std::unique_ptr<u_char[]> serialized = mvp->serialize();

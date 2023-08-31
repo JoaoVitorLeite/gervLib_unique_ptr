@@ -13,6 +13,14 @@
 
 #include "core.hpp"
 
+//SPBTREE
+#ifdef ENABLE_DEBUG
+#define TLX_BTREE_DEBUG
+#endif
+
+#include "HilbertCurve.h"
+#include "Serialize.h"
+
 // *** Required Headers from the STL
 
 #include <algorithm>
@@ -81,7 +89,11 @@ struct btree_default_traits {
     //! during insert() or erase() operation. The header must have been
     //! compiled with TLX_BTREE_DEBUG defined and key_type must be std::ostream
     //! printable.
+#ifdef TLX_BTREE_DEBUG
+    static const bool debug = true;
+#else
     static const bool debug = false;
+#endif
 
     //! Number of slots in each leaf of the tree. Estimated so that each node
     //! has a size of about 256 bytes.
@@ -228,6 +240,12 @@ private:
         bool is_leafnode() const {
             return (level == 0);
         }
+
+        //SPBTREE
+        std::unique_ptr<std::vector<std::vector<Key>>> mbr = nullptr;
+        Key key_min, key_max;
+        size_t nodeID;
+
     };
 
     //! Extended structure of a inner node in-memory. Contains only keys and no
@@ -3689,6 +3707,103 @@ private:
     }
 
     //! \}
+
+//SPBTREE
+public:
+    void build_MBR(std::unique_ptr<gervLib::hilbert::HilbertCurve<Key>> _hc, size_t _pivot_num)
+    {
+        this->pivot_num = _pivot_num;
+        this->currentNodeID = 0;
+        this->hc = std::move(_hc);
+        this->GRID_L = (1 << hc->getP()) - 1;
+        _build_MBR(root_);
+    }
+
+    std::unique_ptr<gervLib::hilbert::HilbertCurve<Key>> getHilbertCurve()
+    {
+        return std::move(hc);
+    }
+
+private:
+    size_t pivot_num, currentNodeID;
+    std::unique_ptr<gervLib::hilbert::HilbertCurve<Key>> hc;
+    Key GRID_L;
+
+    void _build_MBR(node* n)
+    {
+
+        if (n->is_leafnode()) {
+            auto *leaf = static_cast<LeafNode *>(n);
+            leaf->nodeID = currentNodeID++;
+            std::vector<Key> keys;
+
+            for (int i = 0; i < leaf->slotuse; ++i) {
+
+                leaf->key_min = std::min(leaf->key_min, leaf->key(i));
+                leaf->key_max = std::max(leaf->key_max, leaf->key(i));
+                keys.push_back(leaf->key(i));
+
+            }
+
+            if (leaf->mbr != nullptr) {
+                leaf->mbr->clear();
+                leaf->mbr.reset();
+            }
+
+            leaf->mbr = std::make_unique<std::vector<std::vector<Key>>>(pivot_num, std::vector<Key>{GRID_L, 0});
+
+            std::vector<std::vector<Key>> points = hc->points_from_distances(keys);
+            keys.clear();
+
+            for (int i = 0; i < pivot_num; ++i) {
+
+                for (size_t j = 0; j < points.size(); j++) {
+
+                    leaf->mbr->at(i)[0] = std::min(leaf->mbr->at(i)[0], points[j][i]);
+                    leaf->mbr->at(i)[1] = std::max(leaf->mbr->at(i)[1], points[j][i]);
+
+                }
+
+            }
+
+            points.clear();
+
+        }
+        else
+        {
+            auto* inner = static_cast<InnerNode*>(n);
+            inner->nodeID = currentNodeID++;
+
+            for (int slot = 0; slot < inner->slotuse + 1; ++slot)
+            {
+                _build_MBR(inner->childid[slot]);
+                inner->key_min = std::min(inner->key_min, inner->childid[slot]->key_min);
+                inner->key_max = std::max(inner->key_max, inner->childid[slot]->key_max);
+            }
+
+            if (inner->mbr != nullptr) {
+                inner->mbr->clear();
+                inner->mbr.reset();
+            }
+
+            inner->mbr = std::make_unique<std::vector<std::vector<Key>>>(pivot_num, std::vector<Key>{GRID_L, 0});
+
+            for (int slot = 0; slot < inner->slotuse + 1; ++slot) {
+
+                for (int i=0; i < pivot_num; ++i)
+                {
+
+                    inner->mbr->at(i)[0] = std::min(inner->mbr->at(i)[0], inner->childid[slot]->mbr->at(i)[0]);
+                    inner->mbr->at(i)[1] = std::max(inner->mbr->at(i)[1], inner->childid[slot]->mbr->at(i)[1]);
+
+                }
+
+            }
+
+        }
+
+    }
+
 };
 
 //! \}

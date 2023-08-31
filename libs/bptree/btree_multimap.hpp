@@ -11,6 +11,9 @@
 #ifndef TLX_CONTAINER_BTREE_MULTIMAP_HEADER
 #define TLX_CONTAINER_BTREE_MULTIMAP_HEADER
 
+//SPB
+#include "HilbertCurve.h"
+
 #include <functional>
 #include <memory>
 #include <utility>
@@ -561,6 +564,19 @@ public:
     }
 
     //! \}
+
+    //SPBTREE
+
+    void build_MBR(std::unique_ptr<gervLib::hilbert::HilbertCurve<Key_>> hc, size_t pivot_num)
+    {
+        tree_.build_MBR(std::move(hc), pivot_num);
+    }
+
+    std::unique_ptr<gervLib::hilbert::HilbertCurve<Key_>> getHilbertCurve()
+    {
+        return tree_.getHilbertCurve();
+    }
+
 };
 
 //! \}

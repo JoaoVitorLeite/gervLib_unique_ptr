@@ -56,7 +56,7 @@ namespace gervLib::index::spb
     {
 
     private:
-        typedef tlx::btree_multimap<D, dataset::BasicArrayObject<O, T>, std::less<D>, btree_spb_traits<D, size_t>> btree_type;
+        typedef tlx::btree_multimap<D, dataset::BasicArrayObject<O, T>, O, T, std::less<D>, btree_spb_traits<D, size_t>> btree_type;
         std::unique_ptr<equidepth::EquiDepth<T>> equiDepth;
         std::unique_ptr<hilbert::HilbertCurve<D>> hilbertCurve;
         size_t numPerLeaf{}, numPivots{}, num_bins{};
@@ -142,7 +142,7 @@ namespace gervLib::index::spb
 
             this->generateIndexFiles(true, true);
 
-            this->pageManager = std::make_unique<memory::PageManager<O>>("vp_page", this->indexFolder, this->pageSize);
+            this->pageManager = std::make_unique<memory::PageManager<O>>("spb_page", this->indexFolder, this->pageSize);
 
             this->buildIndex();
 
@@ -214,7 +214,6 @@ namespace gervLib::index::spb
             }
 
             this->equiDepth->build(pivotMapping);
-            this->equiDepth->print();
             this->equiDepth->saveToFile(this->indexFolder);
             file_pivot_mapping.close();
 
@@ -254,11 +253,12 @@ namespace gervLib::index::spb
             keys.clear();
 
             std::sort(insertValues.begin(), insertValues.end());
-            //bptree.setHilbertCurve(this->hilbertCurve);
             bptree->bulk_load(insertValues.begin(), insertValues.end());
             insertValues.clear();
-            bptree->build_MBR(std::move(this->hilbertCurve), this->numPivots);
-
+            bptree->setVariables(std::move(this->pivots), std::move(this->distanceFunction), std::move(this->hilbertCurve), std::move(this->pageManager),
+                                 this->numPivots, this->indexFolder, this->storeDirectoryNode, this->storeLeafNode, this->useLAESA);
+            bptree->build_MBR();
+            bptree->test();
 
 
 

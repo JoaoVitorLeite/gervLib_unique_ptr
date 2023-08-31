@@ -34,7 +34,7 @@ namespace tlx {
  * slots and self-verification. Furthermore an allocator can be specified for
  * tree nodes.
  */
-template <typename Key_, typename Data_,
+template <typename Key_, typename Data_, typename O, typename T,
           typename Compare_ = std::less<Key_>,
           typename Traits_ =
               btree_default_traits<Key_, std::pair<Key_, Data_> >,
@@ -89,7 +89,8 @@ public:
     };
 
     //! Implementation type of the btree_base
-    typedef BTree<key_type, value_type, key_of_value, key_compare,
+
+    typedef BTree<key_type, value_type, key_of_value, O, T, key_compare,
                   traits, true, allocator_type> btree_impl;
 
     //! Function class comparing two value_type pairs.
@@ -567,14 +568,36 @@ public:
 
     //SPBTREE
 
-    void build_MBR(std::unique_ptr<gervLib::hilbert::HilbertCurve<Key_>> hc, size_t pivot_num)
+    void setVariables(std::unique_ptr<gervLib::pivots::Pivot<O, T>> _pivots, std::unique_ptr<gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>> _dist,
+                      std::unique_ptr<gervLib::hilbert::HilbertCurve<Key_>> _hc, std::unique_ptr<gervLib::memory::PageManager<O>> _pageManager, size_t _pivot_num, std::string _indexFolder,
+                      bool _storeDirectoryNode = false, bool _storeLeafNode = false, bool _useLAESA = true)
     {
-        tree_.build_MBR(std::move(hc), pivot_num);
+        tree_.setVariables(std::move(_pivots), std::move(_dist), std::move(_hc), std::move(_pageManager), _pivot_num, _indexFolder, _storeDirectoryNode, _storeLeafNode, _useLAESA);
     }
 
-    std::unique_ptr<gervLib::hilbert::HilbertCurve<Key_>> getHilbertCurve()
+    void build_MBR()
     {
-        return tree_.getHilbertCurve();
+        tree_.build_MBR();
+    }
+
+    std::unique_ptr<u_char[]> serializeLeafData()
+    {
+        return std::move(tree_.serializeLeafData());
+    }
+
+    void deserializeLeafData(std::unique_ptr<u_char[]> data)
+    {
+        tree_.deserializeLeafData(std::move(data));
+    }
+
+    size_t getLeafDataSize()
+    {
+        return tree_.getLeafDataSize();
+    }
+
+    void test()
+    {
+        tree_.test();
     }
 
 };

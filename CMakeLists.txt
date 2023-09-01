@@ -111,6 +111,7 @@ add_executable(gervLib
         include/indexes/MVPTree.h
         include/indexes/KdTree.h
         include/indexes/OmniKdTree.h
+        include/indexes/PMTree.h
 )
 
 # Add libraries

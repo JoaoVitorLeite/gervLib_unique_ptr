@@ -77,6 +77,165 @@ namespace gervLib::index::spb
             return "expt_id,k,r,time,sys_time,user_time,distCount,prunning,iowrite,ioread";
         }
 
+    private:
+        template <typename U>
+        bool isInterval(U infBound, U supBound, U test)
+        {
+
+            return ((test >= infBound) && (test <= supBound));
+
+        }
+
+        double minDist(dataset::BasicArrayObject<O, T>& query, node_type* node)
+        {
+
+            std::vector<std::vector<double>> mbr = std::vector<std::vector<double>>(this->numPivots, std::vector<double>(2, 0.0));
+
+            for (size_t i = 0; i < this->numPivots; i++) {
+
+                if constexpr (configure::is_mpz_class_v<D>) {
+                    std::pair<D, D> pairMin = equiDepth->getInterval(i, node->mbr->at(i)[0].get_ui());
+                    std::pair<D, D> pairMax = equiDepth->getInterval(i, node->mbr->at(i)[1].get_ui());
+
+                    mbr[i][0] = pairMin.first.get_d();
+                    mbr[i][1] = pairMax.second.get_d();
+
+                } else {
+                    std::pair<double, double> pairMin = equiDepth->getInterval(i, node->mbr->at(i)[0]);
+                    std::pair<double, double> pairMax = equiDepth->getInterval(i, node->mbr->at(i)[1]);
+
+                    mbr[i][0] = pairMin.first;
+                    mbr[i][1] = pairMax.second;
+
+                }
+
+            }
+
+            double limInfCase3 = -1.0;
+            double limInfCase2 = -1.0;
+            double answer = -1.0;
+            bool within = true;
+
+            for(size_t i = 0; i < this->numPivots; i++)
+            {
+
+                if(!isInterval(mbr[i][0], mbr[i][1], query[i]))
+                {
+
+                    within = false;
+
+                    limInfCase3 = std::max(limInfCase3,
+                                           std::min(
+                                                   std::abs(query[i] - mbr[i][0]),
+                                                   std::abs(query[i] - mbr[i][1])
+                                           )
+                    );
+
+                }
+                else
+                {
+
+                    limInfCase2 = std::min(limInfCase2,
+                                           std::min(
+                                                   std::abs(query[i] - mbr[i][0]),
+                                                   std::abs(query[i] - mbr[i][1])
+                                           )
+                    );
+
+                }
+
+            }
+
+            if(within)
+            {
+
+                answer = 0.0;
+
+            }
+            else
+            {
+
+                if(limInfCase2 != -1)
+                {
+
+                    answer = limInfCase2;
+
+                }
+                else
+                {
+
+                    answer = limInfCase3;
+
+                }
+
+            }
+
+            for (size_t i = 0; i < this->numPivots; i++) {
+                mbr[i].clear();
+            }
+
+            mbr.clear();
+
+            return answer;
+
+        }
+
+        double maxDist(dataset::BasicArrayObject<O, T>& query, node_type* node)
+        {
+
+            std::vector<std::vector<double>> mbr = std::vector<std::vector<double>>(this->numPivots, std::vector<double>(2, 0.0));
+
+            for (size_t i = 0; i < this->numPivots; i++) {
+
+                if constexpr (configure::is_mpz_class_v<D>) {
+                    std::pair<D, D> pairMin = equiDepth->getInterval(i, node->mbr->at(i)[0].get_ui());
+                    std::pair<D, D> pairMax = equiDepth->getInterval(i, node->mbr->at(i)[1].get_ui());
+
+                    mbr[i][0] = pairMin.first.get_d();
+                    mbr[i][1] = pairMax.second.get_d();
+
+                } else {
+                    std::pair<double, double> pairMin = equiDepth->getInterval(i, node->mbr->at(i)[0]);
+                    std::pair<double, double> pairMax = equiDepth->getInterval(i, node->mbr->at(i)[1]);
+
+                    mbr[i][0] = pairMin.first;
+                    mbr[i][1] = pairMax.second;
+
+                }
+
+            }
+
+            double answer = std::numeric_limits<double>::max();
+
+            for(size_t i = 0; i < this->numPivots; i++)
+            {
+
+                if(std::numeric_limits<double>::max() - mbr[i][0] >= query[i])
+                {
+
+                    answer = std::min(answer, query[i] + mbr[i][0]);
+
+                }
+
+                if(std::numeric_limits<double>::max() - mbr[i][1] >= query[i])
+                {
+
+                    answer = std::min(answer, query[i] + mbr[i][1]);
+
+                }
+
+            }
+
+            for (size_t i = 0; i < this->numPivots; i++) {
+                mbr[i].clear();
+            }
+
+            mbr.clear();
+
+            return answer;
+
+        }
+
     public:
         SPBTree()
         {
@@ -198,7 +357,7 @@ namespace gervLib::index::spb
 
         }
 
-        //TODO implement kNN, kNNIncremental, serialize, deserialize, getSerializedSize
+        //TODO implement kNNIncremental, serialize, deserialize, getSerializedSize
 
         void clear() override
         {
@@ -316,9 +475,14 @@ namespace gervLib::index::spb
 
             insertValues.clear();
 
-            bptree->setVariables(std::move(this->pivots), std::move(this->distanceFunction), std::move(this->hilbertCurve), std::move(this->pageManager),
+            std::unique_ptr<pivots::Pivot<O, T>> pvt_cpy = pivots::PivotFactory<O, T>::clone(this->pivots);
+            std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> dist_cpy = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(this->distanceFunction->getDistanceType());
+            bptree->setVariables(std::move(pvt_cpy), std::move(dist_cpy), this->hilbertCurve.get(), this->pageManager.get(),
                                  this->numPivots, this->indexFolder, this->storeDirectoryNode, this->storeLeafNode, this->useLAESA);
             bptree->build_MBR();
+
+            this->dataset->clear();
+            this->dataset.reset();
 
             timer.stop();
 
@@ -348,6 +512,7 @@ namespace gervLib::index::spb
 
             utils::Timer timer{};
             timer.start();
+            equiDepth->load();
             this->distanceFunction->resetStatistics();
             this->prunning = 0;
             this->leafNodeAccess = 0;
@@ -359,14 +524,144 @@ namespace gervLib::index::spb
             query::Partition<node_type*> currentPartition;
             node_type* currentNode;
             leaf_node_type* currentLeafNode;
+            inner_node_type* currentInnerNode;
             LAESA<O, T>* laesa;
             double dist;
 
             nodeQueue.push(query::Partition<node_type*>(bptree->getRoot(), 0.0, std::numeric_limits<double>::max()));
 
+            dataset::BasicArrayObject<O, T> auxQuery = query;
+
+            for (size_t i = 0; i < this->numPivots; i++)
+            {
+                auxQuery.operator[](i) = this->distanceFunction->operator()(query, this->pivots->getPivot(i));
+            }
+
             while (result.size() < k && !(nodeQueue.empty() && elementQueue.empty()))
             {
 
+                if (elementQueue.empty()) {
+
+                    currentPartition = nodeQueue.top();
+                    nodeQueue.pop();
+                    currentNode = currentPartition.getElement();
+
+                    if (currentNode->memoryStatus == MEMORY_STATUS::IN_DISK) {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->nodeID);
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
+                    if (currentNode->is_leafnode()) {
+
+                        currentLeafNode = (leaf_node_type *) currentNode;
+                        this->leafNodeAccess++;
+
+                        if (currentLeafNode->index != nullptr) {
+                            laesa = (LAESA<O, T> *) currentLeafNode->index.get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+
+                            for (auto &entry: leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentLeafNode->index->getPrunning();
+
+                        } else {
+
+                            for (size_t i = 0; i < currentLeafNode->slotuse; i++) {
+
+                                dist = this->distanceFunction->operator()(query, *currentLeafNode->slotdata[i].second);
+                                elementQueue.push(
+                                        query::ResultEntry<O>(currentLeafNode->slotdata[i].second->getOID(), dist));
+
+                            }
+
+                        }
+
+                    } else {
+
+                        currentInnerNode = (inner_node_type *) currentNode;
+
+
+                        for (size_t i = 0; i < currentInnerNode->slotuse + 1; i++) {
+
+                            nodeQueue.push(query::Partition<node_type *>(currentInnerNode->childid[i],
+                                                                         minDist(auxQuery, currentInnerNode->childid[i]),
+                                                                         maxDist(auxQuery, currentInnerNode->childid[i])));
+
+                        }
+
+
+                    }
+
+                    if (currentNode->memoryStatus == MEMORY_STATUS::IN_DISK) {
+                        currentNode->clear();
+                    }
+
+                }
+                else if (!nodeQueue.empty() && nodeQueue.top().getMin() < elementQueue.top().getDistance())
+                {
+                    currentPartition = nodeQueue.top();
+                    nodeQueue.pop();
+                    currentNode = currentPartition.getElement();
+
+                    if (currentNode->memoryStatus == MEMORY_STATUS::IN_DISK) {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->nodeID);
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
+                    if (currentNode->is_leafnode()) {
+
+                        currentLeafNode = (leaf_node_type *) currentNode;
+                        this->leafNodeAccess++;
+
+                        if (currentLeafNode->index != nullptr) {
+                            laesa = (LAESA<O, T> *) currentLeafNode->index.get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+
+                            for (auto &entry: leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentLeafNode->index->getPrunning();
+
+                        } else {
+
+                            for (size_t i = 0; i < currentLeafNode->slotuse; i++) {
+
+                                dist = this->distanceFunction->operator()(query, *currentLeafNode->slotdata[i].second);
+                                elementQueue.push(
+                                        query::ResultEntry<O>(currentLeafNode->slotdata[i].second->getOID(), dist));
+
+                            }
+
+                        }
+
+                    } else {
+
+                        currentInnerNode = (inner_node_type *) currentNode;
+
+
+                        for (size_t i = 0; i < currentInnerNode->slotuse + 1; i++) {
+
+                            nodeQueue.push(query::Partition<node_type *>(currentInnerNode->childid[i],
+                                                                         minDist(auxQuery, currentInnerNode->childid[i]),
+                                                                         maxDist(auxQuery, currentInnerNode->childid[i])));
+
+                        }
+
+
+                    }
+
+                    if (currentNode->memoryStatus == MEMORY_STATUS::IN_DISK) {
+                        currentNode->clear();
+                    }
+                }
+                else
+                {
+
+                    result.push(elementQueue.top());
+                    elementQueue.pop();
+
+                }
 
 
             }

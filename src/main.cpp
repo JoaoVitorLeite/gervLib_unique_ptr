@@ -85,17 +85,63 @@ int main(int argc, char **argv)
 //    ed->readFromFile();
 //    ed->print();
 
-    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " "),
-            data2 = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " "),
-            test = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " ");
+    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
+            data2 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
+            test = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ",");
     std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> dist1 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>(),
             dist2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
 
     auto pvt = std::make_unique<RandomPivots<size_t, double>>();
     pvt->setSeed(16);
 
-    //std::unique_ptr<spb::SPBTree<size_t, double, unsigned long long>> spb = std::make_unique<spb::SPBTree<size_t, double, unsigned long long>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
-    std::unique_ptr<Index<size_t, double>> spb = std::make_unique<spb::SPBTree<size_t, double, mpz_class>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
+    std::unique_ptr<spb::SPBTree<size_t, double, unsigned long long>> spb = std::make_unique<spb::SPBTree<size_t, double, unsigned long long>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 50, 4096, false, false, true);
+//    std::unique_ptr<Index<size_t, double>> spb = std::make_unique<spb::SPBTree<size_t, double, mpz_class>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
+    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
+
+    //std::cout << *spb << "\n\n";
+
+    for(size_t i = 0; i < test->getCardinality(); i++)
+    {
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = spb->kNNIncremental(test->getElement(i), 10, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 10, true);
+
+        for(size_t j = 0; j < res1.size(); j++)
+        {
+            if (res1[j].getDistance() != res2[j].getDistance()) {
+                std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance()<< std::endl;
+                //throw std::runtime_error("Error");
+            }
+//            std::cout << spb->getPrunning() << std::endl;
+        }
+    }
+
+//    size_t id = 2;
+//    std::vector<gervLib::query::ResultEntry<size_t>> res1 = spb->kNNIncremental(test->getElement(id), 10, true);
+//    std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(id), 10, true);
+//
+//    for(size_t j = 0; j < res1.size(); j++)
+//    {
+//        std::cout << res1[j] << "\t" << res2[j] << std::endl;
+//        if (res1[j].getDistance() != res2[j].getDistance()) {
+//                //assert(res1[j].getDistance() == res2[j].getDistance());
+//            std::cout << "Error: " << res1[j].getDistance() << " != " << res2[j].getDistance() << std::endl;
+//            throw std::runtime_error("Error");
+//        }
+//    }
+//
+//    std::vector<gervLib::query::ResultEntry<size_t>> res3 = spb->kNNIncremental(test->getElement(id), 10, true);
+//    std::vector<gervLib::query::ResultEntry<size_t>> res4 = sc->kNN(test->getElement(id), 10, true);
+//
+//    for(size_t j = 0; j < res3.size(); j++)
+//    {
+//        std::cout << res3[j] << "\t" << res4[j] << std::endl;
+//        if (res3[j].getDistance() != res4[j].getDistance()) {
+//            //assert(res1[j].getDistance() == res2[j].getDistance());
+//            std::cout << "Error: " << res3[j].getDistance() << " != " << res4[j].getDistance() << std::endl;
+//            throw std::runtime_error("Error");
+//        }
+//    }
+
 
 //    std::unique_ptr<omni::OmniKdTree<size_t, double>> omni = std::make_unique<omni::OmniKdTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, false, true, true, "tmp_unit_test11");
 //    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");

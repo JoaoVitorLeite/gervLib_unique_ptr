@@ -4385,15 +4385,15 @@ private:
 //SPBTREE
 public:
     void setVariables(std::unique_ptr<gervLib::pivots::Pivot<O, T>> _pivots, std::unique_ptr<gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>> _dist,
-                      std::unique_ptr<gervLib::hilbert::HilbertCurve<Key>> _hc, std::unique_ptr<gervLib::memory::PageManager<O>> _pageManager, size_t _pivot_num, std::string _indexFolder,
+                      gervLib::hilbert::HilbertCurve<Key>* _hc, gervLib::memory::PageManager<O>* _pageManager, size_t _pivot_num, std::string _indexFolder,
                       bool _storeDirectoryNode = false, bool _storeLeafNode = false, bool _useLAESA = true)
     {
         pivots = std::move(_pivots);
         distanceFunction = std::move(_dist);
-        hc = std::move(_hc);
+        hc = _hc;
         pivot_num = _pivot_num;
         indexFolder = std::move(_indexFolder);
-        pageManager = std::move(_pageManager);
+        pageManager = _pageManager;
         storeDirectoryNode = _storeDirectoryNode;
         storeLeafNode = _storeLeafNode;
         useLAESA = _useLAESA;
@@ -4761,8 +4761,8 @@ private:
     std::string indexFolder;
     std::unique_ptr<gervLib::pivots::Pivot<O, T>> pivots = nullptr;
     std::unique_ptr<gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>> distanceFunction = nullptr;
-    std::unique_ptr<gervLib::hilbert::HilbertCurve<Key>> hc = nullptr;
-    std::unique_ptr<gervLib::memory::PageManager<O>> pageManager = nullptr;
+    gervLib::hilbert::HilbertCurve<Key>* hc = nullptr;
+    gervLib::memory::PageManager<O>* pageManager = nullptr;
     Key GRID_L;
 
     bool _compareNodes(node* n1, node* n2)

@@ -572,10 +572,10 @@ public:
     typedef BTree<key_type, value_type, key_of_value, O, T, key_compare, traits, true, allocator_type>::InnerNode InnerNode_t;
 
     void setVariables(std::unique_ptr<gervLib::pivots::Pivot<O, T>> _pivots, std::unique_ptr<gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>> _dist,
-                      std::unique_ptr<gervLib::hilbert::HilbertCurve<Key_>> _hc, std::unique_ptr<gervLib::memory::PageManager<O>> _pageManager, size_t _pivot_num, std::string _indexFolder,
+                      gervLib::hilbert::HilbertCurve<Key_>* _hc, gervLib::memory::PageManager<O>* _pageManager, size_t _pivot_num, std::string _indexFolder,
                       bool _storeDirectoryNode = false, bool _storeLeafNode = false, bool _useLAESA = true)
     {
-        tree_.setVariables(std::move(_pivots), std::move(_dist), std::move(_hc), std::move(_pageManager), _pivot_num, _indexFolder, _storeDirectoryNode, _storeLeafNode, _useLAESA);
+        tree_.setVariables(std::move(_pivots), std::move(_dist), _hc, _pageManager, _pivot_num, _indexFolder, _storeDirectoryNode, _storeLeafNode, _useLAESA);
     }
 
     void build_MBR()
@@ -607,11 +607,6 @@ public:
     {
         tree_.clear_nodes();
     }
-
-//    bool isEqual(const btree_multimap& other) const
-//    {
-//        return tree_.isEqual(other.tree_);
-//    }
 
     bool isEqual(std::unique_ptr<btree_multimap<Key_, Data_, O, T, Compare_, Traits_, Alloc_>>& other)
     {

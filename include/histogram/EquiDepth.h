@@ -18,12 +18,11 @@
 namespace gervLib::equidepth
 {
 
-    template <typename value>
     class Bins
     {
     public:
         long id;
-        value min, max;
+        double min, max;
 
         Bins()
         {
@@ -43,7 +42,7 @@ namespace gervLib::equidepth
 
         }
 
-        Bins(long id_, value min_, value max_)
+        Bins(long id_, double min_, double max_)
         {
 
             id = id_;
@@ -52,9 +51,9 @@ namespace gervLib::equidepth
 
         }
 
-        ~Bins()= default;
+        ~Bins() = default;
 
-        [[nodiscard]] bool isInterval(value test) const
+        [[nodiscard]] bool isInterval(double test) const
         {
 
             return ((test >= min) && (test <= max));
@@ -63,14 +62,13 @@ namespace gervLib::equidepth
 
     };
 
-    template <typename value>
     class EquiDepth
     {
     private:
-        size_t num_bins;
+        long num_bins;
         size_t pivot_num;
         bool toINF;
-        std::vector<std::vector<Bins<value>>> bins;
+        std::vector<std::vector<Bins>> bins;
         bool inMemory;
 
     public:
@@ -80,18 +78,18 @@ namespace gervLib::equidepth
             num_bins = -1;
             pivot_num = -1;
             toINF = true;
-            bins = std::vector<std::vector<Bins<value>>>();
+            bins = std::vector<std::vector<Bins>>();
             inMemory = true;
 
         }
 
-        EquiDepth(size_t num_bins_, size_t pivot_num_, bool toINF_ = true)
+        EquiDepth(long num_bins_, size_t pivot_num_, bool toINF_ = true)
         {
 
             num_bins = num_bins_;
             pivot_num = pivot_num_;
             toINF = toINF_;
-            bins = std::vector<std::vector<Bins<value>>>(pivot_num, std::vector<Bins<value>>(num_bins));
+            bins = std::vector<std::vector<Bins>>(pivot_num, std::vector<Bins>(num_bins));
             inMemory = true;
 
         }
@@ -105,7 +103,6 @@ namespace gervLib::equidepth
                 v.clear();
 
             }
-
             bins.clear();
 
             inMemory = false;
@@ -122,7 +119,7 @@ namespace gervLib::equidepth
         void build(std::vector<std::vector<double>>& aux)
         {
 
-            std::vector<value> v(aux.size());
+            std::vector<double> v(aux.size());
 
             for(size_t i = 0; i < pivot_num; i++)
             {
@@ -134,9 +131,10 @@ namespace gervLib::equidepth
                 size_t index = 0;
                 size_t size = v.size()/num_bins;
                 size_t sz = 0;
-                size_t j;
+                size_t j = 0;
 
-                value last_value = -1.0;
+                //cout << size << endl;
+                double last_value = -1.0;
 
                 for(j = 0; j < v.size(); j++)
                 {
@@ -148,12 +146,7 @@ namespace gervLib::equidepth
                         {
 
                             bins[i][index+1].min = bins[i][index].max;
-
-                            if constexpr (configure::is_mpz_class_v<value>)
-                                bins[i][index].max = std::nextafter(bins[i][index].max.get_d(), std::numeric_limits<double>::lowest());
-                            else
-                                bins[i][index].max = std::nextafter(bins[i][index].max, std::numeric_limits<double>::lowest());
-
+                            bins[i][index].max = std::nextafter(bins[i][index].max, std::numeric_limits<double>::lowest());
                             index++;
 
                         }
@@ -187,16 +180,13 @@ namespace gervLib::equidepth
             std::cout << "PIVOT NUM: " << bins.size() << std::endl;
             std::cout << "NUM BINS: " << bins[0].size() << std::endl << std::endl;
 
-            for(auto & bin : bins)
+            for(size_t i = 0; i < bins.size(); i++)
             {
 
                 for(size_t j = 0; j < bins[0].size(); j++)
                 {
 
-                    if constexpr (configure::is_mpz_class_v<value>)
-                        std::cout << "[" << bin[j].min.get_str() << ", " << bin[j].max.get_str() << ")" << std::endl;
-                    else
-                        std::cout << "[" << bin[j].min << ", " << bin[j].max << ")" << std::endl;
+                    std::cout << "[" << bins[i][j].min << ", " << bins[i][j].max << ")" << std::endl;
 
                 }
 
@@ -206,27 +196,19 @@ namespace gervLib::equidepth
 
         }
 
-        void saveToFile(std::string folder = "")
+        void saveToFile(const std::string& folder)
         {
-            std::ofstream file;
 
-            if (folder.empty())
-                file = std::ofstream(configure::baseOutputPath + std::filesystem::path::preferred_separator + "equi_depth.txt");
-            else
-                file = std::ofstream(folder + std::filesystem::path::preferred_separator + "equi_depth.txt");
-
+            std::ofstream file(folder + std::filesystem::path::preferred_separator + "equi_depth.txt");
             file << bins.size() << " "  << bins[0].size() << std::endl;
 
-            for(auto & bin : bins)
+            for(size_t i = 0; i < bins.size(); i++)
             {
 
                 for(size_t j = 0; j < bins[0].size(); j++)
                 {
 
-                    if constexpr (configure::is_mpz_class_v<value>)
-                        file << bin[j].min.get_str() << " " << bin[j].max.get_str() << std::endl;
-                    else
-                        file << bin[j].min << " " << bin[j].max << std::endl;
+                    file << bins[i][j].min << " " << bins[i][j].max << std::endl;
 
                 }
 
@@ -236,34 +218,28 @@ namespace gervLib::equidepth
 
         }
 
-        void readFromFile(std::string folder="")
+        void readFromFile(const std::string& folder)
         {
 
-            std::ifstream file;
-
-            if (folder.empty())
-                file = std::ifstream(configure::baseOutputPath + std::filesystem::path::preferred_separator + "equi_depth.txt");
-            else
-                file = std::ifstream(folder + std::filesystem::path::preferred_separator + "equi_depth.txt");
-
+            std::ifstream file(folder + std::filesystem::path::preferred_separator + "equi_depth.txt");
             //size_t pivot_num;
             double minV, maxV;
 
             file >> pivot_num;
             file >> num_bins;
 
-            bins.resize(pivot_num, std::vector<Bins<value>>(num_bins));
+            bins.resize(pivot_num, std::vector<Bins>(num_bins));
 
             for(size_t i = 0; i < pivot_num; i++)
             {
 
-                for(size_t j = 0; j < num_bins; j++)
+                for(long j = 0; j < num_bins; j++)
                 {
 
                     file >> minV;
                     file >> maxV;
 
-                    bins[i][j] = Bins<value>(j, minV, maxV);
+                    bins[i][j] = Bins(j, minV, maxV);
 
                 }
 
@@ -273,20 +249,20 @@ namespace gervLib::equidepth
 
         }
 
-        [[nodiscard]] size_t getNumberOfBins() const
+        [[nodiscard]] long getNumberOfBins() const
         {
 
             return num_bins;
 
         }
 
-        size_t getBin(size_t pivot, value v)
+        long getBin(size_t pivot, double value)
         {
 
-            for(size_t i = 0; i < num_bins; i++)
+            for(long i = 0; i < num_bins; i++)
             {
 
-                if(bins[pivot][i].isInterval(v))
+                if(bins[pivot][i].isInterval(value))
                 {
 
                     return i;
@@ -299,20 +275,20 @@ namespace gervLib::equidepth
 
         }
 
-        std::pair<value, value> getInterval(size_t pivot, long id)
+        std::pair<double, double> getInterval(size_t pivot, long id)
         {
 
             return std::make_pair(bins[pivot][id].min, bins[pivot][id].max);
 
         }
 
-        void load()
+        void load(const std::string& folder)
         {
 
             if(!inMemory)
             {
 
-                readFromFile();
+                readFromFile(folder);
                 inMemory = true;
 
             }

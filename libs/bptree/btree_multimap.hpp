@@ -11,14 +11,11 @@
 #ifndef TLX_CONTAINER_BTREE_MULTIMAP_HEADER
 #define TLX_CONTAINER_BTREE_MULTIMAP_HEADER
 
-//SPB
-#include "HilbertCurve.h"
-
 #include <functional>
 #include <memory>
 #include <utility>
 
-#include <btree.hpp>
+#include "btree.hpp"
 
 namespace tlx {
 
@@ -89,8 +86,7 @@ public:
     };
 
     //! Implementation type of the btree_base
-
-    typedef BTree<key_type, value_type, key_of_value, O, T, key_compare,
+    typedef BTree<key_type, value_type, O, T, key_of_value, key_compare,
                   traits, true, allocator_type> btree_impl;
 
     //! Function class comparing two value_type pairs.
@@ -159,7 +155,7 @@ public:
 
     //! \}
 
-private:
+public:
     //! \name Tree Implementation Object
     //! \{
 
@@ -566,16 +562,19 @@ public:
 
     //! \}
 
-    //SPBTREE
-    typedef BTree<key_type, value_type, key_of_value, O, T, key_compare, traits, true, allocator_type>::node Node_t;
-    typedef BTree<key_type, value_type, key_of_value, O, T, key_compare, traits, true, allocator_type>::LeafNode LeafNode_t;
-    typedef BTree<key_type, value_type, key_of_value, O, T, key_compare, traits, true, allocator_type>::InnerNode InnerNode_t;
-
-    void setVariables(std::unique_ptr<gervLib::pivots::Pivot<O, T>> _pivots, std::unique_ptr<gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>> _dist,
-                      gervLib::hilbert::HilbertCurve<Key_>* _hc, gervLib::memory::PageManager<O>* _pageManager, size_t _pivot_num, std::string _indexFolder,
-                      bool _storeDirectoryNode = false, bool _storeLeafNode = false, bool _useLAESA = true)
+    void test()
     {
-        tree_.setVariables(std::move(_pivots), std::move(_dist), _hc, _pageManager, _pivot_num, _indexFolder, _storeDirectoryNode, _storeLeafNode, _useLAESA);
+        tree_.test();
+    }
+
+    typedef btree_impl::node Node_t;
+    typedef btree_impl::LeafNode LeafNode_t;
+    typedef btree_impl::InnerNode InnerNode_t;
+
+    Node_t* getRoot()
+    {
+        Node_t* rt = tree_.getRoot();
+        return rt;
     }
 
     void build_MBR()
@@ -583,45 +582,9 @@ public:
         tree_.build_MBR();
     }
 
-    std::unique_ptr<u_char[]> serializeLeafData()
+    void setIndex(gervLib::index::Index<O, T>* _index, gervLib::hilbert::HilbertCurve<Key_>* _hc, size_t num_pvt)
     {
-        return std::move(tree_.serializeLeafData());
-    }
-
-    void deserializeLeafData(std::unique_ptr<u_char[]> data)
-    {
-        tree_.deserializeLeafData(std::move(data));
-    }
-
-    size_t getLeafDataSize()
-    {
-        return tree_.getLeafDataSize();
-    }
-
-    void test()
-    {
-        tree_.test();
-    }
-
-    void clear_nodes()
-    {
-        tree_.clear_nodes();
-    }
-
-    bool isEqual(std::unique_ptr<btree_multimap<Key_, Data_, O, T, Compare_, Traits_, Alloc_>>& other)
-    {
-        return tree_.isEqual((*other).tree_);
-    }
-
-    Node_t* getRoot()
-    {
-        return tree_.getRoot();
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const btree_multimap& btree)
-    {
-        os << btree.tree_;
-        return os;
+        tree_.setIndex(_index, _hc, num_pvt);
     }
 
 };

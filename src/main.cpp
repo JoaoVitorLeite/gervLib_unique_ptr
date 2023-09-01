@@ -95,7 +95,7 @@ int main(int argc, char **argv)
     pvt->setSeed(16);
 
     //std::unique_ptr<spb::SPBTree<size_t, double, unsigned long long>> spb = std::make_unique<spb::SPBTree<size_t, double, unsigned long long>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
-    std::unique_ptr<spb::SPBTree<size_t, double, mpz_class>> spb = std::make_unique<spb::SPBTree<size_t, double, mpz_class>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
+    std::unique_ptr<Index<size_t, double>> spb = std::make_unique<spb::SPBTree<size_t, double, mpz_class>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
 
 //    std::unique_ptr<omni::OmniKdTree<size_t, double>> omni = std::make_unique<omni::OmniKdTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, false, true, true, "tmp_unit_test11");
 //    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");

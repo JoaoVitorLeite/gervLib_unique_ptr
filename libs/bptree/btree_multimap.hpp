@@ -567,6 +567,9 @@ public:
     //! \}
 
     //SPBTREE
+    typedef BTree<key_type, value_type, key_of_value, O, T, key_compare, traits, true, allocator_type>::node Node_t;
+    typedef BTree<key_type, value_type, key_of_value, O, T, key_compare, traits, true, allocator_type>::LeafNode LeafNode_t;
+    typedef BTree<key_type, value_type, key_of_value, O, T, key_compare, traits, true, allocator_type>::InnerNode InnerNode_t;
 
     void setVariables(std::unique_ptr<gervLib::pivots::Pivot<O, T>> _pivots, std::unique_ptr<gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>> _dist,
                       std::unique_ptr<gervLib::hilbert::HilbertCurve<Key_>> _hc, std::unique_ptr<gervLib::memory::PageManager<O>> _pageManager, size_t _pivot_num, std::string _indexFolder,
@@ -598,6 +601,32 @@ public:
     void test()
     {
         tree_.test();
+    }
+
+    void clear_nodes()
+    {
+        tree_.clear_nodes();
+    }
+
+//    bool isEqual(const btree_multimap& other) const
+//    {
+//        return tree_.isEqual(other.tree_);
+//    }
+
+    bool isEqual(std::unique_ptr<btree_multimap<Key_, Data_, O, T, Compare_, Traits_, Alloc_>>& other)
+    {
+        return tree_.isEqual((*other).tree_);
+    }
+
+    Node_t* getRoot()
+    {
+        return tree_.getRoot();
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const btree_multimap& btree)
+    {
+        os << btree.tree_;
+        return os;
     }
 
 };

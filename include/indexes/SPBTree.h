@@ -56,7 +56,10 @@ namespace gervLib::index::spb
     {
 
     private:
-        typedef tlx::btree_multimap<D, dataset::BasicArrayObject<O, T>, O, T, std::less<D>, btree_spb_traits<D, size_t>> btree_type;
+        typedef tlx::btree_multimap<D, std::unique_ptr<dataset::BasicArrayObject<O, T>>, O, T, std::less<D>, btree_spb_traits<D, size_t>> btree_type;
+        typedef btree_type::Node_t node_type;
+        typedef btree_type::LeafNode_t leaf_node_type;
+        typedef btree_type::InnerNode_t inner_node_type;
         std::unique_ptr<equidepth::EquiDepth<T>> equiDepth;
         std::unique_ptr<hilbert::HilbertCurve<D>> hilbertCurve;
         size_t numPerLeaf{}, numPivots{}, num_bins{};
@@ -178,9 +181,59 @@ namespace gervLib::index::spb
 
         }
 
-        ~SPBTree() override = default;
+        ~SPBTree() override
+        {
+            if (bptree != nullptr) {
+                bptree->clear();
+                bptree.reset();
+            }
 
-        //TODO implement delete, clear, print, isEqual, buildIndex, kNN, kNNIncremental, serialize, deserialize, getSerializedSize
+            if (equiDepth != nullptr) {
+                equiDepth.reset();
+            }
+
+            if (hilbertCurve != nullptr) {
+                hilbertCurve.reset();
+            }
+
+        }
+
+        //TODO implement kNN, kNNIncremental, serialize, deserialize, getSerializedSize
+
+        void clear() override
+        {
+            bptree->clear_nodes();
+        }
+
+        std::unique_ptr<btree_type>& getBPTree()
+        {
+            return this->bptree;
+        }
+
+        bool isEqual(std::unique_ptr<Index<O, T>>& other) override {
+
+            if (!gervLib::index::Index<O, T>::isEqual(other))
+                return false;
+
+            auto *_other = dynamic_cast<SPBTree<O, T, D> *>(other.get());
+
+            if (_other == nullptr)
+                return false;
+
+            if (!bptree->isEqual(_other->getBPTree()))
+                return false;
+
+            return true;
+
+        }
+
+        void print(std::ostream& os) const override
+        {
+            if (bptree == nullptr)
+                os << "Empty B+ Tree\n";
+            else
+                os << *bptree;
+        }
 
         void buildIndex() override
         {
@@ -241,12 +294,13 @@ namespace gervLib::index::spb
             file_disc.close();
             file_sfc.close();
 
-            std::vector<std::pair<D, dataset::BasicArrayObject<O, T>>> insertValues(keys.size());
+            std::vector<std::pair<D, std::unique_ptr<dataset::BasicArrayObject<O, T>>>> insertValues(keys.size());
 
             for(size_t i = 0; i < keys.size(); i++)
             {
 
-                insertValues[i] = std::make_pair(keys[i], this->dataset->getElement(i));
+                std::unique_ptr<dataset::BasicArrayObject<O, T>> obj = std::make_unique<dataset::BasicArrayObject<O, T>>(this->dataset->getElement(i));
+                insertValues[i] = std::make_pair(keys[i], std::move(obj));
 
             }
 
@@ -254,21 +308,17 @@ namespace gervLib::index::spb
 
             std::sort(insertValues.begin(), insertValues.end());
             bptree->bulk_load(insertValues.begin(), insertValues.end());
+
+            for (size_t i = 0; i < insertValues.size(); i++) {
+                insertValues[i].second->clear();
+                insertValues[i].second.reset();
+            }
+
             insertValues.clear();
+
             bptree->setVariables(std::move(this->pivots), std::move(this->distanceFunction), std::move(this->hilbertCurve), std::move(this->pageManager),
                                  this->numPivots, this->indexFolder, this->storeDirectoryNode, this->storeLeafNode, this->useLAESA);
             bptree->build_MBR();
-            bptree->test();
-
-
-
-
-
-
-
-
-
-
 
             timer.stop();
 
@@ -295,7 +345,52 @@ namespace gervLib::index::spb
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
         {
-            throw std::runtime_error("Not implemented yet");
+
+            utils::Timer timer{};
+            timer.start();
+            this->distanceFunction->resetStatistics();
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            size_t ioW = configure::IOWrite, ioR = configure::IORead;
+            std::priority_queue<query::Partition<node_type*>, std::vector<query::Partition<node_type*>>, std::greater<query::Partition<node_type*>>> nodeQueue;
+            std::priority_queue<query::ResultEntry<O>, std::vector<query::ResultEntry<O>>, std::greater<query::ResultEntry<O>>> elementQueue;
+            query::Result<O> result;
+            result.setMaxSize(k);
+            query::Partition<node_type*> currentPartition;
+            node_type* currentNode;
+            leaf_node_type* currentLeafNode;
+            LAESA<O, T>* laesa;
+            double dist;
+
+            nodeQueue.push(query::Partition<node_type*>(bptree->getRoot(), 0.0, std::numeric_limits<double>::max()));
+
+            while (result.size() < k && !(nodeQueue.empty() && elementQueue.empty()))
+            {
+
+
+
+            }
+
+            std::vector<query::ResultEntry<O>> ans = result.getResults();
+            std::reverse(ans.begin(), ans.end());
+
+            std::string expt_id = utils::generateExperimentID();
+            timer.stop();
+
+            if (saveResults)
+            {
+                this->saveResultToFile(ans, query, "kNNIncremental", expt_id, {expt_id, std::to_string(k), "-1",
+                                                                               std::to_string(timer.getElapsedTime()),
+                                                                               std::to_string(timer.getElapsedTimeSystem()),
+                                                                               std::to_string(timer.getElapsedTimeUser()),
+                                                                               std::to_string(this->distanceFunction->getDistanceCount()),
+                                                                               std::to_string(this->prunning),
+                                                                               std::to_string(configure::IOWrite - ioW),
+                                                                               std::to_string(configure::IORead - ioR)});
+            }
+
+            return ans;
+
         }
 
 

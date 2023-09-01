@@ -224,7 +224,7 @@ public:
 
     //! \}
 
-private:
+public:
     //! \name Node Classes for In-Memory Nodes
     //! \{
 
@@ -516,9 +516,27 @@ private:
                 mbr->clear();
                 mbr.reset();
             }
+
+            if (is_leafnode())
+            {
+                auto* leaf = static_cast<LeafNode*>(this);
+
+                if (leaf->index != nullptr)
+                {
+                    leaf->index->clear();
+                    leaf->index.reset();
+                }
+
+                for (int i = 0; i < leaf->slotuse; ++i) {
+                    leaf->slotdata[i].second->clear();
+                    leaf->slotdata[i].second.reset();
+                }
+
+            }
+
         }
 
-        bool isEqual(node* n)
+        virtual bool isEqual(node* n)
         {
 
             if ((key_min != n->key_min) || (key_max != n->key_max))
@@ -624,10 +642,342 @@ private:
         //! bulk_load().
         void set_slot(unsigned short slot, const value_type& value) {
             TLX_BTREE_ASSERT(slot < node::slotuse);
-            slotdata[slot] = value;
+//            slotdata[slot] = value;
+
+            slotdata[slot].first = value.first;
+            if (value.second != nullptr)
+                slotdata[slot].second = std::make_unique<gervLib::dataset::BasicArrayObject<O, T>>(*value.second);
+            else
+                slotdata[slot].second = nullptr;
         }
 
         std::unique_ptr<gervLib::index::Index<O, T>> index = nullptr;
+
+        std::unique_ptr<u_char[]> serialize() override
+        {
+            std::unique_ptr<u_char[]> ans = std::make_unique<u_char[]>(getSerializedSize());
+            size_t offset = 0, sz;
+
+            memcpy(ans.get() + offset, &this->nodeID, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::string aux = gervLib::index::memoryStatusMap[this->memoryStatus];
+            sz = aux.size();
+
+            memcpy(ans.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(ans.get() + offset, aux.c_str(), sz);
+            offset += sz;
+
+            sz = (index != nullptr ? index->getSerializedSize() : 0);
+            memcpy(ans.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            if (index != nullptr)
+            {
+                std::unique_ptr<u_char[]> indexData = index->serialize();
+                memcpy(ans.get() + offset, indexData.get(), sz);
+                offset += sz;
+                indexData.reset();
+            }
+
+            if constexpr (gervLib::configure::is_mpz_class_v<Key>)
+            {
+
+                std::string aux1, aux2;
+
+                aux1 = this->key_min.get_str();
+                aux2 = this->key_max.get_str();
+
+                sz = aux1.size();
+                memcpy(ans.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                memcpy(ans.get() + offset, aux1.c_str(), sz);
+                offset += sz;
+
+                sz = aux2.size();
+                memcpy(ans.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                memcpy(ans.get() + offset, aux2.c_str(), sz);
+                offset += sz;
+
+                if (this->mbr != nullptr) {
+
+                    sz = this->mbr->size();
+                    memcpy(ans.get() + offset, &sz, sizeof(size_t));
+                    offset += sizeof(size_t);
+
+                    size_t sz2 = sz;
+
+                    for (size_t i = 0; i < sz2; i++) {
+
+                        aux1 = this->mbr->at(i)[0].get_str();
+                        aux2 = this->mbr->at(i)[1].get_str();
+
+                        sz = aux1.size();
+                        memcpy(ans.get() + offset, &sz, sizeof(size_t));
+                        offset += sizeof(size_t);
+
+                        memcpy(ans.get() + offset, aux1.c_str(), sz);
+                        offset += sz;
+
+                        sz = aux2.size();
+                        memcpy(ans.get() + offset, &sz, sizeof(size_t));
+                        offset += sizeof(size_t);
+
+                        memcpy(ans.get() + offset, aux2.c_str(), sz);
+                        offset += sz;
+
+                    }
+                }
+                else
+                {
+                    sz = 0;
+                    memcpy(ans.get() + offset, &sz, sizeof(size_t));
+                    offset += sizeof(size_t);
+                }
+
+            }
+            else
+            {
+
+                memcpy(ans.get() + offset, &this->key_min, sizeof(Key));
+                offset += sizeof(Key);
+
+                memcpy(ans.get() + offset, &this->key_max, sizeof(Key));
+                offset += sizeof(Key);
+
+                sz = (this->mbr == nullptr ? 0 : this->mbr->size());
+                memcpy(ans.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                if (this->mbr != nullptr) {
+
+                    for (size_t i = 0; i < this->mbr->size(); i++) {
+                        memcpy(ans.get() + offset, &this->mbr->at(i)[0], sizeof(Key));
+                        offset += sizeof(Key);
+                        memcpy(ans.get() + offset, &this->mbr->at(i)[1], sizeof(Key));
+                        offset += sizeof(Key);
+                    }
+
+                }
+
+            }
+
+            return ans;
+
+        }
+
+        void deserialize(std::unique_ptr<u_char[]> _data) override
+        {
+
+            size_t offset = 0, sz;
+
+            memcpy(&this->nodeID, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::string memoryStr;
+            memoryStr.resize(sz);
+
+            memcpy(memoryStr.data(), _data.get() + offset, sz);
+            offset += sz;
+
+            this->memoryStatus = gervLib::index::memoryStatusMapReverse[memoryStr];
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            if (sz != 0)
+            {
+                if (index != nullptr) {
+                    index->clear();
+                    index.reset();
+                }
+
+                index = std::make_unique<gervLib::index::LAESA<O, T>>();
+                std::unique_ptr<u_char[]> indexData = std::make_unique<u_char[]>(sz);
+                memcpy(indexData.get(), _data.get() + offset, sz);
+                offset += sz;
+                index->deserialize(std::move(indexData));
+
+            }
+            else
+            {
+                this->index = nullptr;
+            }
+
+            if constexpr (gervLib::configure::is_mpz_class_v<Key>)
+            {
+                size_t sz1, sz2;
+                std::string aux1, aux2;
+
+                memcpy(&sz1, _data.get() + offset, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                aux1.resize(sz1);
+                memcpy(aux1.data(), _data.get() + offset, sz1);
+                offset += sz1;
+                this->key_min = Key(aux1);
+
+                memcpy(&sz2, _data.get() + offset, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                aux2.resize(sz2);
+                memcpy(aux2.data(), _data.get() + offset, sz2);
+                offset += sz2;
+                this->key_max = Key(aux2);
+
+                memcpy(&sz, _data.get() + offset, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                if (sz != 0) {
+
+                    this->mbr = std::make_unique<std::vector<std::vector<Key>>>();
+                    this->mbr->resize(sz);
+
+                    for (size_t i = 0; i < sz; i++) {
+
+                        this->mbr->at(i).resize(2);
+
+                        memcpy(&sz1, _data.get() + offset, sizeof(size_t));
+                        offset += sizeof(size_t);
+
+                        aux1.resize(sz1);
+                        memcpy(aux1.data(), _data.get() + offset, sz1);
+                        offset += sz1;
+                        this->mbr->at(i)[0] = Key(aux1);
+
+                        memcpy(&sz2, _data.get() + offset, sizeof(size_t));
+                        offset += sizeof(size_t);
+
+                        aux2.resize(sz2);
+                        memcpy(aux2.data(), _data.get() + offset, sz2);
+                        offset += sz2;
+                        this->mbr->at(i)[1] = Key(aux2);
+
+                    }
+                }
+                else
+                {
+                    this->mbr = nullptr;
+                }
+
+            }
+            else
+            {
+
+                memcpy(&this->key_min, _data.get() + offset, sizeof(Key));
+                offset += sizeof(Key);
+
+                memcpy(&this->key_max, _data.get() + offset, sizeof(Key));
+                offset += sizeof(Key);
+
+                memcpy(&sz, _data.get() + offset, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                if (sz != 0) {
+
+                    this->mbr = std::make_unique<std::vector<std::vector<Key>>>();
+                    this->mbr->resize(sz);
+
+                    for (size_t i = 0; i < sz; i++) {
+
+                        this->mbr->at(i).resize(2);
+
+                        memcpy(&this->mbr->at(i)[0], _data.get() + offset, sizeof(Key));
+                        offset += sizeof(Key);
+                        memcpy(&this->mbr->at(i)[1], _data.get() + offset, sizeof(Key));
+                        offset += sizeof(Key);
+
+                    }
+                }
+                else
+                {
+                    this->mbr = nullptr;
+                }
+
+            }
+
+            _data.reset();
+
+        }
+
+        size_t getSerializedSize() override
+        {
+            size_t ans = 0;
+            ans += sizeof(size_t); //nodeID
+            ans += sizeof(size_t) + gervLib::index::memoryStatusMap[this->memoryStatus].size();
+
+            if (this->index != nullptr)
+                ans += sizeof(size_t) + this->index->getSerializedSize();
+
+            if constexpr (gervLib::configure::is_mpz_class_v<Key>)
+            {
+                ans += sizeof(size_t) * 2 + this->key_min.get_str().size() + this->key_max.get_str().size();
+                ans += sizeof(size_t); //mbr size
+
+                if (this->mbr != nullptr) {
+
+                    for (size_t i = 0; i < this->mbr->size(); i++) {
+                        ans += sizeof(size_t) + this->mbr->at(i)[0].get_str().size();
+                        ans += sizeof(size_t) + this->mbr->at(i)[1].get_str().size();
+                    }
+
+                }
+
+            }
+            else
+            {
+                ans += sizeof(Key) * 2; //key_min, key_max
+                ans += sizeof(size_t) + (this->mbr == nullptr ? 0 : sizeof(Key) * 2 * this->mbr->size()); //mbr size
+            }
+
+            return ans;
+
+        }
+
+        bool isEqual(node* n) override
+        {
+
+            if ((this->key_min != n->key_min) || (this->key_max != n->key_max))
+                return false;
+
+            if ((this->mbr == nullptr && n->mbr != nullptr) || (this->mbr != nullptr && n->mbr == nullptr) || (this->mbr->size() != n->mbr->size()))
+                return false;
+            else
+            {
+                for (size_t i = 0; i < this->mbr->size(); i++)
+                {
+                    if ((this->mbr->at(i)[0] != n->mbr->at(i)[0]) || (this->mbr->at(i)[1] != n->mbr->at(i)[1]))
+                        return false;
+                }
+            }
+
+            auto* leaf = static_cast<LeafNode*>(n);
+
+            if (leaf == nullptr)
+                return false;
+
+            if ((this->index == nullptr && leaf->index != nullptr) || (this->index != nullptr && leaf->index == nullptr))
+                return false;
+            else
+            {
+                if (this->index != nullptr)
+                {
+                    if (!this->index->isEqual(leaf->index))
+                        return false;
+                }
+            }
+
+            return true;
+
+        }
 
     };
 
@@ -1584,6 +1934,27 @@ private:
     void free_node(node* n) {
         if (n->is_leafnode()) {
             LeafNode* ln = static_cast<LeafNode*>(n);
+
+            if (ln->mbr != nullptr)
+            {
+                ln->mbr->clear();
+                ln->mbr.reset();
+            }
+
+            if (ln->index != nullptr)
+            {
+                ln->index->clear();
+                ln->index.reset();
+            }
+
+            for (unsigned short slot = 0; slot < ln->slotuse; ++slot)
+            {
+                if (ln->slotdata[slot].second != nullptr){
+                    ln->slotdata[slot].second->clear();
+                    ln->slotdata[slot].second.reset();
+                }
+            }
+
             typename LeafNode::alloc_type a(leaf_node_allocator());
             std::allocator_traits<typename LeafNode::alloc_type>::destroy(a, ln);
             std::allocator_traits<typename LeafNode::alloc_type>::deallocate(a, ln, 1);
@@ -1591,6 +1962,13 @@ private:
         }
         else {
             InnerNode* in = static_cast<InnerNode*>(n);
+
+            if (in->mbr != nullptr)
+            {
+                in->mbr->clear();
+                in->mbr.reset();
+            }
+
             typename InnerNode::alloc_type a(inner_node_allocator());
             std::allocator_traits<typename InnerNode::alloc_type>::destroy(a, in);
             std::allocator_traits<typename InnerNode::alloc_type>::deallocate(a, in, 1);
@@ -4031,6 +4409,105 @@ public:
             this->GRID_L = (1 << hc->getP()) - 1;
 
         _build_MBR(root_);
+        _initDisk(root_);
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const BTree& tree)
+    {
+
+        std::queue<node*> nodeQueue;
+        node* current = nullptr;
+        nodeQueue.push(tree.root_);
+
+        while (!nodeQueue.empty())
+        {
+
+            current = nodeQueue.front();
+            nodeQueue.pop();
+
+            if (current->is_leafnode())
+            {
+
+                auto* leaf = static_cast<LeafNode*>(current);
+
+                os << "\n=======================================================================================================================================================================\n";
+                os << "Node : Leaf Node" << std::endl;
+                os << "Node ID : " << leaf->nodeID << std::endl;
+                os << "Key min : " << leaf->key_min << std::endl;
+                os << "Key max : " << leaf->key_max << std::endl;
+                os << "Slot use : " << leaf->slotuse << std::endl;
+                os << "Keys: ";
+
+                for (int i = 0; i < leaf->slotuse; ++i)
+                {
+                    os << leaf->key(i) << " ";
+                }
+
+                os << std::endl;
+
+                if (leaf->mbr == nullptr)
+                    os << "MBR : nullptr" << std::endl;
+                else
+                {
+                    os << "MBR : " << std::endl;
+
+                    for (int i = 0; i < leaf->mbr->size(); ++i)
+                    {
+                        os << "[" << leaf->mbr->at(i)[0] << ", " << leaf->mbr->at(i)[1] << "]" << std::endl;
+                    }
+
+                    os << std::endl;
+
+                }
+
+                if (leaf->index == nullptr)
+                    os << "Index : nullptr" << std::endl;
+                else
+                    os << "Index : \n" << *leaf->index << std::endl;
+
+            }
+            else {
+
+                auto* inner = static_cast<InnerNode*>(current);
+
+                os << "\n=======================================================================================================================================================================\n";
+                os << "Node : Inner Node" << std::endl;
+                os << "Node ID : " << inner->nodeID << std::endl;
+                os << "Key min : " << inner->key_min << std::endl;
+                os << "Key max : " << inner->key_max << std::endl;
+                os << "Slot use : " << inner->slotuse << std::endl;
+                os << "Keys: ";
+
+                for (int i = 0; i < inner->slotuse; ++i)
+                {
+                    os << inner->key(i) << " ";
+                    nodeQueue.push(inner->childid[i]);
+                }
+
+                nodeQueue.push(inner->childid[inner->slotuse]);
+
+                os << std::endl;
+
+                if (inner->mbr == nullptr)
+                    os << "MBR : nullptr" << std::endl;
+                else
+                {
+                    os << "MBR : " << std::endl;
+
+                    for (int i = 0; i < inner->mbr->size(); ++i)
+                    {
+                        os << "[" << inner->mbr->at(i)[0] << ", " << inner->mbr->at(i)[1] << "]" << std::endl;
+                    }
+
+                    os << std::endl;
+
+                }
+
+            }
+
+        }
+
+        return os;
     }
 
     void test()
@@ -4040,6 +4517,7 @@ public:
         deserializeLeafData(std::move(data));
         std::cout << "\n\n";
         print(std::cout);
+        std::cout << "\n\n" << *this << "\n\n";
     }
 
     std::unique_ptr<u_char[]> serializeLeafData()
@@ -4082,14 +4560,16 @@ public:
                     std::memcpy(data.get() + offset, aux.c_str(), sz);
                     offset += sz;
 
-                    sz = leaf->slotdata[i].second.getSerializedSize();
+                    sz = (leaf->slotdata[i].second != nullptr ? leaf->slotdata[i].second->getSerializedSize() : 0);
                     std::memcpy(data.get() + offset, &sz, sizeof(size_t));
                     offset += sizeof(size_t);
 
-                    std::unique_ptr<u_char[]> auxData = leaf->slotdata[i].second.serialize();
-                    std::memcpy(data.get() + offset, auxData.get(), sz);
-                    offset += sz;
-                    auxData.reset();
+                    if (sz != 0) {
+                        std::unique_ptr<u_char[]> auxData = leaf->slotdata[i].second->serialize();
+                        std::memcpy(data.get() + offset, auxData.get(), sz);
+                        offset += sz;
+                        auxData.reset();
+                    }
 
                 }
 
@@ -4101,14 +4581,18 @@ public:
                     memcpy(data.get() + offset, &leaf->key(i), sizeof(Key));
                     offset += sizeof(Key);
 
-                    sz = leaf->slotdata[i].second.getSerializedSize();
+                    sz = (leaf->slotdata[i].second != nullptr ? leaf->slotdata[i].second->getSerializedSize() : 0);
                     std::memcpy(data.get() + offset, &sz, sizeof(size_t));
                     offset += sizeof(size_t);
 
-                    std::unique_ptr<u_char[]> auxData = leaf->slotdata[i].second.serialize();
-                    std::memcpy(data.get() + offset, auxData.get(), sz);
-                    offset += sz;
-                    auxData.reset();
+                    if (sz != 0) {
+
+                        std::unique_ptr<u_char[]> auxData = leaf->slotdata[i].second.serialize();
+                        std::memcpy(data.get() + offset, auxData.get(), sz);
+                        offset += sz;
+                        auxData.reset();
+
+                    }
 
                 }
 
@@ -4131,7 +4615,7 @@ public:
 
         size_t offset = 0, sz, num_leafs;
         std::string aux;
-        std::vector<std::pair<Key, gervLib::dataset::BasicArrayObject<O, T>>> insertData;
+        std::vector<std::pair<Key, std::unique_ptr<gervLib::dataset::BasicArrayObject<O, T>>>> insertData;
 
         std::memcpy(&num_leafs, data.get() + offset, sizeof(size_t));
         offset += sizeof(size_t);
@@ -4153,14 +4637,22 @@ public:
                 memcpy(&sz, data.get() + offset, sizeof(size_t));
                 offset += sizeof(size_t);
 
-                std::unique_ptr<u_char[]> auxData = std::make_unique<u_char[]>(sz);
-                memcpy(auxData.get(), data.get() + offset, sz);
-                offset += sz;
+                if (sz != 0) {
 
-                gervLib::dataset::BasicArrayObject<O, T> obj = gervLib::dataset::BasicArrayObject<O, T>();
-                obj.deserialize(std::move(auxData));
+                    std::unique_ptr<u_char[]> auxData = std::make_unique<u_char[]>(sz);
+                    memcpy(auxData.get(), data.get() + offset, sz);
+                    offset += sz;
 
-                insertData.emplace_back(key, std::move(obj));
+                    std::unique_ptr<gervLib::dataset::BasicArrayObject<O, T>> obj = std::make_unique<gervLib::dataset::BasicArrayObject<O, T>>();
+                    obj->deserialize(std::move(auxData));
+
+                    insertData.emplace_back(key, std::move(obj));
+
+                }
+                else
+                {
+                    insertData.emplace_back(key, nullptr);
+                }
 
             }
             else
@@ -4174,22 +4666,38 @@ public:
                 memcpy(&sz, data.get() + offset, sizeof(size_t));
                 offset += sizeof(size_t);
 
-                std::unique_ptr<u_char[]> auxData = std::make_unique<u_char[]>(sz);
-                memcpy(auxData.get(), data.get() + offset, sz);
-                offset += sz;
 
-                gervLib::dataset::BasicArrayObject<O, T> obj = gervLib::dataset::BasicArrayObject<O, T>();
-                obj.deserialize(std::move(auxData));
+                if (sz != 0) {
 
-                insertData.emplace_back(key, std::move(obj));
+                    std::unique_ptr<u_char[]> auxData = std::make_unique<u_char[]>(sz);
+                    memcpy(auxData.get(), data.get() + offset, sz);
+                    offset += sz;
+
+                    std::unique_ptr<gervLib::dataset::BasicArrayObject<O, T>> obj = std::make_unique<gervLib::dataset::BasicArrayObject<O, T>>();
+                    obj->deserialize(std::move(auxData));
+
+                    insertData.emplace_back(key, std::move(obj));
+
+                }
+                else
+                {
+                    insertData.emplace_back(key, nullptr);
+                }
 
             }
 
         }
 
         bulk_load(insertData.begin(), insertData.end());
-        insertData.clear();
 
+        for (size_t i = 0; i < insertData.size(); i++) {
+            if (insertData[i].second != nullptr) {
+                insertData[i].second->clear();
+                insertData[i].second.reset();
+            }
+        }
+
+        insertData.clear();
         _loadNodes();
 
     }
@@ -4211,14 +4719,14 @@ public:
                 for (int i = 0; i < leaf->slotuse; ++i) {
                     aux = leaf->key(i).get_str();
                     ans += sizeof(size_t) + aux.size();
-                    ans += sizeof(size_t) + leaf->slotdata[i].second.getSerializedSize();
+                    ans += sizeof(size_t) + (leaf->slotdata[i].second != nullptr ? leaf->slotdata[i].second->getSerializedSize() : 0);
                 }
 
             }
             else {
 
                 for (int i = 0; i < leaf->slotuse; ++i) {
-                    ans += sizeof(Key) + sizeof(size_t) + leaf->slotdata[i].second.getSerializedSize();
+                    ans += sizeof(Key) + sizeof(size_t) + (leaf->slotdata[i].second != nullptr ? leaf->slotdata[i].second->getSerializedSize() : 0);
                 }
 
             }
@@ -4230,6 +4738,23 @@ public:
 
     }
 
+    void clear_nodes()
+    {
+        _clear_nodes(root_);
+    }
+
+    node* getRoot()
+    {
+        return root_;
+    }
+
+    bool isEqual(BTree<Key, Value, KeyOfValue, O, T, Compare, Traits, Duplicates, Allocator>& other)
+    {
+        if (!_compareNodes(root_, other.getRoot()))
+            return false;
+        return true;
+    }
+
 private:
     bool storeLeafNode{}, storeDirectoryNode{}, useLAESA{};
     size_t pivot_num, currentNodeID;
@@ -4239,6 +4764,58 @@ private:
     std::unique_ptr<gervLib::hilbert::HilbertCurve<Key>> hc = nullptr;
     std::unique_ptr<gervLib::memory::PageManager<O>> pageManager = nullptr;
     Key GRID_L;
+
+    bool _compareNodes(node* n1, node* n2)
+    {
+
+        if ((n1->is_leafnode() && !n2->is_leafnode()) || (!n1->is_leafnode() && n2->is_leafnode()))
+            return false;
+        else
+        {
+            if (n1->is_leafnode())
+            {
+                if (!n1->isEqual(n2))
+                    return false;
+            }
+            else
+            {
+                if (!n1->isEqual(n2))
+                    return false;
+                else
+                {
+                    auto* inner1 = static_cast<InnerNode*>(n1);
+                    auto* inner2 = static_cast<InnerNode*>(n2);
+
+                    for (int slot = 0; slot < inner1->slotuse + 1; ++slot)
+                    {
+                        if (!_compareNodes(inner1->childid[slot], inner2->childid[slot]))
+                            return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+
+    }
+
+    void _clear_nodes(node* n)
+    {
+
+        if (n->is_leafnode())
+        {
+            n->clear();
+        }
+        else
+        {
+            for (int slot = 0; slot < n->slotuse + 1; ++slot)
+            {
+                _clear_nodes(static_cast<InnerNode*>(n)->childid[slot]);
+            }
+            n->clear();
+        }
+
+    }
 
     void _saveNodes()
     {
@@ -4254,7 +4831,6 @@ private:
 
             if (leaf->memoryStatus != gervLib::index::MEMORY_STATUS::IN_DISK) {
                 std::unique_ptr<u_char[]> data = leaf->serialize();
-                leaf->memoryStatus = gervLib::index::MEMORY_STATUS::IN_DISK;
                 this->pageManager->save(leaf->nodeID, std::move(data), leaf->getSerializedSize());
             }
 
@@ -4265,7 +4841,6 @@ private:
 
             if (inner->memoryStatus != gervLib::index::MEMORY_STATUS::IN_DISK) {
                 std::unique_ptr<u_char[]> data = inner->serialize();
-                inner->memoryStatus = gervLib::index::MEMORY_STATUS::IN_DISK;
                 this->pageManager->save(inner->nodeID, std::move(data), inner->getSerializedSize());
             }
 
@@ -4324,6 +4899,42 @@ private:
 
     }
 
+    void _initDisk(node* n)
+    {
+        if (n->is_leafnode())
+        {
+            if (storeLeafNode)
+            {
+                auto* leaf = static_cast<LeafNode*>(n);
+                leaf->memoryStatus = gervLib::index::MEMORY_STATUS::IN_DISK;
+                std::unique_ptr<u_char[]> data = leaf->serialize();
+                this->pageManager->save(leaf->nodeID, std::move(data), leaf->getSerializedSize());
+                leaf->clear();
+            }
+            else
+                n->memoryStatus = gervLib::index::MEMORY_STATUS::IN_MEMORY;
+        }
+        else
+        {
+            auto* inner = static_cast<InnerNode*>(n);
+
+            if (storeDirectoryNode)
+            {
+                inner->memoryStatus = gervLib::index::MEMORY_STATUS::IN_DISK;
+                std::unique_ptr<u_char[]> data = inner->serialize();
+                this->pageManager->save(inner->nodeID, std::move(data), inner->getSerializedSize());
+                inner->clear();
+            }
+            else
+                n->memoryStatus = gervLib::index::MEMORY_STATUS::IN_MEMORY;
+
+            for (int slot = 0; slot < inner->slotuse + 1; ++slot)
+            {
+                _initDisk(inner->childid[slot]);
+            }
+        }
+    }
+
     void _build_MBR(node* n)
     {
 
@@ -4341,7 +4952,7 @@ private:
                 keys.push_back(leaf->key(i));
 
                 if (useLAESA)
-                    laesaDataset->insert(leaf->slotdata[i].second);
+                    laesaDataset->insert(*leaf->slotdata[i].second);
 
             }
 

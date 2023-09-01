@@ -33,7 +33,7 @@ namespace gervLib::index::pmtree
             coverage = 0.0;
             nodeID = 0;
             rings = nullptr;
-            memoryStatus = MEMORY_STATUS::NONE;
+            memoryStatus = MEMORY_STATUS::IN_MEMORY;
         }
 
         explicit Node(size_t num_pivots)
@@ -44,7 +44,7 @@ namespace gervLib::index::pmtree
             coverage = 0.0;
             nodeID = 0;
             rings = std::make_unique<std::vector<std::pair<double, double>>>(num_pivots, std::make_pair(std::numeric_limits<double>::max(), std::numeric_limits<double>::lowest()));
-            memoryStatus = MEMORY_STATUS::NONE;
+            memoryStatus = MEMORY_STATUS::IN_MEMORY;
         }
 
         void setNumberOfPivots(size_t num_pivots)
@@ -180,8 +180,14 @@ namespace gervLib::index::pmtree
 
         void setChild(size_t index, std::unique_ptr<Node<O, T>> child)
         {
-            utils::check_range(0, childrens->size()-1, index, "Index out of bounds");
+            utils::check_range(0, childrens.size()-1, index, "Index out of bounds");
             childrens[index] = std::move(child);
+        }
+
+        void addChild(std::unique_ptr<Node<O, T>> child)
+        {
+            child->setParent(this);
+            childrens.push_back(std::move(child));
         }
 
         std::unique_ptr<Node<O, T>>& getChild(size_t index)
@@ -197,7 +203,10 @@ namespace gervLib::index::pmtree
 
         size_t getChildrensSize()
         {
-            return childrens.size();
+            if (childrens.empty())
+                return 0;
+            else
+                return childrens.size();
         }
 
         void setMemoryStatus(MEMORY_STATUS _memoryStatus)
@@ -537,6 +546,14 @@ namespace gervLib::index::pmtree
             return true;
         }
 
+        size_t getLeafSize()
+        {
+            if (dataset == nullptr)
+                return 0;
+            else
+                return dataset->getCardinality();
+        }
+
         void clear() override
         {
             Node<O, T>::clear();
@@ -572,11 +589,11 @@ namespace gervLib::index::pmtree
             return this->dataset;
         }
 
-        void insert(std::unique_ptr<dataset::BasicArrayObject<O, T>> &object)
+        void insert(dataset::BasicArrayObject<O, T> object)
         {
             if (dataset == nullptr)
                 dataset = std::make_unique<dataset::Dataset<O, T>>();
-            this->dataset->insert(*object);
+            this->dataset->insert(object);
         }
 
         bool isEqual(std::unique_ptr<Node<O, T>> &other) override
@@ -789,6 +806,486 @@ namespace gervLib::index::pmtree
         printable.print(os);
         return os;
     }
+
+    template <typename O, typename T>
+    class PMTree : public Index<O, T>
+    {
+
+    private:
+        std::unique_ptr<Node<O, T>> root;
+        size_t numPerLeaf{}, numPivots{};
+        bool storeLeafNode{}, storeDirectoryNode{}, useLAESA{};
+
+    protected:
+        std::string headerBuildFile() override
+        {
+            return "time,sys_time,user_time,distCount,iowrite,ioread";
+        }
+
+        std::string headerExperimentFile() override
+        {
+            return "expt_id,k,r,time,sys_time,user_time,distCount,prunning,iowrite,ioread";
+        }
+
+    public:
+        PMTree()
+        {
+            this->dataset = nullptr;
+            this->distanceFunction = nullptr;
+            this->pivots = nullptr;
+            this->pageManager = nullptr;
+            this->root = nullptr;
+            this->pageSize = 0;
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            this->numPerLeaf = 0;
+            this->numPivots = 0;
+            this->storeLeafNode = false;
+            this->storeDirectoryNode = false;
+            this->useLAESA = false;
+            this->indexType = INDEX_TYPE::PMTREE;
+            this->indexName = "PMTREE";
+            this->indexFolder = "";
+        }
+
+        PMTree(std::unique_ptr<dataset::Dataset<O, T>> _dataset, std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> _df,
+               std::unique_ptr<pivots::Pivot<O, T>> _pivots, size_t _numPivots, size_t _numPerLeaf, size_t _pageSize = 0, bool _storeDirectoryNode = false,
+               bool _storeLeafNode = false, bool _useLAESA = true, std::string folder="")
+        {
+
+            this->dataset = std::move(_dataset);
+            this->distanceFunction = std::move(_df);
+            this->pivots = std::move(_pivots);
+            this->root = nullptr;
+            this->pageSize = _pageSize;
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            this->numPerLeaf = _numPerLeaf;
+            this->numPivots = _numPivots;
+            this->storeLeafNode = _storeLeafNode;
+            this->storeDirectoryNode = _storeDirectoryNode;
+            this->useLAESA = _useLAESA;
+            this->indexType = INDEX_TYPE::PMTREE;
+            this->indexName = "PMTREE";
+
+            if (!folder.empty())
+                this->indexFolder = folder;
+
+            this->generateIndexFiles(true, true);
+
+            this->pageManager = std::make_unique<memory::PageManager<O>>("vp_page", this->indexFolder, this->pageSize);
+
+            this->buildIndex();
+
+        }
+
+        explicit PMTree(std::string _folder, std::string serializedFile = "")
+        {
+            this->dataset = nullptr;
+            this->distanceFunction = nullptr;
+            this->pivots = nullptr;
+            this->pageManager = nullptr;
+            this->root = nullptr;
+            this->pageSize = 0;
+            this->prunning = 0;
+            this->leafNodeAccess = 0;
+            this->numPerLeaf = 0;
+            this->numPivots = 0;
+            this->storeLeafNode = false;
+            this->storeDirectoryNode = false;
+            this->useLAESA = false;
+            this->indexType = INDEX_TYPE::PMTREE;
+            this->indexName = "PMTREE";
+            this->indexFolder = _folder.empty() ? utils::generatePathByPrefix(configure::baseOutputPath, this->indexName) : _folder;
+
+            if (serializedFile.empty())
+                this->loadIndex();
+            else
+                this->loadIndex(serializedFile);
+        }
+
+        ~PMTree() override = default;
+
+        //TODO implement delete, clear, print, isEqual, buildIndex, kNN, kNNIncremental, serialize, deserialize, getSerializedSize
+
+        void buildIndex() override
+        {
+
+            utils::Timer timer{};
+            timer.start();
+            this->distanceFunction->resetStatistics();
+            size_t ioW = configure::IOWrite, ioR = configure::IORead;
+
+            this->pivots->operator()(this->dataset, this->distanceFunction, this->numPivots);
+
+            if (root != nullptr)
+            {
+                root->clear();
+                root.reset();
+            }
+
+            root = std::make_unique<LeafNode<O, T>>(this->numPivots);
+
+            for (size_t i = 0; i < this->dataset->getCardinality(); i++)
+            {
+                insert(this->dataset->getElement(i), root.get());
+            }
+
+            timer.stop();
+
+            std::ofstream buildFile(this->buildFile, std::ios::app);
+            buildFile << timer.getElapsedTime()
+                      << ","
+                      << timer.getElapsedTimeSystem()
+                      << ","
+                      << timer.getElapsedTimeUser()
+                      << ","
+                      << this->distanceFunction->getDistanceCount()
+                      << ","
+                      << std::to_string(configure::IOWrite - ioW)
+                      << ","
+                      << std::to_string(configure::IORead - ioR) << std::endl;
+            buildFile.close();
+
+        }
+
+        void insert(dataset::BasicArrayObject<O, T>& element, Node<O, T>* node)
+        {
+
+            if (node->isLeafNode())
+            {
+
+                auto* leafNode = dynamic_cast<LeafNode<O, T>*>(node);
+
+                if (leafNode->getLeafSize() >= this->numPerLeaf)
+                    split(element, node);
+                else
+                {
+
+                    if (leafNode->getPivot() == nullptr)
+                        leafNode->setPivot(std::make_unique<dataset::BasicArrayObject<O, T>>(element));
+
+                    leafNode->insert(element);
+
+                    if (leafNode->getParent() == nullptr)
+                        leafNode->setDistanceToParent(std::numeric_limits<double>::max());
+                    else
+                        leafNode->setDistanceToParent(this->distanceFunction->operator()(*leafNode->getPivot(), *leafNode->getParent()->getPivot()));
+
+                    leafNode->setCoverage(std::max(this->distanceFunction->operator()(*leafNode->getPivot(), element), leafNode->getCoverage()));
+                    merge_rings_and_covarage(leafNode->getParent());
+
+                }
+
+            }
+            else
+            {
+
+                std::vector<double> withIncrease, withoutIncrease;
+                double dist;
+
+                for (size_t i = 0; i < node->getChildrensSize(); i++)
+                {
+
+                    dist = this->distanceFunction->operator()(element, *node->getChild(i)->getPivot());
+
+                    if (dist <= node->getChild(i)->getCoverage())
+                        withoutIncrease.push_back(dist);
+                    else
+                        withIncrease.push_back(dist - node->getChild(i)->getCoverage());
+
+                }
+
+                if (withoutIncrease.empty())
+                {
+                    auto min_pos = std::min_element(withIncrease.begin(), withIncrease.end());
+                    insert(element, node->getChild(std::distance(withIncrease.begin(), min_pos)).get());
+                }
+                else
+                {
+                    auto min_pos = std::min_element(withoutIncrease.begin(), withoutIncrease.end());
+                    insert(element, node->getChild(std::distance(withoutIncrease.begin(), min_pos)).get());
+                }
+
+                withoutIncrease.clear();
+                withIncrease.clear();
+
+            }
+
+        }
+
+        void update_rings(Node<O, T>* node)
+        {
+            if (!node->isLeafNode()) {
+
+                for (size_t i = 0; i < node->getChildrensSize(); i++) {
+
+                    for (size_t p = 0; p < this->numPivots; p++) {
+
+                        node->setRingMin(p, std::min(node->getRingMin(p), node->getChild(i)->getRingMin(p)));
+                        node->setRingMax(p, std::max(node->getRingMax(p), node->getChild(i)->getRingMax(p)));
+
+                    }
+
+                }
+
+            }
+            else
+            {
+                auto* leaf = dynamic_cast<LeafNode<O, T>*>(node);
+
+                for (size_t i = 0; i < leaf->getLeafSize(); i++)
+                {
+                    update_rings(leaf->getDataset()->getElement(i), node);
+                }
+
+            }
+
+        }
+
+        void merge_rings_and_covarage(Node<O, T>* node)
+        {
+
+            if (node == nullptr)
+                return;
+
+            update_rings(node);
+            Node<O, T>* update_ptr = node->getParent();
+
+            while (update_ptr != nullptr)
+            {
+                update_covarage(node);
+                update_rings(update_ptr);
+                update_ptr = update_ptr->getParent();
+            }
+
+        }
+
+        void update_covarage(Node<O, T>* node)
+        {
+            for (size_t i = 0; i < node->getChildrensSize(); i++)
+            {
+                node->setCoverage(std::max(node->getCoverage(), node->getChild(i)->getCoverage()));
+            }
+        }
+
+        void update_rings(dataset::BasicArrayObject<O, T>& element, Node<O, T>* node)
+        {
+
+            double dist;
+
+            for (size_t i = 0; i < this->numPivots; i++)
+            {
+                dist = this->distanceFunction->getDistance(element, this->pivots->getPivot(i));
+                node->setRingMin(i, std::min(dist, node->getRingMin(i)));
+                node->setRingMax(i, std::max(dist, node->getRingMax(i)));
+            }
+
+        }
+
+        void split(dataset::BasicArrayObject<O, T>& element, Node<O, T>* node)
+        {
+
+            if (node->isLeafNode())
+            {
+
+                auto* leafNode = dynamic_cast<LeafNode<O, T>*>(node);
+
+                leafNode->insert(element);
+                std::unique_ptr<pivots::Pivot<O, T>> newPivots = pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType(), this->pivots);
+                newPivots->operator()(leafNode->getDataset(), this->distanceFunction, 2);
+
+                std::unique_ptr<dataset::Dataset<O, T>> leftDataset = std::make_unique<dataset::Dataset<O, T>>();
+                std::unique_ptr<dataset::Dataset<O, T>> rightDataset = std::make_unique<dataset::Dataset<O, T>>();
+
+                double dist1, dist2, cov1 = std::numeric_limits<double>::min(), cov2 = std::numeric_limits<double>::min();
+
+                for (size_t i = 0; i < leafNode->getLeafSize(); i++)
+                {
+
+                    dist1 = this->distanceFunction->operator()(newPivots->getPivot(0), leafNode->getDataset()->getElement(i));
+                    dist2 = this->distanceFunction->operator()(newPivots->getPivot(1), leafNode->getDataset()->getElement(i));
+
+                    if (dist1 < dist2) {
+                        cov1 = std::max(cov1, dist1);
+                        leftDataset->insert(leafNode->getDataset()->getElement(i));
+                    }
+                    else {
+                        cov2 = std::max(cov2, dist2);
+                        rightDataset->insert(leafNode->getDataset()->getElement(i));
+                    }
+                }
+
+                if (node->getParent() == nullptr) //root
+                {
+                    std::unique_ptr<DirectoryNode<O, T>> newDirectoryNode = std::make_unique<DirectoryNode<O, T>>(this->numPivots);
+                    newDirectoryNode->setPivot(std::make_unique<dataset::BasicArrayObject<O, T>>(newPivots->getPivot(0)));
+
+                    std::unique_ptr<LeafNode<O, T>> newLeafNode2 = std::make_unique<LeafNode<O, T>>(this->numPivots, std::move(rightDataset));
+                    newLeafNode2->setPivot(std::make_unique<dataset::BasicArrayObject<O, T>>(newPivots->getPivot(1)));
+
+                    leafNode->getDataset()->clear();
+                    leafNode->getDataset().reset();
+                    leafNode->setDataset(std::move(leftDataset));
+                    leafNode->setPivot(std::make_unique<dataset::BasicArrayObject<O, T>>(newPivots->getPivot(0)));
+
+                    newDirectoryNode->addChild(std::move(root));
+                    newDirectoryNode->addChild(std::move(newLeafNode2));
+
+                    newDirectoryNode->getChild(1)->setCoverage(cov1);
+                    newDirectoryNode->getChild(1)->setCoverage(cov2);
+
+                    root = std::move(newDirectoryNode);
+
+                    double dist_p1 = this->distanceFunction->getDistance(*root->getChild(0)->getPivot(), *root->getPivot()),
+                           dist_p2 = this->distanceFunction->getDistance(*root->getChild(1)->getPivot(), *root->getPivot());
+
+                    root->getChild(0)->setDistanceToParent(dist_p1);
+                    root->getChild(1)->setDistanceToParent(dist_p2);
+                    root->setCoverage(std::max(cov1 + dist_p1, cov2 + dist_p2));
+
+                    update_rings(root->getChild(0).get());
+                    update_rings(root->getChild(1).get());
+                    merge_rings_and_covarage(root->getChild(0).get());
+
+                }
+                else
+                {
+                    std::unique_ptr<LeafNode<O, T>> newLeafNode = std::make_unique<LeafNode<O, T>>(this->numPivots, std::move(rightDataset));
+                    newLeafNode->setPivot(std::make_unique<dataset::BasicArrayObject<O, T>>(newPivots->getPivot(1)));
+
+                    leafNode->getDataset()->clear();
+                    leafNode->getDataset().reset();
+                    leafNode->setDataset(std::move(leftDataset));
+                    leafNode->setPivot(std::make_unique<dataset::BasicArrayObject<O, T>>(newPivots->getPivot(0)));
+
+                    Node<O, T>* parent = leafNode->getParent();
+                    leafNode->setDistanceToParent(this->distanceFunction->operator()(*leafNode->getPivot(), *parent->getPivot()));
+                    leafNode->setCoverage(cov1);
+
+                    newLeafNode->setDistanceToParent(this->distanceFunction->operator()(*newLeafNode->getPivot(), *parent->getPivot()));
+                    newLeafNode->setCoverage(cov2);
+
+                    parent->setCoverage(std::max(cov1 + leafNode->getDistanceToParent(), cov2 + newLeafNode->getDistanceToParent()));
+
+                    if ((parent->getChildrensSize() + 1) > this->numPerLeaf)
+                    {
+                        parent->addChild(std::move(newLeafNode));
+                        split(element, parent);
+                    }
+                    else
+                    {
+                        update_rings(newLeafNode.get());
+                        parent->addChild(std::move(newLeafNode));
+                        update_rings(leafNode);
+                        merge_rings_and_covarage(leafNode);
+                    }
+
+                }
+
+                newPivots->clear();
+                newPivots.reset();
+
+            }
+            else
+            {
+                std::unique_ptr<dataset::Dataset<O, T>> pivotsData = std::make_unique<dataset::Dataset<O, T>>();
+                std::unique_ptr<pivots::Pivot<O, T>> newPivots = pivots::PivotFactory<O, T>::createPivot(this->pivots->getPivotType(), this->pivots);
+
+                for (size_t i = 0; i < node->getChildrensSize(); i++)
+                {
+                    pivotsData->insert(*node->getChild(i)->getPivot());
+                }
+
+                newPivots->operator()(pivotsData, this->distanceFunction, 2);
+
+                double dist1, dist2, cov1, cov2;
+                size_t pos_P1 = std::numeric_limits<size_t>::max(), pos_P2 = std::numeric_limits<size_t>::max();
+                std::vector<std::unique_ptr<Node<O, T>>> childs = std::move(node->getChildrens()), left, right;
+
+                for (size_t i = 0; i < childs.size(); i++)
+                {
+                    dist1 = this->distanceFunction->operator()(newPivots->getPivot(0), *childs.at(i)->getPivot());
+                    dist2 = this->distanceFunction->operator()(newPivots->getPivot(1), *childs.at(i)->getPivot());
+
+                    if (dist1 == 0.0)
+                        pos_P1 = left.size();
+
+                    if (dist2 == 0.0)
+                        pos_P2 = right.size();
+
+                    if (dist1 < dist2) {
+                        cov1 = std::max(cov1, dist1 + childs.at(i)->getCoverage());
+                        left.push_back(std::move(childs.at(i)));
+                    }
+                    else {
+                        cov2 = std::max(cov2, dist2 + childs.at(i)->getCoverage());
+                        right.push_back(std::move(childs.at(i)));
+                    }
+                }
+
+                if (pos_P1 == std::numeric_limits<size_t>::max() || pos_P2 == std::numeric_limits<size_t>::max())
+                    throw std::runtime_error("Error in split function");
+
+                if (node->getParent() == nullptr) //root
+                {
+                    std::unique_ptr<Node<O, T>> newDirectoryNode = std::move(left[pos_P1]), newDirectoryNode2 = std::move(right[pos_P2]);
+
+                    for (size_t i = 0; i < left.size(); i++)
+                    {
+                        if (i != pos_P1)
+                            newDirectoryNode->addChild(std::move(left[i]));
+                    }
+
+                    for (size_t i = 0; i < right.size(); i++)
+                    {
+                        if (i != pos_P2)
+                            newDirectoryNode2->addChild(std::move(right[i]));
+                    }
+
+                    newDirectoryNode->setCoverage(cov1);
+                    newDirectoryNode2->setCoverage(cov2);
+
+                    update_rings(newDirectoryNode.get());
+                    update_rings(newDirectoryNode2.get());
+
+                    root->clear();
+                    root.reset();
+                    root = std::make_unique<DirectoryNode<O, T>>(this->numPivots);
+                    root->setPivot(std::make_unique<dataset::BasicArrayObject<O, T>>(newPivots->getPivot(0)));
+                    root->addChild(std::move(newDirectoryNode));
+                    root->addChild(std::move(newDirectoryNode2));
+
+                    double dist_p1 = this->distanceFunction->getDistance(*root->getChild(0)->getPivot(), *root->getPivot()),
+                           dist_p2 = this->distanceFunction->getDistance(*root->getChild(1)->getPivot(), *root->getPivot());
+
+                    root->getChild(0)->setDistanceToParent(dist_p1);
+                    root->getChild(1)->setDistanceToParent(dist_p2);
+
+                    root->setCoverage(std::max(cov1 + dist_p1, cov2 + dist_p2));
+                    update_rings(root.get());
+
+                }
+                else
+                {
+                    throw std::runtime_error("Not implemented yet");
+                }
+
+            }
+
+        }
+
+        std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
+        {
+            throw std::runtime_error("Not implemented yet");
+        }
+
+        std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
+        {
+            throw std::runtime_error("Not implemented yet");
+        }
+
+    };
 
 }
 

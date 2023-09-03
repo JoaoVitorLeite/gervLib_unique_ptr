@@ -44,14 +44,11 @@ int main(int argc, char **argv)
     pvt->setSeed(16);
 
     std::unique_ptr<pmtree::PMTree<size_t, double>> pm = std::make_unique<pmtree::PMTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt),
-            2, 50, 8000, false, true, true, "tmp_unit_test11");
-
-    auto rt = pm->getRoot();
-    rt->clear();
+            2, 50, 8000, false, true, true);
 
 //    std::unique_ptr<omni::OmniKdTree<size_t, double>> omni = std::make_unique<omni::OmniKdTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, false, true, true, "tmp_unit_test11");
 //    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
-
+//
 //    for(size_t i = 0; i < test->getCardinality(); i++)
 //    {
 //        std::vector<gervLib::query::ResultEntry<size_t>> res1 = pm->kNNIncremental(test->getElement(i), 100, true);

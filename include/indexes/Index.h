@@ -420,6 +420,35 @@ namespace gervLib::index
             return pageManager;
         }
 
+        void setDataset(std::unique_ptr<dataset::Dataset<O, T>> _dataset)
+        {
+            if (dataset != nullptr)
+            {
+                dataset->clear();
+                dataset.reset();
+            }
+            dataset = std::move(_dataset);
+        }
+
+        void setDistanceFunction(std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df)
+        {
+            if (distanceFunction != nullptr)
+            {
+                distanceFunction.reset();
+            }
+            distanceFunction = std::move(df);
+        }
+
+        void setPivots(std::unique_ptr<pivots::Pivot<O, T>> pvt)
+        {
+            if (pivots != nullptr)
+            {
+                pivots->clear();
+                pivots.reset();
+            }
+            pivots = std::move(pvt);
+        }
+
         void kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, std::vector<gervLib::query::ResultEntry<O>>& results)
         {
 

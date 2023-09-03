@@ -7,6 +7,7 @@
 
 #include "Index.h"
 #include "IndexFactory.h"
+#include "NAryTree.h"
 #include <map>
 
 using namespace std;
@@ -47,7 +48,7 @@ namespace gervLib::index::pmtree {
 
         }
 
-        ~PM_Node()
+        virtual ~PM_Node()
         {
             feature_val.clear();
             pivot_distance.clear();
@@ -62,7 +63,7 @@ namespace gervLib::index::pmtree {
 
         void clear()
         {
-            feature_val.clear();
+            //feature_val.clear();
             pivot_distance.clear();
             hyper_rings.clear();
 
@@ -74,13 +75,79 @@ namespace gervLib::index::pmtree {
         }
 
         friend std::ostream &operator<<(std::ostream &os, const PM_Node &node) {
+            os << "Node id: " << node.id << std::endl;
+            os << "Node category: " << node.node_category << std::endl;
+            os << "Feature value: " << node.feature_val << std::endl;
+            os << "Range: " << node.range << std::endl;
+            os << "Distance to parent: " << node.dist_to_parent << std::endl;
+            os << "Memory status: " << index::memoryStatusMap[node.memoryStatus] << std::endl;
+
+            os << "Pivot distance: ";
+            for (size_t i = 0; i < node.pivot_distance.size(); i++)
+                os << node.pivot_distance[i] << " ";
+            os << std::endl;
+
+            os << "Hyper rings: ";
+            for (size_t i = 0; i < node.hyper_rings.size(); i++)
+                os << "(" << node.hyper_rings[i].first << ", " << node.hyper_rings[i].second << ")\n";
+
+            if (node.index != nullptr)
+                os << *node.index;
+            else
+                os << "Index: Null\n";
+
+            return os;
 
         }
 
         bool isEqual(PM_Node<O, T> *node)
         {
 
-            return true;
+            if (memoryStatus == MEMORY_STATUS::IN_DISK || node->memoryStatus == MEMORY_STATUS::IN_DISK)
+                return id == node->id;
+            else
+            {
+                if (!feature_val.isEqual(node->feature_val))
+                    return false;
+
+                if (node_category != node->node_category)
+                    return false;
+
+                if (dist_to_parent != node->dist_to_parent)
+                    return false;
+
+                if (range != node->range)
+                    return false;
+
+                if (pivot_distance.size() != node->pivot_distance.size())
+                    return false;
+
+                for (size_t i = 0; i < pivot_distance.size(); i++)
+                {
+                    if (pivot_distance[i] != node->pivot_distance[i])
+                        return false;
+                }
+
+                if (hyper_rings.size() != node->hyper_rings.size())
+                    return false;
+
+                for (size_t i = 0; i < hyper_rings.size(); i++)
+                {
+                    if (hyper_rings[i].first != node->hyper_rings[i].first || hyper_rings[i].second != node->hyper_rings[i].second)
+                        return false;
+                }
+
+                if ((index == nullptr && node->index != nullptr) || (index != nullptr && node->index == nullptr))
+                    return false;
+                else if (index != nullptr && node->index != nullptr)
+                {
+                    if (!index->isEqual(node->index.get()))
+                        return false;
+                }
+
+                return true;
+
+            }
 
         }
 
@@ -158,7 +225,7 @@ namespace gervLib::index::pmtree {
                 std::unique_ptr<u_char[]> index_data = index->serialize();
                 memcpy(data.get() + offset, index_data.get(), sz);
                 offset += sz;
-                index_data.reset();
+                //index_data.reset();
             }
             else
             {
@@ -280,7 +347,7 @@ namespace gervLib::index::pmtree {
 
             if (index != nullptr)
             {
-                ans += sizeof(size_t) + index::indexTypeMap[index->getIndexType()].size() + index->getSerializedSize();
+                ans += sizeof(size_t) * 2 + index::indexTypeMap[index->getIndexType()].size() + index->getSerializedSize();
             }
             else
                 ans += sizeof(size_t);
@@ -298,6 +365,7 @@ namespace gervLib::index::pmtree {
         size_t numPerLeaf{}, numPivots{};
         bool storePivotsInLeaf{}, storeLeafNode{}, storeDirectoryNode{}, useLAESA{};
         std::unique_ptr<pivots::Pivot<O, T>> globalPivots;
+        std::string serializedTree;
 
     protected:
         std::string headerBuildFile() override {
@@ -385,17 +453,32 @@ namespace gervLib::index::pmtree {
                 this->loadIndex(serializedFile);
         }
 
-        ~PMTree() override = default;
+        ~PMTree()
+        {
+            deleteRecursive(root);
+            globalPivots->clear();
+            globalPivots.reset();
+        }
 
-        //TODO implement delete, clear, print, isEqual, buildIndex, kNN, kNNIncremental, serialize, deserialize, getSerializedSize
+        //TODO implement serialize, deserialize, getSerializedSize
 
         PM_Node<O, T>* getRoot()
         {
             return root;
         }
 
+        void clear() override
+        {
+            clear_recursive(root);
+        }
+
         void buildIndex() override
         {
+
+            utils::Timer timer{};
+            timer.start();
+            this->distanceFunction->resetStatistics();
+            size_t ioW = configure::IOWrite, ioR = configure::IORead;
 
             this->pivots->operator()(this->dataset, this->distanceFunction, this->numPivots);
 
@@ -412,13 +495,29 @@ namespace gervLib::index::pmtree {
                 insert(this->dataset->getElement(i), i);
             }
 
-            //initDisk();
+            initDisk();
+
+            timer.stop();
+
+            std::ofstream buildFile(this->buildFile, std::ios::app);
+            buildFile << timer.getElapsedTime()
+                      << ","
+                      << timer.getElapsedTimeSystem()
+                      << ","
+                      << timer.getElapsedTimeUser()
+                      << ","
+                      << this->distanceFunction->getDistanceCount()
+                      << ","
+                      << std::to_string(configure::IOWrite - ioW)
+                      << ","
+                      << std::to_string(configure::IORead - ioR) << std::endl;
+            buildFile.close();
 
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
         {
-            throw std::runtime_error("VPTree::kNN not implemented yet");
+            throw std::runtime_error("PMTree::kNN not implemented yet");
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
@@ -436,6 +535,7 @@ namespace gervLib::index::pmtree {
             result.setMaxSize(k);
             query::Partition<PM_Node<O, T>*> currentPartition;
             PM_Node<O, T>* currentNode;
+            LAESA<O, T>* laesa;
             std::vector<double> query_to_pivot;
             update_pivot_distance(query_to_pivot, query);
 
@@ -449,15 +549,37 @@ namespace gervLib::index::pmtree {
                     nodeQueue.pop();
                     currentNode = currentPartition.getElement();
 
+                    if (currentNode->memoryStatus == MEMORY_STATUS::IN_DISK)
+                    {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->id);
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
                     if (is_leaf_node(currentNode)) {
 
                         this->leafNodeAccess++;
 
-                        for (size_t i = 0; i < currentNode->ptr_sub_tree.size(); i++) {
-                            elementQueue.push(query::ResultEntry<O>(currentNode->ptr_sub_tree[i]->feature_val.getOID(),
-                                                                    this->distanceFunction->operator()(
-                                                                            currentNode->ptr_sub_tree[i]->feature_val,
-                                                                            query)));
+                        if (currentNode->index == nullptr) {
+
+                            for (size_t i = 0; i < currentNode->ptr_sub_tree.size(); i++) {
+                                elementQueue.push(
+                                        query::ResultEntry<O>(currentNode->ptr_sub_tree[i]->feature_val.getOID(),
+                                                              this->distanceFunction->operator()(
+                                                                      currentNode->ptr_sub_tree[i]->feature_val,
+                                                                      query)));
+                            }
+
+                        }
+                        else
+                        {
+                            laesa = (LAESA<O, T>*) currentNode->index.get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentNode->index->getPrunning();
+
                         }
 
                     } else {
@@ -472,21 +594,48 @@ namespace gervLib::index::pmtree {
                         }
                     }
 
+                    if (currentNode->memoryStatus == MEMORY_STATUS::IN_DISK)
+                    {
+                        currentNode->clear();
+                    }
+
                 } else if (!nodeQueue.empty() && nodeQueue.top().getMin() < elementQueue.top().getDistance()) {
 
                     currentPartition = nodeQueue.top();
                     nodeQueue.pop();
                     currentNode = currentPartition.getElement();
 
+                    if (currentNode->memoryStatus == MEMORY_STATUS::IN_DISK)
+                    {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->id);
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
                     if (is_leaf_node(currentNode)) {
 
                         this->leafNodeAccess++;
 
-                        for (size_t i = 0; i < currentNode->ptr_sub_tree.size(); i++) {
-                            elementQueue.push(query::ResultEntry<O>(currentNode->ptr_sub_tree[i]->feature_val.getOID(),
-                                                                    this->distanceFunction->operator()(
-                                                                            currentNode->ptr_sub_tree[i]->feature_val,
-                                                                            query)));
+                        if (currentNode->index == nullptr) {
+
+                            for (size_t i = 0; i < currentNode->ptr_sub_tree.size(); i++) {
+                                elementQueue.push(
+                                        query::ResultEntry<O>(currentNode->ptr_sub_tree[i]->feature_val.getOID(),
+                                                              this->distanceFunction->operator()(
+                                                                      currentNode->ptr_sub_tree[i]->feature_val,
+                                                                      query)));
+                            }
+
+                        }
+                        else
+                        {
+                            laesa = (LAESA<O, T>*) currentNode->index.get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += currentNode->index->getPrunning();
+
                         }
 
                     } else {
@@ -499,6 +648,11 @@ namespace gervLib::index::pmtree {
                                                                           query_to_pivot)));
 
                         }
+                    }
+
+                    if (currentNode->memoryStatus == MEMORY_STATUS::IN_DISK)
+                    {
+                        currentNode->clear();
                     }
 
                 }
@@ -535,7 +689,272 @@ namespace gervLib::index::pmtree {
 
         }
 
+        bool isEqual(std::unique_ptr<Index<O, T>>& other) override
+        {
+            if(!gervLib::index::Index<O, T>::isEqual(other))
+                return false;
+
+            auto* _other = dynamic_cast<PMTree<O, T>*>(other.get());
+
+            return isEqualHelper(this->root, _other->root);
+
+        }
+
+        void print(std::ostream& os) const override {
+
+            std::stack<PM_Node<O, T>*> nodeStack;
+            nodeStack.push(std::make_pair(root));
+
+            os << "\n\n**********************************************************************************************************************************************************************************\n\n";
+            os << "PMTree" << std::endl;
+            os << "Number of pivots: " << numPivots << std::endl;
+            os << "Number of objects per leaf: " << numPerLeaf << std::endl;
+            os << "Store pivots in leaf: " << (storePivotsInLeaf ? "true" : "false") << std::endl;
+            os << "Store leaf node: " << (storeLeafNode ? "true" : "false") << std::endl;
+            os << "Store directory node: " << (storeDirectoryNode ? "true" : "false") << std::endl;
+            os << "Use LAESA: " << (useLAESA ? "true" : "false") << std::endl;
+
+            while (!nodeStack.empty())
+            {
+
+                auto currentNode = nodeStack.top();
+                nodeStack.pop();
+
+                os << "**********************************************************************************************************************************************************************************\n\n";
+                os << *currentNode << std::endl;
+
+                if (!is_leaf_node(currentNode))
+                {
+                    for (size_t i = 0; i < currentNode->ptr_sub_tree.size(); i++)
+                        nodeStack.push(currentNode->ptr_sub_tree[i]);
+                }
+
+            }
+
+        }
+
     private:
+        void deleteRecursive(PM_Node<O, T>* node)
+        {
+            if (node == nullptr)
+                return;
+
+            for (size_t i = 0; i < node->ptr_sub_tree.size(); i++)
+                deleteRecursive(node->ptr_sub_tree[i]);
+
+            node->clear();
+            delete node;
+            node = nullptr;
+        }
+
+        bool isEqualHelper(PM_Node<O, T>* node1, PM_Node<O, T>* node2)
+        {
+            if (node1 == nullptr && node2 == nullptr)
+                return true;
+
+            if ((node1 != nullptr && node2 == nullptr) || (node1 == nullptr && node2 != nullptr))
+                return false;
+
+            if (!node1->isEqual(node2))
+                return false;
+
+            if (node1->ptr_sub_tree.size() != node2->ptr_sub_tree.size())
+                return false;
+
+            for (size_t i = 0; i < node1->ptr_sub_tree.size(); i++)
+            {
+                if (!isEqualHelper(node1->ptr_sub_tree[i], node2->ptr_sub_tree[i]))
+                    return false;
+            }
+
+            return true;
+
+        }
+
+        void clear_recursive(PM_Node<O, T>* node)
+        {
+
+            if (node == nullptr)
+                return;
+
+            if (is_leaf_node(node))
+            {
+                node->clear();
+            }
+            else
+            {
+                for (size_t i = 0; i < node->ptr_sub_tree.size(); i++)
+                    clear_recursive(node->ptr_sub_tree[i]);
+            }
+
+        }
+
+        void buildTree(PM_Node<O, T>* node, std::unique_ptr<naryTree::NodeNAry>& aux)
+        {
+
+            if (aux == nullptr)
+                return;
+
+            if (aux->value[0] == 'L')
+            {
+                node = new PM_Node<O, T>();
+                node->id = std::stoull(aux->value.substr(1));
+
+                if (!storeLeafNode) {
+                    node->memoryStatus = index::MEMORY_STATUS::IN_MEMORY;
+                    std::unique_ptr<u_char[]> data = this->pageManager->load(node->id);
+                    node->deserialize(std::move(data));
+                }
+                else
+                    node->memoryStatus = index::MEMORY_STATUS::IN_DISK;
+            }
+            else
+            {
+                node = new PM_Node<O, T>();
+                node->id = std::stoull(aux->value.substr(1));
+
+                if (!storeDirectoryNode) {
+                    node->memoryStatus = index::MEMORY_STATUS::IN_MEMORY;
+                    std::unique_ptr<u_char[]> data = this->pageManager->load(node->id);
+                    node->deserialize(std::move(data));
+                }
+                else
+                    node->memoryStatus = index::MEMORY_STATUS::IN_DISK;
+
+            }
+
+            for (size_t i = 0; i < aux->children.size(); i++)
+            {
+                node->ptr_sub_tree.push_back(new PM_Node<O, T>());
+                buildTree(node->ptr_sub_tree[i], aux->children[i]);
+            }
+
+        }
+
+        std::string serializeTreeRecursive(PM_Node<O, T>* node)
+        {
+            if (node == nullptr)
+                return "null ";
+
+            if (node->memoryStatus != index::MEMORY_STATUS::IN_DISK)
+            {
+                std::unique_ptr<u_char[]> data = node->serialize();
+                this->pageManager->save(node->id, std::move(data), node->getSerializedSize());
+                node->memoryStatus = index::MEMORY_STATUS::IN_DISK;
+            }
+
+            std::string result = (is_leaf_node(node) ? "L" : "D") + std::to_string(node->id) + " " + std::to_string(node->ptr_sub_tree.size()) + " ";
+
+            for (size_t i = 0; i < node->ptr_sub_tree.size(); i++)
+                result += serializeTreeRecursive(node->ptr_sub_tree[i]);
+
+            return result;
+        }
+
+        std::unique_ptr<naryTree::NodeNAry> deserializeTreeRecursive(std::stringstream& ss)
+        {
+            std::string valStr;
+            ss >> valStr;
+
+            if (valStr == "null")
+                return nullptr;
+
+            size_t numChildren;
+            ss >> numChildren;
+
+            std::unique_ptr<naryTree::NodeNAry> node = std::make_unique<naryTree::NodeNAry>(valStr);
+
+            for (size_t i = 0; i < numChildren; i++)
+                node->children.push_back(deserializeTreeRecursive(ss));
+
+            return node;
+        }
+
+        void initDisk()
+        {
+            std::queue<PM_Node<O, T>*> nodeQueue;
+            PM_Node<O, T>* currentNode;
+            size_t currentNodeId = 0;
+
+            nodeQueue.push(root);
+
+            while (!nodeQueue.empty())
+            {
+
+                currentNode = nodeQueue.front();
+                nodeQueue.pop();
+                currentNode->id = currentNodeId++;
+
+                if (is_leaf_node(currentNode))
+                {
+                    std::unique_ptr<dataset::Dataset<O, T>> laesaDataset = std::make_unique<dataset::Dataset<O, T>>();
+                    std::unique_ptr<matrix::Matrix<O, T>> matrix = std::make_unique<matrix::Matrix<O, T>>(this->numPivots, currentNode->ptr_sub_tree.size());
+
+                    for (size_t i = 0; i < currentNode->ptr_sub_tree.size(); i++)
+                    {
+                        laesaDataset->insert(currentNode->ptr_sub_tree[i]->feature_val);
+                        currentNode->ptr_sub_tree[i]->feature_val.clear();
+
+                        for (size_t j = 0; j < this->numPivots; j++)
+                            matrix->setValue(j, i, currentNode->ptr_sub_tree[i]->pivot_distance[j]);
+
+                        currentNode->ptr_sub_tree[i]->clear();
+                        delete currentNode->ptr_sub_tree[i];
+                        currentNode->ptr_sub_tree[i] = nullptr;
+
+                    }
+
+                    currentNode->ptr_sub_tree.clear();
+
+                    std::filesystem::path leafIndexPath(this->indexFolder);
+                    leafIndexPath /= "laesa_leafnode_" + std::to_string(currentNode->id);
+                    std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
+                            this->distanceFunction->getDistanceType());
+                    std::unique_ptr<LAESA<O, T>> idx = std::make_unique<index::LAESA<O, T>>();
+                    idx->setDataset(std::move(laesaDataset));
+                    idx->setDistanceFunction(std::move(df));
+                    idx->setPivots(pivots::PivotFactory<O, T>::clone(globalPivots));
+                    idx->setIndexFolder(leafIndexPath);
+                    idx->setMatrix(std::move(matrix));
+
+                    if (currentNode->index != nullptr) {
+                        currentNode->index->clear();
+                        currentNode->index.reset();
+                    }
+
+                    currentNode->index = std::move(idx);
+
+                    if (storeLeafNode)
+                    {
+                        currentNode->memoryStatus = gervLib::index::MEMORY_STATUS::IN_DISK;
+                        std::unique_ptr<u_char[]> leafData = currentNode->serialize();
+                        this->pageManager->save(currentNode->id, std::move(leafData), currentNode->getSerializedSize());
+                        currentNode->clear();
+                    }
+                    else
+                        currentNode->memoryStatus = gervLib::index::MEMORY_STATUS::IN_MEMORY;
+
+                }
+                else
+                {
+
+                    for (size_t i = 0; i < currentNode->ptr_sub_tree.size(); i++)
+                        nodeQueue.push(currentNode->ptr_sub_tree[i]);
+
+                    if (storeDirectoryNode) {
+                        currentNode->memoryStatus = gervLib::index::MEMORY_STATUS::IN_DISK;
+                        std::unique_ptr<u_char[]> directoryData = currentNode->serialize();
+                        this->pageManager->save(currentNode->id, std::move(directoryData), currentNode->getSerializedSize());
+                        currentNode->clear();
+                    }
+                    else
+                        currentNode->memoryStatus = gervLib::index::MEMORY_STATUS::IN_MEMORY;
+
+                }
+
+            }
+        }
+
         void insert(dataset::BasicArrayObject<O, T>& feature_val_, size_t id_)
         {
             auto* new_node = new PM_Node<O, T>(nullptr, 2, -1, id_);

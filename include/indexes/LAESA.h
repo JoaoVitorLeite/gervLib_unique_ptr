@@ -489,6 +489,21 @@ namespace gervLib::index
                    ((matrix != nullptr) ? matrix->getSerializedSize() : 0);
         }
 
+        std::unique_ptr<matrix::Matrix<O, T>>& getMatrix()
+        {
+            return matrix;
+        }
+
+        void setMatrix(std::unique_ptr<matrix::Matrix<O, T>> _matrix)
+        {
+            if (matrix != nullptr)
+            {
+                matrix->clear();
+                matrix.reset();
+            }
+            matrix = std::move(_matrix);
+        }
+
     };
 
 

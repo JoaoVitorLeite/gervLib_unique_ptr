@@ -14,13 +14,16 @@ using namespace std;
 namespace gervLib::index::pmtree {
 
     template<typename O, typename T>
-    struct PM_Node {
+    class PM_Node : public serialize::Serialize {
+
+    public:
 
         PM_Node *parent_node;
         size_t node_category{}; //0: represent routing node, 1: leaf node, 2: data entry
         dataset::BasicArrayObject<O, T> feature_val;
         double dist_to_parent{};
-        size_t level{};
+        //size_t level{};
+        MEMORY_STATUS memoryStatus = MEMORY_STATUS::NONE;
 
         size_t id{};
         std::vector<double> pivot_distance;
@@ -29,7 +32,9 @@ namespace gervLib::index::pmtree {
         std::vector<PM_Node<O, T> *> ptr_sub_tree;
         std::vector<std::pair<double, double>> hyper_rings;
 
-        size_t pageID{};
+//        size_t pageID{};
+
+        std::unique_ptr<Index<O, T>> index;
 
         PM_Node() = default;
 
@@ -39,8 +44,248 @@ namespace gervLib::index::pmtree {
             node_category = node_category_;
             dist_to_parent = dist_to_parent_;
             id = id_;
-            pageID = std::numeric_limits<size_t>::max();
 
+        }
+
+        ~PM_Node()
+        {
+            feature_val.clear();
+            pivot_distance.clear();
+            hyper_rings.clear();
+
+            if (index != nullptr)
+            {
+                index->clear();
+                index.reset();
+            }
+        }
+
+        void clear()
+        {
+            feature_val.clear();
+            pivot_distance.clear();
+            hyper_rings.clear();
+
+            if (index != nullptr)
+            {
+                index->clear();
+                index.reset();
+            }
+        }
+
+        friend std::ostream &operator<<(std::ostream &os, const PM_Node &node) {
+
+        }
+
+        bool isEqual(PM_Node<O, T> *node)
+        {
+
+            return true;
+
+        }
+
+        std::unique_ptr<u_char[]> serialize() override
+        {
+            std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
+            size_t offset = 0, sz;
+
+            memcpy(data.get() + offset, &node_category, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = feature_val.getSerializedSize();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> feature_val_data = feature_val.serialize();
+            memcpy(data.get() + offset, feature_val_data.get(), sz);
+            offset += sz;
+            feature_val_data.reset();
+
+            memcpy(data.get() + offset, &dist_to_parent, sizeof(double));
+            offset += sizeof(double);
+
+            std::string aux = index::memoryStatusMap[memoryStatus];
+            sz = aux.size();
+
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, aux.c_str(), sz);
+            offset += sz;
+            aux.clear();
+
+            memcpy(data.get() + offset, &id, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = pivot_distance.size();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, pivot_distance.data(), sz * sizeof(double));
+            offset += sz * sizeof(double);
+
+            memcpy(data.get() + offset, &range, sizeof(double));
+            offset += sizeof(double);
+
+            sz = hyper_rings.size();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            for (size_t i = 0; i < sz; i++)
+            {
+                memcpy(data.get() + offset, &hyper_rings[i].first, sizeof(double));
+                offset += sizeof(double);
+                memcpy(data.get() + offset, &hyper_rings[i].second, sizeof(double));
+                offset += sizeof(double);
+            }
+
+            if (index != nullptr)
+            {
+                size_t sz2;
+
+                sz = index->getSerializedSize();
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                aux = index::indexTypeMap[index->getIndexType()];
+                sz2 = aux.size();
+                memcpy(data.get() + offset, &sz2, sizeof(size_t));
+                offset += sizeof(size_t);
+                memcpy(data.get() + offset, aux.c_str(), sz2);
+                offset += sz2;
+                aux.clear();
+
+                std::unique_ptr<u_char[]> index_data = index->serialize();
+                memcpy(data.get() + offset, index_data.get(), sz);
+                offset += sz;
+                index_data.reset();
+            }
+            else
+            {
+                sz = 0;
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+            }
+
+            return data;
+
+        }
+
+        void deserialize(std::unique_ptr<u_char[]> _data) override
+        {
+
+            size_t offset = 0, sz;
+
+            memcpy(&node_category, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> feature_val_data = std::make_unique<u_char[]>(sz);
+            memcpy(feature_val_data.get(), _data.get() + offset, sz);
+            offset += sz;
+            feature_val.deserialize(std::move(feature_val_data));
+
+            memcpy(&dist_to_parent, _data.get() + offset, sizeof(double));
+            offset += sizeof(double);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::string aux;
+            aux.resize(sz);
+            memcpy(aux.data(), _data.get() + offset, sz);
+            offset += sz;
+            memoryStatus = index::memoryStatusMapReverse[aux];
+
+            memcpy(&id, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            pivot_distance.resize(sz);
+            memcpy(pivot_distance.data(), _data.get() + offset, sz * sizeof(double));
+            offset += sz * sizeof(double);
+
+            memcpy(&range, _data.get() + offset, sizeof(double));
+            offset += sizeof(double);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            hyper_rings.resize(sz);
+
+            for (size_t i = 0; i < sz; i++)
+            {
+                memcpy(&hyper_rings[i].first, _data.get() + offset, sizeof(double));
+                offset += sizeof(double);
+                memcpy(&hyper_rings[i].second, _data.get() + offset, sizeof(double));
+                offset += sizeof(double);
+            }
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            if (sz != 0)
+            {
+
+                size_t sz2;
+
+                memcpy(&sz2, _data.get() + offset, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                aux.resize(sz2);
+                memcpy(aux.data(), _data.get() + offset, sz2);
+                offset += sz2;
+
+                if (index != nullptr)
+                {
+                    index->clear();
+                    index.reset();
+                }
+
+                index = index::IndexFactory<O, T>::createIndex(index::indexTypeMapReverse[aux]);
+
+                std::unique_ptr<u_char[]> index_data = std::make_unique<u_char[]>(sz);
+                memcpy(index_data.get(), _data.get() + offset, sz);
+                offset += sz;
+                index->deserialize(std::move(index_data));
+
+            }
+            else
+            {
+                if (index != nullptr)
+                {
+                    index->clear();
+                    index.reset();
+                }
+            }
+
+            _data.reset();
+
+        }
+
+        size_t getSerializedSize() override
+        {
+            size_t ans = sizeof(size_t); //node category
+            ans += sizeof(size_t) + feature_val.getSerializedSize(); //feature value
+            ans += sizeof(double); //dist to parent
+            ans += sizeof(size_t) + index::memoryStatusMap[memoryStatus].size(); //memory status
+            ans += sizeof(size_t); //id
+            ans += sizeof(size_t) + pivot_distance.size() * sizeof(double); //pivot distance
+            ans += sizeof(double); //range
+            ans += sizeof(size_t) + hyper_rings.size() * sizeof(double) * 2; //hyper rings
+
+            if (index != nullptr)
+            {
+                ans += sizeof(size_t) + index::indexTypeMap[index->getIndexType()].size() + index->getSerializedSize();
+            }
+            else
+                ans += sizeof(size_t);
+
+            return ans;
         }
 
     };
@@ -143,6 +388,11 @@ namespace gervLib::index::pmtree {
         ~PMTree() override = default;
 
         //TODO implement delete, clear, print, isEqual, buildIndex, kNN, kNNIncremental, serialize, deserialize, getSerializedSize
+
+        PM_Node<O, T>* getRoot()
+        {
+            return root;
+        }
 
         void buildIndex() override
         {

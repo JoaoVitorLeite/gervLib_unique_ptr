@@ -141,7 +141,7 @@ namespace gervLib::index::pmtree {
                     return false;
                 else if (index != nullptr && node->index != nullptr)
                 {
-                    if (!index->isEqual(node->index.get()))
+                    if (!index->isEqual(node->index))
                         return false;
                 }
 
@@ -363,7 +363,7 @@ namespace gervLib::index::pmtree {
     private:
         PM_Node<O, T> *root;
         size_t numPerLeaf{}, numPivots{};
-        bool storePivotsInLeaf{}, storeLeafNode{}, storeDirectoryNode{}, useLAESA{};
+        bool storeLeafNode{}, storeDirectoryNode{}, useLAESA{};
         std::unique_ptr<pivots::Pivot<O, T>> globalPivots;
         std::string serializedTree;
 
@@ -703,13 +703,12 @@ namespace gervLib::index::pmtree {
         void print(std::ostream& os) const override {
 
             std::stack<PM_Node<O, T>*> nodeStack;
-            nodeStack.push(std::make_pair(root));
+            nodeStack.push(root);
 
             os << "\n\n**********************************************************************************************************************************************************************************\n\n";
             os << "PMTree" << std::endl;
             os << "Number of pivots: " << numPivots << std::endl;
             os << "Number of objects per leaf: " << numPerLeaf << std::endl;
-            os << "Store pivots in leaf: " << (storePivotsInLeaf ? "true" : "false") << std::endl;
             os << "Store leaf node: " << (storeLeafNode ? "true" : "false") << std::endl;
             os << "Store directory node: " << (storeDirectoryNode ? "true" : "false") << std::endl;
             os << "Use LAESA: " << (useLAESA ? "true" : "false") << std::endl;
@@ -717,13 +716,13 @@ namespace gervLib::index::pmtree {
             while (!nodeStack.empty())
             {
 
-                auto currentNode = nodeStack.top();
+                PM_Node<O, T>* currentNode = nodeStack.top();
                 nodeStack.pop();
 
                 os << "**********************************************************************************************************************************************************************************\n\n";
                 os << *currentNode << std::endl;
 
-                if (!is_leaf_node(currentNode))
+                if (currentNode->node_category != 1)
                 {
                     for (size_t i = 0; i < currentNode->ptr_sub_tree.size(); i++)
                         nodeStack.push(currentNode->ptr_sub_tree[i]);
@@ -732,6 +731,181 @@ namespace gervLib::index::pmtree {
             }
 
         }
+
+        std::unique_ptr<u_char[]> serialize() override
+        {
+            std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
+            size_t offset = 0, sz;
+
+            memcpy(data.get() + offset, &numPerLeaf, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &numPivots, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = storeLeafNode ? 1 : 0;
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = storeDirectoryNode ? 1 : 0;
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = useLAESA ? 1 : 0;
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            sz = gervLib::index::Index<O, T>::getSerializedSize();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> index_data = gervLib::index::Index<O, T>::serialize();
+            memcpy(data.get() + offset, index_data.get(), sz);
+            offset += sz;
+            index_data.reset();
+
+            if (globalPivots != nullptr)
+            {
+                sz = globalPivots->getSerializedSize();
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                std::string aux = pivots::PIVOT_TYPE2STR[globalPivots->getPivotType()];
+                size_t sz2 = aux.size();
+
+                memcpy(data.get() + offset, &sz2, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                memcpy(data.get() + offset, aux.c_str(), sz2);
+                offset += sz2;
+                aux.clear();
+
+                std::unique_ptr<u_char[]> pivots_data = globalPivots->serialize();
+                memcpy(data.get() + offset, pivots_data.get(), sz);
+                offset += sz;
+                pivots_data.reset();
+            }
+            else
+            {
+                sz = 0;
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+            }
+
+            sz = serializedTree.size();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+            serializedTree.clear();
+
+            memcpy(data.get() + offset, serializedTree.c_str(), sz);
+            offset += sz;
+
+            return data;
+
+        }
+
+        void deserialize(std::unique_ptr<u_char[]> _data) override
+        {
+
+            size_t offset = 0, sz;
+
+            memcpy(&numPerLeaf, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&numPivots, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            storeLeafNode = sz == 1;
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            storeDirectoryNode = sz == 1;
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+            useLAESA = sz == 1;
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> index_data = std::make_unique<u_char[]>(sz);
+            memcpy(index_data.get(), _data.get() + offset, sz);
+            offset += sz;
+            gervLib::index::Index<O, T>::deserialize(std::move(index_data));
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            if (sz != 0)
+            {
+                size_t sz2;
+                std::string aux;
+
+                memcpy(&sz2, _data.get() + offset, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                aux.resize(sz2);
+                memcpy(aux.data(), _data.get() + offset, sz2);
+                offset += sz2;
+
+                if (globalPivots != nullptr)
+                {
+                    globalPivots->clear();
+                    globalPivots.reset();
+                }
+
+                globalPivots = pivots::PivotFactory<O, T>::createPivot(pivots::STR2PIVOT_TYPE[aux]);
+
+                std::unique_ptr<u_char[]> pivots_data = std::make_unique<u_char[]>(sz);
+                memcpy(pivots_data.get(), _data.get() + offset, sz);
+                offset += sz;
+                globalPivots->deserialize(std::move(pivots_data));
+            }
+            else
+            {
+                globalPivots = nullptr;
+            }
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            serializedTree.resize(sz);
+            memcpy(serializedTree.data(), _data.get() + offset, sz);
+            offset += sz;
+
+            _data.reset();
+
+            std::stringstream ss(serializedTree);
+            std::unique_ptr<naryTree::NodeNAry> aux = deserializeTreeRecursive(ss);
+
+            if (root != nullptr)
+            {
+                root->clear();
+                delete root;
+                root = nullptr;
+            }
+
+            root = new PM_Node<O, T>();
+
+            buildTree(root, aux);
+
+        }
+
+        size_t getSerializedSize() override
+        {
+            size_t ans = 0;
+            this->serializedTree = serializeTreeRecursive(root);
+
+            ans += sizeof(size_t) + gervLib::index::Index<O, T>::getSerializedSize();
+            ans += sizeof(size_t) * 5;
+            ans += sizeof(size_t) + (globalPivots == nullptr ? 0 : globalPivots->getSerializedSize() + sizeof(size_t) + pivots::PIVOT_TYPE2STR[globalPivots->getPivotType()].size());
+            ans += sizeof(size_t) + serializedTree.size();
+
+            return ans;
+        }
+
 
     private:
         void deleteRecursive(PM_Node<O, T>* node)

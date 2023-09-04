@@ -460,8 +460,6 @@ namespace gervLib::index::pmtree {
             globalPivots.reset();
         }
 
-        //TODO implement serialize, deserialize, getSerializedSize
-
         PM_Node<O, T>* getRoot()
         {
             return root;
@@ -887,7 +885,7 @@ namespace gervLib::index::pmtree {
                 root = nullptr;
             }
 
-            root = new PM_Node<O, T>();
+            //root = new PM_Node<O, T>();
 
             buildTree(root, aux);
 
@@ -963,7 +961,7 @@ namespace gervLib::index::pmtree {
 
         }
 
-        void buildTree(PM_Node<O, T>* node, std::unique_ptr<naryTree::NodeNAry>& aux)
+        void buildTree(PM_Node<O, T>*& node, std::unique_ptr<naryTree::NodeNAry>& aux)
         {
 
             if (aux == nullptr)
@@ -974,27 +972,32 @@ namespace gervLib::index::pmtree {
                 node = new PM_Node<O, T>();
                 node->id = std::stoull(aux->value.substr(1));
 
+                std::unique_ptr<u_char[]> data = this->pageManager->load(node->id);
+                node->deserialize(std::move(data));
+
                 if (!storeLeafNode) {
                     node->memoryStatus = index::MEMORY_STATUS::IN_MEMORY;
-                    std::unique_ptr<u_char[]> data = this->pageManager->load(node->id);
-                    node->deserialize(std::move(data));
                 }
-                else
+                else {
                     node->memoryStatus = index::MEMORY_STATUS::IN_DISK;
+                    node->clear();
+                }
             }
             else
             {
                 node = new PM_Node<O, T>();
                 node->id = std::stoull(aux->value.substr(1));
 
+                std::unique_ptr<u_char[]> data = this->pageManager->load(node->id);
+                node->deserialize(std::move(data));
+
                 if (!storeDirectoryNode) {
                     node->memoryStatus = index::MEMORY_STATUS::IN_MEMORY;
-                    std::unique_ptr<u_char[]> data = this->pageManager->load(node->id);
-                    node->deserialize(std::move(data));
                 }
-                else
+                else {
                     node->memoryStatus = index::MEMORY_STATUS::IN_DISK;
-
+                    node->clear();
+                }
             }
 
             for (size_t i = 0; i < aux->children.size(); i++)
@@ -1350,7 +1353,6 @@ namespace gervLib::index::pmtree {
             {
 
                 throw std::invalid_argument("Error in cal_dist_to_parent \n");
-                return -1;
 
             }
 
@@ -1361,7 +1363,7 @@ namespace gervLib::index::pmtree {
         void update_hyper_rings(std::vector<std::pair<double,double>>& hyper_rings_, dataset::BasicArrayObject<O, T>& data_feature_val_)
         {
 
-            if(hyper_rings_.size() == 0)
+            if(hyper_rings_.empty())
             {
 
                 hyper_rings_.resize(this->numPivots, std::make_pair(std::numeric_limits<double>::max(), std::numeric_limits<double>::min()));

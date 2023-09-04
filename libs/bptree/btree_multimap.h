@@ -729,6 +729,16 @@ public:
         tree.initDisk(storeDirectoryNode, storeLeafNode, useLAESA);
     }
 
+    void clear_Tree()
+    {
+        tree.clear_Tree();
+    }
+
+    void print(std::ostream& os)
+    {
+        tree.print(os);
+    }
+
 
     };
 

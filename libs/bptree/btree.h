@@ -351,6 +351,30 @@ public:
 
         virtual void clear(){ }
 
+        virtual void print(std::ostream& os, size_t _numPivots)
+        {
+            os << "Node type: " << (isleafnode() ? "Leaf Node" : "Inner Node") << std::endl;
+            os << "Node nodeID: " << nodeID << std::endl;
+            os << "Node level: " << level << std::endl;
+            os << "Node slotuse: " << slotuse << std::endl;
+            os << "Node key_min: " << key_min << std::endl;
+            os << "Node key_max: " << key_max << std::endl;
+            os << "Node memory_status: " << gervLib::index::memoryStatusMap[memory_status] << std::endl;
+
+            if (mbr != nullptr)
+            {
+                for (size_t i = 0; i < _numPivots; i++)
+                {
+                    os << "[" << mbr[i][0] << ", " << mbr[i][1] << "]" << std::endl;
+                }
+            }
+            else
+            {
+                os << "Node mbr: NULL" << std::endl;
+            }
+
+        }
+
     };
 
     /// Extended structure of a inner node in-memory. Contains only keys and no
@@ -644,6 +668,30 @@ public:
                 index->clear();
                 index.reset();
             }
+        }
+
+        virtual void print(std::ostream& os, size_t _numPivots)
+        {
+            os << "Node type: " << (this->isleafnode() ? "Leaf Node" : "Inner Node") << std::endl;
+            os << "Node nodeID: " << this->nodeID << std::endl;
+            os << "Node level: " << this->level << std::endl;
+            os << "Node slotuse: " << this->slotuse << std::endl;
+            os << "Node key_min: " << this->key_min << std::endl;
+            os << "Node key_max: " << this->key_max << std::endl;
+            os << "Node memory_status: " << gervLib::index::memoryStatusMap[this->memory_status] << std::endl;
+
+            if (this->mbr != nullptr)
+            {
+                for (size_t i = 0; i < _numPivots; i++)
+                {
+                    os << "[" << this->mbr[i][0] << ", " << this->mbr[i][1] << "]" << std::endl;
+                }
+            }
+            else
+            {
+                os << "Node mbr: NULL" << std::endl;
+            }
+
         }
 
     };
@@ -2503,6 +2551,27 @@ private:
         {
             leaf_node *leafnode = static_cast<leaf_node*>(n);
 
+            if (leafnode->dataset != nullptr)
+            {
+                leafnode->dataset->clear();
+                leafnode->dataset.reset();
+            }
+
+            if (leafnode->index != nullptr)
+            {
+                leafnode->index->clear();
+                leafnode->index.reset();
+            }
+
+            if (leafnode->mbr != nullptr)
+            {
+                for (int i=0; i < numPivots; ++i)
+                {
+                    delete[] leafnode->mbr[i];
+                }
+                delete[] leafnode->mbr;
+            }
+
             for (unsigned int slot = 0; slot < leafnode->slotuse; ++slot)
             {
                 // data objects are deleted by leaf_node's destructor
@@ -2511,6 +2580,15 @@ private:
         else
         {
             inner_node *innernode = static_cast<inner_node*>(n);
+
+            if (innernode->mbr != nullptr)
+            {
+                for (int i=0; i < numPivots; ++i)
+                {
+                    delete[] innernode->mbr[i];
+                }
+                delete[] innernode->mbr;
+            }
 
             for (unsigned short slot = 0; slot < innernode->slotuse + 1; ++slot)
             {
@@ -5244,6 +5322,27 @@ public:
 
     }
 
+    void clear_Tree()
+    {
+        _clear_Tree(m_root);
+    }
+
+    void _clear_Tree(node* n)
+    {
+        if (n->isleafnode())
+        {
+            n->clear();
+        }
+        else
+        {
+            for (unsigned short slot = 0; slot <= n->slotuse; ++slot)
+            {
+                _clear_Tree(static_cast<inner_node*>(n)->childid[slot]);
+            }
+            n->clear();
+        }
+    }
+
     node* getRoot()
     {
 
@@ -5251,6 +5350,42 @@ public:
 
     }
 
+    void print(std::ostream& os)
+    {
+
+        std::queue<node*> nodeQueue;
+        nodeQueue.push(m_root);
+
+        os << "\n\n**********************************************************************************************************************************************************************************\n\n";
+        os << "SPBTree" << std::endl;
+        os << "Number of pivots: " << numPivots << std::endl;
+        os << "Store leaf node: " << (storeLeafNode ? "true" : "false") << std::endl;
+        os << "Store directory node: " << (storeDirectoryNode ? "true" : "false") << std::endl;
+        os << "Use LAESA: " << (useLAESA ? "true" : "false") << std::endl;
+
+        while(!nodeQueue.empty())
+        {
+
+            node* currentNode = nodeQueue.front();
+            nodeQueue.pop();
+
+            os << "**********************************************************************************************************************************************************************************\n\n";
+            currentNode->print(os, numPivots);
+
+            if (!currentNode->isleafnode())
+            {
+                auto* innerNode = static_cast<inner_node*>(currentNode);
+
+                for (int i = 0; i < innerNode->slotuse + 1; ++i)
+                {
+                    nodeQueue.push(innerNode->childid[i]);
+                }
+            }
+
+
+        }
+
+    }
 
 };
 

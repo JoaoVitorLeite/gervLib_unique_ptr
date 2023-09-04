@@ -125,9 +125,14 @@ namespace gervLib::index::spbtree
 
         }
 
-        ~SPBTree() override = default;
+        ~SPBTree() override
+        {
+            ed.reset();
+            hc.reset();
+            this->bptree->clear();
+        }
 
-        //TODO implement delete, clear, print, isEqual, buildIndex, kNN, kNNIncremental, serialize, deserialize, getSerializedSize
+        //TODO implement isEqual, serialize, deserialize, getSerializedSize
 
         void buildIndex() override
         {
@@ -248,7 +253,7 @@ namespace gervLib::index::spbtree
 
         std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
         {
-            throw std::runtime_error("Not implemented yet!");
+            throw std::runtime_error("SPBTree::kNN not implemented yet");
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
@@ -430,6 +435,18 @@ namespace gervLib::index::spbtree
 
         }
 
+        void clear() override
+        {
+            this->bptree->clear_Tree();
+        }
+
+        void print(std::ostream& os) const override
+        {
+
+            this->bptree->print(os);
+
+        }
+
     private:
         template <typename U>
         bool isInterval(U infBound, U supBound, U test)
@@ -600,8 +617,6 @@ namespace gervLib::index::spbtree
             return answer;
 
         }
-
-
 
 
     };

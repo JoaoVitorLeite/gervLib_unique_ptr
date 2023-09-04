@@ -89,15 +89,19 @@ int main(int argc, char **argv)
     auto pvt = std::make_unique<RandomPivots<size_t, double>>();
     pvt->setSeed(16);
 
-    std::unique_ptr<spbtree::SPBTree<size_t, double>> spb = std::make_unique<spbtree::SPBTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 50, 4096, false, false, true);
+    std::unique_ptr<spbtree::SPBTree<size_t, double>> spb = std::make_unique<spbtree::SPBTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 50, 4096, false, true, true);
 //    std::unique_ptr<Index<size_t, double>> spb = std::make_unique<spbtree::SPBTree<size_t, double, mpz_class>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
     std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
 
-    std::cout << *spb << "\n\n";
+    std::unique_ptr<spbtree::SPBTree<size_t, double>> spb2 = std::make_unique<spbtree::SPBTree<size_t, double>>();
+    std::unique_ptr<u_char[]> serialized = spb->serialize();
+    spb2->deserialize(std::move(serialized));
+
+//    std::cout << *spb << "\n\n";
 
     for(size_t i = 0; i < test->getCardinality(); i++)
     {
-        std::vector<gervLib::query::ResultEntry<size_t>> res1 = spb->kNNIncremental(test->getElement(i), 100, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = spb2->kNNIncremental(test->getElement(i), 100, true);
         std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true);
 
         for(size_t j = 0; j < res1.size(); j++)

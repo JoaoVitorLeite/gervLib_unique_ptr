@@ -739,6 +739,15 @@ public:
         tree.print(os);
     }
 
+    std::vector<_Key> getLeafKeys() {
+        return tree.getLeafKeys();
+    }
+
+    void buildTreeByLeafKeys(std::vector<_Key>& keys)
+    {
+        tree.buildTreeByLeafKeys(keys);
+    }
+
 
     };
 

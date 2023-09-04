@@ -64,9 +64,7 @@ namespace gervLib::distance {
         }
 
     public:
-        explicit DistanceFunction(size_t distance = 0) : distanceType(UNKNOWN) {
-            distCount = distance;
-        }
+        explicit DistanceFunction() : distanceType(UNKNOWN) { }
 
         virtual ~DistanceFunction() = default;
 

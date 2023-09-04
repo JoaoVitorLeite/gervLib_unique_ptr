@@ -27,6 +27,9 @@ namespace gervLib::index::spbtree
         bool storeLeafNode{}, storeDirectoryNode{}, useLAESA{};
         std::unique_ptr<stx::btree_multimap<O, T, unsigned long long, std::unique_ptr<dataset::BasicArrayObject<size_t, double>>, std::less<> >> bptree;
 
+    private:
+        std::unique_ptr<std::vector<unsigned long long>> keys_serialize;
+
     protected:
         std::string headerBuildFile() override
         {
@@ -444,6 +447,146 @@ namespace gervLib::index::spbtree
         {
 
             this->bptree->print(os);
+
+        }
+
+        std::unique_ptr<u_char[]> serialize() override
+        {
+            std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
+            size_t offset = 0, sz;
+            unsigned long long sz2;
+
+            sz = gervLib::index::Index<O, T>::getSerializedSize();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> indexData = gervLib::index::Index<O, T>::serialize();
+            memcpy(data.get() + offset, indexData.get(), sz);
+            offset += sz;
+            indexData.reset();
+
+            sz2 = hc->getP();
+
+            memcpy(data.get() + offset, &sz2, sizeof(unsigned long long));
+            offset += sizeof(unsigned long long);
+
+            memcpy(data.get() + offset, &numPerLeaf, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &numPivots, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &numBins, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, &storeLeafNode, sizeof(bool));
+            offset += sizeof(bool);
+
+            memcpy(data.get() + offset, &storeDirectoryNode, sizeof(bool));
+            offset += sizeof(bool);
+
+            memcpy(data.get() + offset, &useLAESA, sizeof(bool));
+            offset += sizeof(bool);
+
+            sz = this->keys_serialize->size();
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, this->keys_serialize->data(), sizeof(unsigned long long) * sz);
+
+            return data;
+
+        }
+
+        void deserialize(std::unique_ptr<u_char[]> _data) override
+        {
+
+            size_t offset = 0, sz;
+            unsigned long long sz2, p;
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::unique_ptr<u_char[]> indexData = std::make_unique<u_char[]>(sz);
+            memcpy(indexData.get(), _data.get() + offset, sz);
+            offset += sz;
+            gervLib::index::Index<O, T>::deserialize(std::move(indexData));
+
+            memcpy(&p, _data.get() + offset, sizeof(unsigned long long));
+            offset += sizeof(unsigned long long);
+
+            memcpy(&numPerLeaf, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&numPivots, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&numBins, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(&storeLeafNode, _data.get() + offset, sizeof(bool));
+            offset += sizeof(bool);
+
+            memcpy(&storeDirectoryNode, _data.get() + offset, sizeof(bool));
+            offset += sizeof(bool);
+
+            memcpy(&useLAESA, _data.get() + offset, sizeof(bool));
+            offset += sizeof(bool);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            this->keys_serialize = std::make_unique<std::vector<unsigned long long>>(sz);
+            memcpy(this->keys_serialize->data(), _data.get() + offset, sizeof(unsigned long long) * sz);
+            offset += sizeof(unsigned long long) * sz;
+
+            if (ed != nullptr)
+                ed.reset();
+
+            if (hc != nullptr)
+                hc.reset();
+
+            if (bptree != nullptr)
+            {
+                bptree->clear();
+                bptree.reset();
+            }
+
+            hc = std::make_unique<hilbert::HilbertCurve>(p, numPivots);
+            ed = std::make_unique<equidepth::EquiDepth<double>>(numBins, numPivots);
+            ed->readFromFile(this->indexFolder);
+            bptree = std::make_unique<btree_type>();
+
+            bptree->setHilbertCurve(hc.get());
+            bptree->setNumberOfPivots(numPivots);
+            bptree->setPageManager(this->pageManager.get());
+            bptree->setPivots(this->pivots);
+            bptree->setIndexFolder(this->indexFolder);
+            bptree->setDistanceFunction(this->distanceFunction.get());
+
+            bptree->buildTreeByLeafKeys(*this->keys_serialize);
+
+            _data.reset();
+
+        }
+
+        size_t getSerializedSize() override
+        {
+            size_t ans = 0;
+
+            ans += sizeof(size_t) + gervLib::index::Index<O, T>::getSerializedSize();
+            ans += sizeof(unsigned long long);
+            ans += sizeof(size_t) * 3;
+            ans += sizeof(bool) * 3;
+
+            std::vector<unsigned long long> keys = bptree->getLeafKeys();
+            ans += sizeof(size_t);
+            ans += sizeof(unsigned long long) * keys.size();
+
+            this->keys_serialize = std::make_unique<std::vector<unsigned long long>>(keys);
+            keys.clear();
+
+            return ans;
 
         }
 

@@ -16,19 +16,19 @@ namespace gervLib::distance {
     class DistanceFactory {
 
     public:
-        static std::unique_ptr<DistanceFunction<T>> createDistanceFunction(DISTANCE_TYPE distanceType, size_t distance = 0) {
+        static std::unique_ptr<DistanceFunction<T>> createDistanceFunction(DISTANCE_TYPE distanceType) {
 
             if (distanceType == EUCLIDEAN)
             {
                 if constexpr (IsDouble<T>)
-                    return std::make_unique<EuclideanDistance<T>>(distance);
+                    return std::make_unique<EuclideanDistance<T>>();
                 else
                     throw std::invalid_argument("EditDistance requires IsChar<T>");
             }
             else if(distanceType == LEVENSHTEIN)
             {
                 if constexpr (IsChar<T>)
-                    return std::make_unique<EditDistance<T>>(distance);
+                    return std::make_unique<EditDistance<T>>();
                 else
                     throw std::invalid_argument("EditDistance requires IsChar<T>");
             }

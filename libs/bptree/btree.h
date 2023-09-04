@@ -515,19 +515,20 @@ public:
 
             if (index != nullptr)
             {
-                std::string aux2 = gervLib::index::indexTypeMap[index->getIndexType()];
-                sz = aux2.size();
-
-                memcpy(data.get() + offset, &sz, sizeof(size_t));
-                offset += sizeof(size_t);
-
-                memcpy(data.get() + offset, aux2.c_str(), sz);
-                offset += sz;
 
                 sz = index->getSerializedSize();
 
+                std::string aux2 = gervLib::index::indexTypeMap[index->getIndexType()];
+                size_t sz2 = aux2.size();
+
                 memcpy(data.get() + offset, &sz, sizeof(size_t));
                 offset += sizeof(size_t);
+
+                memcpy(data.get() + offset, &sz2, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                memcpy(data.get() + offset, aux2.c_str(), sz2);
+                offset += sz2;
 
                 std::unique_ptr<u_char[]> aux3 = index->serialize();
                 memcpy(data.get() + offset, aux3.get(), sz);
@@ -670,7 +671,7 @@ public:
             }
         }
 
-        virtual void print(std::ostream& os, size_t _numPivots)
+        void print(std::ostream& os, size_t _numPivots) override
         {
             os << "Node type: " << (this->isleafnode() ? "Leaf Node" : "Inner Node") << std::endl;
             os << "Node nodeID: " << this->nodeID << std::endl;
@@ -690,6 +691,24 @@ public:
             else
             {
                 os << "Node mbr: NULL" << std::endl;
+            }
+
+            if (index != nullptr)
+            {
+                index->print(os);
+            }
+            else
+            {
+                os << "Node index: NULL" << std::endl;
+            }
+
+            if (dataset != nullptr)
+            {
+                os << *dataset << std::endl;
+            }
+            else
+            {
+                os << "Node dataset: NULL" << std::endl;
             }
 
         }
@@ -5386,6 +5405,134 @@ public:
         }
 
     }
+
+    std::vector<_Key> getLeafKeys()
+    {
+
+        auto* leafNode = static_cast<leaf_node*>(m_headleaf);
+
+        std::vector<_Key> keys;
+
+        while(leafNode != nullptr)
+        {
+
+            for (int i = 0; i < leafNode->slotuse; ++i)
+            {
+                keys.push_back(leafNode->slotkey[i]);
+            }
+
+            leafNode = leafNode->nextleaf;
+
+        }
+
+        _saveTree(m_root);
+        return keys;
+
+    }
+
+    void buildTreeByLeafKeys(std::vector<_Key>& keys)
+    {
+
+        std::vector<std::pair<_Key, _Data>> keyDataPairs;
+
+        for (size_t i = 0; i < keys.size(); ++i)
+        {
+            keyDataPairs.push_back(std::make_pair(keys[i], _Data()));
+        }
+
+        if (!empty())
+            clear();
+
+        bulk_load(keyDataPairs.begin(), keyDataPairs.end());
+
+        for (size_t i = 0; i < keys.size(); ++i)
+        {
+            if (keyDataPairs[i].second != nullptr) {
+                keyDataPairs[i].second->clear();
+                keyDataPairs[i].second.reset();
+            }
+        }
+
+        keys.clear();
+
+        currentNodeID = 0;
+        _init_Key_Minmax(m_root);
+        _reloadTree(m_root);
+
+    }
+
+    void _saveTree(node* n)
+    {
+
+        if (n->isleafnode())
+        {
+
+            if (n->memory_status != gervLib::index::MEMORY_STATUS::IN_DISK)
+            {
+                std::unique_ptr<u_char[]> data = n->serialize();
+                this->pm->save(n->nodeID, std::move(data), n->getSerializedSize());
+            }
+
+        }
+        else
+        {
+
+            for (unsigned short slot = 0; slot <= n->slotuse; ++slot)
+            {
+                _saveTree(static_cast<inner_node*>(n)->childid[slot]);
+            }
+
+//            if (n->memory_status != gervLib::index::MEMORY_STATUS::IN_DISK)
+//            {
+//                std::unique_ptr<u_char[]> data = n->serialize();
+//                this->pm->save(n->nodeID, std::move(data), n->getSerializedSize());
+//            }
+
+        }
+
+    }
+
+    void _reloadTree(node* n)
+    {
+
+        if (n->isleafnode())
+        {
+
+            std::unique_ptr<u_char[]> leafData = pm->load(n->nodeID);
+            n->deserialize(std::move(leafData));
+
+            if (storeLeafNode)
+            {
+                n->memory_status = gervLib::index::MEMORY_STATUS::IN_DISK;
+                n->clear();
+            }
+            else
+            {
+                n->memory_status = gervLib::index::MEMORY_STATUS::IN_MEMORY;
+            }
+
+        }
+        else
+        {
+
+            for (unsigned short slot = 0; slot <= n->slotuse; ++slot)
+            {
+                _reloadTree(static_cast<inner_node*>(n)->childid[slot]);
+            }
+
+            if (storeDirectoryNode)
+            {
+                n->memory_status = gervLib::index::MEMORY_STATUS::IN_DISK;
+                n->clear();
+            }
+            else
+            {
+                n->memory_status = gervLib::index::MEMORY_STATUS::IN_MEMORY;
+            }
+
+        }
+    }
+
 
 };
 

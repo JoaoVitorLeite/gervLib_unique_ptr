@@ -116,17 +116,10 @@ add_executable(gervLib
         include/indexes/OmniKdTree.h
         include/histogram/EquiDepth.h
         include/hilbert/HilbertCurve.h
-        libs/bptree/core.cpp
         include/indexes/SPBTree.h
+        libs/bptree/btree.h
+        libs/bptree/btree_multimap.h
 )
-
-# Find the GMP library
-find_library(GMP_LIBRARY gmp)
-find_library(GMPXX_LIBRARY gmpxx)
-
-# Link your target with the GMP library
-target_link_libraries(gervLib ${GMP_LIBRARY})
-target_link_libraries(gervLib ${GMPXX_LIBRARY})
 
 # Add libraries
 if (WIN32)

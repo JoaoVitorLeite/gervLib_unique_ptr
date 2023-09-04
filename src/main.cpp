@@ -17,10 +17,6 @@
 #include "MVPTree.h"
 #include "OmniKdTree.h"
 //#include "KdTree.h"
-#include "btree_multimap.hpp"
-#include "gmpxx.h"
-#include "HilbertCurve.h"
-#include "EquiDepth.h"
 #include "SPBTree.h"
 
 using namespace gervLib::index;
@@ -31,8 +27,6 @@ using namespace gervLib::distance;
 using namespace gervLib::pivots;
 using namespace gervLib::memory;
 using namespace gervLib::query;
-using namespace gervLib::hilbert;
-using namespace gervLib::equidepth;
 
 
 int main(int argc, char **argv)
@@ -43,7 +37,7 @@ int main(int argc, char **argv)
 
 //    unsigned long long p = (unsigned long long)log2(20-1) + 1;
 //    unsigned long long n = 2;
-//    std::unique_ptr<HilbertCurve<unsigned long long>> hc = std::make_unique<HilbertCurve_ull>(p, n);
+//    std::unique_ptr<HilbertCurve_old<unsigned long long>> hc = std::make_unique<HilbertCurve_ull>(p, n);
 //
 //    std::vector<unsigned long long> distances(20);
 //    std::iota(distances.begin(), distances.end(), 0);
@@ -61,7 +55,7 @@ int main(int argc, char **argv)
 //
 //    mpz_class p2 = log2(200-1) + 1;
 //    mpz_class n2 = 10;
-//    std::unique_ptr<HilbertCurve<mpz_class >> hc2 = std::make_unique<HilbertCurve_mpz>(p2, n2);
+//    std::unique_ptr<HilbertCurve_old<mpz_class >> hc2 = std::make_unique<HilbertCurve_mpz>(p2, n2);
 //    std::vector<mpz_class> point = {1, 5, 3, 2, 4, 6, 7, 8, 9, 10};
 //    mpz_class distance = 0;
 //
@@ -85,9 +79,9 @@ int main(int argc, char **argv)
 //    ed->readFromFile();
 //    ed->print();
 
-    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " "),
-            data2 = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " "),
-            test = std::make_unique<Dataset<size_t, double>>("../data/Dataset1.csv", " ");
+    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
+            data2 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
+            test = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ",");
 
     std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> dist1 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>(),
             dist2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
@@ -95,7 +89,7 @@ int main(int argc, char **argv)
     auto pvt = std::make_unique<RandomPivots<size_t, double>>();
     pvt->setSeed(16);
 
-    std::unique_ptr<spbtree::SPBTree<size_t, double, unsigned long long>> spb = std::make_unique<spbtree::SPBTree<size_t, double, unsigned long long>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 50, 4096, false, false, true);
+    std::unique_ptr<spbtree::SPBTree<size_t, double>> spb = std::make_unique<spbtree::SPBTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 50, 4096, false, false, true);
 //    std::unique_ptr<Index<size_t, double>> spb = std::make_unique<spbtree::SPBTree<size_t, double, mpz_class>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
     std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
 
@@ -103,8 +97,8 @@ int main(int argc, char **argv)
 
     for(size_t i = 0; i < test->getCardinality(); i++)
     {
-        std::vector<gervLib::query::ResultEntry<size_t>> res1 = spb->kNNIncremental(test->getElement(i), 10, true);
-        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 10, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = spb->kNNIncremental(test->getElement(i), 100, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true);
 
         for(size_t j = 0; j < res1.size(); j++)
         {
@@ -115,6 +109,14 @@ int main(int argc, char **argv)
 //            std::cout << spb->getPrunning() << std::endl;
         }
     }
+
+//    std::vector<gervLib::query::ResultEntry<size_t>> res1 = spb->kNNIncremental(test->getElement(0), 5, true);
+//    std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(0), 5, true);
+//
+//    for(size_t j = 0; j < res1.size(); j++)
+//    {
+//        std::cout << res2[j] << "\t" << res1[j] << std::endl;
+//    }
 
 //    size_t id = 2;
 //    std::vector<gervLib::query::ResultEntry<size_t>> res1 = spb->kNNIncremental(test->getElement(id), 10, true);

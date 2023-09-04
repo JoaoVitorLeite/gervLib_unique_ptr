@@ -42,14 +42,6 @@ namespace gervLib::configure {
 
     }
 
-    template <typename T>
-    struct is_mpz_class : std::false_type {};
-
-    template <>
-    struct is_mpz_class<mpz_class> : std::true_type {};
-
-    template <typename T>
-    inline constexpr bool is_mpz_class_v = is_mpz_class<T>::value;
 
 }
 

@@ -33,7 +33,7 @@ namespace gervLib::equidepth
 
         }
 
-        explicit Bins(long id_)
+        Bins(long id_)
         {
 
             id = id_;
@@ -51,9 +51,12 @@ namespace gervLib::equidepth
 
         }
 
-        ~Bins() = default;
+        ~Bins(){
 
-        [[nodiscard]] bool isInterval(double test) const
+        }
+
+
+        bool isInterval(double test)
         {
 
             return ((test >= min) && (test <= max));
@@ -62,6 +65,7 @@ namespace gervLib::equidepth
 
     };
 
+    template <class T>
     class EquiDepth
     {
     private:
@@ -222,7 +226,7 @@ namespace gervLib::equidepth
         {
 
             std::ifstream file(folder + std::filesystem::path::preferred_separator + "equi_depth.txt");
-            //size_t pivot_num;
+//            size_t pivot_num;
             double minV, maxV;
 
             file >> pivot_num;
@@ -249,7 +253,7 @@ namespace gervLib::equidepth
 
         }
 
-        [[nodiscard]] long getNumberOfBins() const
+        long getNumberOfBins()
         {
 
             return num_bins;

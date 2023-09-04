@@ -158,7 +158,7 @@ struct btree_default_map_traits
  * This class is specialized into btree_set, btree_multiset, btree_map and
  * btree_multimap using default template parameters and facade functions.
  */
-template <typename _Key, typename _Data,
+template <typename O, typename T, typename _Key, typename _Data,
           typename _Value = std::pair<_Key, _Data>,
           typename _Compare = std::less<_Key>,
           typename _Traits = btree_default_map_traits<_Key, _Data>,
@@ -214,7 +214,7 @@ public:
     // *** Constructed Types
 
     /// Typedef of our own type
-    typedef btree<key_type, data_type, value_type, key_compare,
+    typedef btree<O, T, key_type, data_type, value_type, key_compare,
                   traits, allow_duplicates, allocator_type, used_as_set> btree_self;
 
     /// Size type used to count keys
@@ -257,7 +257,7 @@ public:
 
     /// The header structure of each node in-memory. This structure is extended
     /// by inner_node or leaf_node.
-    struct node
+    struct node : public gervLib::serialize::Serialize
     {
         /// Level in the b-tree, if level == 0 -> leaf node
         unsigned short  level;
@@ -269,6 +269,7 @@ public:
 		/// maintain the min & max of the keys in the rooted subtree
 		key_type key_min, key_max;		
         ull** mbr;
+        gervLib::index::MEMORY_STATUS memory_status = gervLib::index::MEMORY_STATUS::NONE;
 
         /// Delayed initialisation of constructed node
         inline void initialize(const unsigned short l)
@@ -282,6 +283,67 @@ public:
         {
             return (level == 0);
         }
+
+        std::unique_ptr<u_char[]> serialize() override
+        {
+            std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
+            size_t offset = 0, sz;
+
+            memcpy(data.get() + offset, &key_min, sizeof(key_type));
+            offset += sizeof(key_type);
+
+            memcpy(data.get() + offset, &key_max, sizeof(key_type));
+            offset += sizeof(key_type);
+
+            std::string aux = gervLib::index::memoryStatusMap[memory_status];
+            sz = aux.size();
+
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, aux.c_str(), sz);
+            offset += sz;
+
+            return data;
+        }
+
+        void deserialize(std::unique_ptr<u_char[]> _data) override
+        {
+
+            size_t offset = 0, sz;
+
+            memcpy(&key_min, _data.get() + offset, sizeof(key_type));
+            offset += sizeof(key_type);
+
+            memcpy(&key_max, _data.get() + offset, sizeof(key_type));
+            offset += sizeof(key_type);
+
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::string aux;
+            aux.resize(sz);
+
+            memcpy(&aux[0], _data.get() + offset, sz);
+            offset += sz;
+
+            memory_status = gervLib::index::memoryStatusMapReverse[aux];
+
+            _data.reset();
+
+        }
+
+        size_t getSerializedSize() override
+        {
+            size_t ans = sizeof(key_type) * 2;
+            ans += sizeof(size_t) + gervLib::index::memoryStatusMap[memory_status].size();
+
+            return ans;
+        }
+
+        virtual void clear(){ }
+
     };
 
     /// Extended structure of a inner node in-memory. Contains only keys and no
@@ -347,6 +409,8 @@ public:
         /// Array of data
         data_type       slotdata[used_as_set ? 1 : leafslotmax];
 
+        std::unique_ptr<gervLib::index::Index<O, T>> index;
+
         /// Set variables to initial values
         inline void initialize()
         {
@@ -374,12 +438,15 @@ public:
 
         /// Set the (key,data) pair in slot. Overloaded function used by
         /// bulk_load().
-        inline void set_slot(unsigned short slot, const pair_type& value)
+        inline void set_slot(unsigned short slot, pair_type& value)
         {
             BTREE_ASSERT(used_as_set == false);
             BTREE_ASSERT(slot < node::slotuse);
             slotkey[slot] = value.first;
-            slotdata[slot] = value.second;
+            //slotdata[slot] = value.second;
+//            slotdata[slot] = std::make_unique<gervLib::dataset::BasicArrayObject<O, T>>(*value.second);
+//            value.second.reset();
+            slotdata[slot] = std::move(value.second);
         }
 
         /// Set the key pair in slot. Overloaded function used by
@@ -390,6 +457,138 @@ public:
             BTREE_ASSERT(slot < node::slotuse);
             slotkey[slot] = key;
         }
+
+        std::unique_ptr<u_char[]> serialize() override
+        {
+            std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
+            size_t offset = 0, sz;
+
+            memcpy(data.get() + offset, &this->key_min, sizeof(key_type));
+            offset += sizeof(key_type);
+
+            memcpy(data.get() + offset, &this->key_max, sizeof(key_type));
+            offset += sizeof(key_type);
+
+            std::string aux = gervLib::index::memoryStatusMap[this->memory_status];
+            sz = aux.size();
+
+            memcpy(data.get() + offset, &sz, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            memcpy(data.get() + offset, aux.c_str(), sz);
+            offset += sz;
+
+            if (index != nullptr)
+            {
+                std::string aux2 = gervLib::index::indexTypeMap[index->getIndexType()];
+                sz = aux2.size();
+
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                memcpy(data.get() + offset, aux2.c_str(), sz);
+                offset += sz;
+
+                sz = index->getSerializedSize();
+
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                std::unique_ptr<u_char[]> aux3 = index->serialize();
+                memcpy(data.get() + offset, aux3.get(), sz);
+                offset += sz;
+                aux3.reset();
+            }
+            else
+            {
+                sz = 0;
+
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+            }
+
+            return data;
+        }
+
+        void deserialize(std::unique_ptr<u_char[]> _data) override
+        {
+
+            size_t offset = 0, sz;
+
+            memcpy(&this->key_min, _data.get() + offset, sizeof(key_type));
+            offset += sizeof(key_type);
+
+            memcpy(&this->key_max, _data.get() + offset, sizeof(key_type));
+            offset += sizeof(key_type);
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            std::string aux;
+            aux.resize(sz);
+
+            memcpy(&aux[0], _data.get() + offset, sz);
+            offset += sz;
+
+            this->memory_status = gervLib::index::memoryStatusMapReverse[aux];
+
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            if (sz != 0)
+            {
+
+                size_t sz2;
+
+                memcpy(&sz2, _data.get() + offset, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                std::string aux2;
+                aux2.resize(sz2);
+
+                memcpy(&aux2[0], _data.get() + offset, sz2);
+                offset += sz2;
+
+                if (index != nullptr)
+                {
+                    index->clear();
+                    index.reset();
+                }
+
+                index = gervLib::index::IndexFactory<O, T>::createIndex(gervLib::index::indexTypeMapReverse[aux2]);
+                std::unique_ptr<u_char[]> aux3 = std::make_unique<u_char[]>(sz);
+                memcpy(aux3.get(), _data.get() + offset, sz);
+                offset += sz;
+                index->deserialize(std::move(aux3));
+                aux3.reset();
+            }
+            else
+            {
+                index = nullptr;
+            }
+
+            _data.reset();
+
+        }
+
+        size_t getSerializedSize() override
+        {
+            size_t ans = sizeof(key_type) * 2;
+            ans += sizeof(size_t) + gervLib::index::memoryStatusMap[this->memory_status].size();
+            ans += sizeof(size_t) + (index != nullptr ? sizeof(size_t) + gervLib::index::indexTypeMap[index->getIndexType()].size() + index->getSerializedSize() : 0);
+
+            return ans;
+        }
+
+        void clear() override
+        {
+            if (index != nullptr)
+            {
+                index->clear();
+                index.reset();
+            }
+        }
+
     };
 
 private:
@@ -493,7 +692,7 @@ public:
 
         /// Also friendly to the base btree class, because erase_iter() needs
         /// to read the currnode and currslot values directly.
-        friend class btree<key_type, data_type, value_type, key_compare,
+        friend class btree<O, T, key_type, data_type, value_type, key_compare,
                            traits, allow_duplicates, allocator_type, used_as_set>;
 
         /// Evil! A temporary value_type to STL-correctly deliver operator* and
@@ -2079,7 +2278,7 @@ public:
         { }
 
         /// Friendly to the btree class so it may call the constructor
-        friend class btree<key_type, data_type, value_type, key_compare,
+        friend class btree<O, T, key_type, data_type, value_type, key_compare,
                            traits, allow_duplicates, allocator_type, used_as_set>;
 
     public:
@@ -4841,7 +5040,7 @@ public:
 
             }
 
-            leafnode->mbr = new ull *[numPivots];
+            leafnode->mbr = new ull *[this->numPivots];
 
             for (int i = 0; i < numPivots; ++i) {
 

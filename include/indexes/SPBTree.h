@@ -14,7 +14,7 @@
 namespace gervLib::index::spbtree
 {
 
-    typedef stx::btree_multimap<unsigned long long, size_t, std::less<> > btree_type;
+    typedef stx::btree_multimap<size_t, double, unsigned long long, std::unique_ptr<dataset::BasicArrayObject<size_t, double>>, std::less<> > btree_type;
 
     template <typename O, typename T>
     class SPBTree : public Index<O, T>
@@ -25,7 +25,7 @@ namespace gervLib::index::spbtree
         std::unique_ptr<equidepth::EquiDepth<double>> ed;
         size_t numPerLeaf{}, numPivots{}, numBins{};
         bool storeLeafNode{}, storeDirectoryNode{}, useLAESA{};
-        std::unique_ptr<stx::btree_multimap<unsigned long long, size_t, std::less<> >> bptree;
+        std::unique_ptr<stx::btree_multimap<O, T, unsigned long long, std::unique_ptr<dataset::BasicArrayObject<size_t, double>>, std::less<> >> bptree;
 
     protected:
         std::string headerBuildFile() override
@@ -194,12 +194,13 @@ namespace gervLib::index::spbtree
             file_disc.close();
             file_sfc.close();
 
-            std::vector<std::pair<unsigned long long, size_t>> insertValues(keys.size());
+            std::vector<std::pair<unsigned long long, std::unique_ptr<dataset::BasicArrayObject<size_t, double>>>> insertValues(keys.size());
 
             for(size_t i = 0; i < keys.size(); i++)
             {
 
-                insertValues[i] = std::make_pair(keys[i], i);
+                std::unique_ptr<dataset::BasicArrayObject<size_t, double>> obj = std::make_unique<dataset::BasicArrayObject<size_t, double>>(this->dataset->getElement(i));
+                insertValues[i] = std::make_pair(keys[i], std::move(obj));
 
             }
 
@@ -208,7 +209,16 @@ namespace gervLib::index::spbtree
             std::sort(insertValues.begin(), insertValues.end());
             bptree->bulk_load(insertValues.begin(), insertValues.end());
 
+            for (auto& insertValue : insertValues)
+            {
+
+                insertValue.second.reset();
+
+            }
+
             insertValues.clear();
+            this->dataset->clear();
+            this->dataset.reset();
 
             bptree->setHilbertCurve(hc.get());
             bptree->setNumberOfPivots(numPivots);
@@ -281,7 +291,7 @@ namespace gervLib::index::spbtree
 
                         for (size_t i = 0; i < leafnode->slotuse; i++) {
 
-                            elementQueue.push(query::ResultEntry<O>(leafnode->slotdata[i], this->distanceFunction->operator()(query, this->dataset->getElement(leafnode->slotdata[i]))));
+                            elementQueue.push(query::ResultEntry<O>(leafnode->slotdata[i]->getOID(), this->distanceFunction->operator()(query, *leafnode->slotdata[i])));
 
                         }
 
@@ -313,7 +323,7 @@ namespace gervLib::index::spbtree
 
                         for (size_t i = 0; i < leafnode->slotuse; i++) {
 
-                            elementQueue.push(query::ResultEntry<O>(leafnode->slotdata[i], this->distanceFunction->operator()(query, this->dataset->getElement(leafnode->slotdata[i]))));
+                            elementQueue.push(query::ResultEntry<O>(leafnode->slotdata[i]->getOID(), this->distanceFunction->operator()(query, *leafnode->slotdata[i])));
 
                         }
 

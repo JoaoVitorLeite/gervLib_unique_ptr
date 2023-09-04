@@ -745,7 +745,7 @@ namespace gervLib::index::omni
 
         std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
         {
-            throw std::runtime_error("KdTree::kNN: not implemented");
+            throw std::runtime_error("OmniKdTree::kNN: not implemented");
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override

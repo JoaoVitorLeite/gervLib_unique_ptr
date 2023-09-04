@@ -23,7 +23,6 @@ namespace gervLib::index::pmtree {
         size_t node_category{}; //0: represent routing node, 1: leaf node, 2: data entry
         dataset::BasicArrayObject<O, T> feature_val;
         double dist_to_parent{};
-        //size_t level{};
         MEMORY_STATUS memoryStatus = MEMORY_STATUS::NONE;
 
         size_t id{};
@@ -32,8 +31,6 @@ namespace gervLib::index::pmtree {
         double range{};
         std::vector<PM_Node<O, T> *> ptr_sub_tree;
         std::vector<std::pair<double, double>> hyper_rings;
-
-//        size_t pageID{};
 
         std::unique_ptr<Index<O, T>> index;
 
@@ -63,7 +60,6 @@ namespace gervLib::index::pmtree {
 
         void clear()
         {
-            //feature_val.clear();
             pivot_distance.clear();
             hyper_rings.clear();
 
@@ -225,7 +221,7 @@ namespace gervLib::index::pmtree {
                 std::unique_ptr<u_char[]> index_data = index->serialize();
                 memcpy(data.get() + offset, index_data.get(), sz);
                 offset += sz;
-                //index_data.reset();
+                index_data.reset();
             }
             else
             {
@@ -885,8 +881,6 @@ namespace gervLib::index::pmtree {
                 root = nullptr;
             }
 
-            //root = new PM_Node<O, T>();
-
             buildTree(root, aux);
 
         }
@@ -1137,7 +1131,7 @@ namespace gervLib::index::pmtree {
             auto* new_node = new PM_Node<O, T>(nullptr, 2, -1, id_);
             new_node->feature_val = feature_val_;
             new_node->range = -1;
-            new_node->id = id_; //DUVIDA
+            new_node->id = id_;
             update_pivot_distance(new_node->pivot_distance, feature_val_);
 
             if(root == nullptr)
@@ -1188,7 +1182,6 @@ namespace gervLib::index::pmtree {
                     insert_node_->dist_to_parent = cal_dist_to_parent(insert_node_);
                     update_hyper_rings(cur_node_->hyper_rings, insert_node_->feature_val);
 
-                    //MUDANCAS JOAO
                     PM_Node<O, T>* update_ptr = cur_node_->parent_node;
 
                     while(update_ptr != nullptr)
@@ -1199,7 +1192,6 @@ namespace gervLib::index::pmtree {
                         update_ptr = update_ptr->parent_node;
 
                     }
-                    //MUDANCAS JOAO
 
                 }
 
@@ -1228,12 +1220,10 @@ namespace gervLib::index::pmtree {
             {
 
                 double dist = this->distanceFunction->operator()(cur_node_->ptr_sub_tree[i]->feature_val, insert_node_->feature_val);
-                //std::cout << "range = " << cur_node_->ptr_sub_tree[i]->range << "\n";
 
                 if(dist <= cur_node_->ptr_sub_tree[i]->range)
                 {
 
-                    //std::cout << "DIS in range= "  << cur_node_->ptr_sub_tree[i]->range - dist << "\n";
                     data_vec.push_back(std::make_pair(dist, &(cur_node_->ptr_sub_tree[i])));
 
                 }
@@ -1242,7 +1232,6 @@ namespace gervLib::index::pmtree {
                 {
 
                     dist -= cur_node_->ptr_sub_tree[i]->range;
-                    //std::cout << "DIS out range= "  << dist << "\n";
                     data2_vec.push_back(std::make_pair(dist, &(cur_node_->ptr_sub_tree[i])));
 
                 }
@@ -1259,7 +1248,6 @@ namespace gervLib::index::pmtree {
 
             std::sort(data2_vec.begin(), data2_vec.end());
             (*(data2_vec[0].second))->range = data2_vec[0].first + (*(data2_vec[0].second))->range;
-            //std::cout << (*data2_vec[0].second)->feature_val.getOID() << "\n";
             return data2_vec[0].second;
 
         }
@@ -1510,12 +1498,11 @@ namespace gervLib::index::pmtree {
         void split(PM_Node<O, T> ** cur_node_ptr_address_, PM_Node<O, T> ** insert_node_address_)
         {
 
-            //std::cout << "SPLIT\n";
             PM_Node<O, T> * cur_node_ = *cur_node_ptr_address_;
             PM_Node<O, T> * insert_node_ = *insert_node_address_;
 
-            PM_Node<O, T>* new_Mnode_1 = new PM_Node<O, T>(nullptr, 0, -1, -1);
-            PM_Node<O, T>* new_Mnode_2 = new PM_Node<O, T>(nullptr, 0, -1, -1);
+            auto* new_Mnode_1 = new PM_Node<O, T>(nullptr, 0, -1, -1);
+            auto* new_Mnode_2 = new PM_Node<O, T>(nullptr, 0, -1, -1);
 
             std::vector<PM_Node<O, T>*> entries = cur_node_->ptr_sub_tree;
             entries.push_back(insert_node_);
@@ -1527,7 +1514,7 @@ namespace gervLib::index::pmtree {
             if(is_root_node(cur_node_))
             {
 
-                PM_Node<O, T>* new_root = new PM_Node<O, T>(nullptr, 0, -1, -1);
+                auto* new_root = new PM_Node<O, T>(nullptr, 0, -1, -1);
                 new_root->feature_val = new_Mnode_1->feature_val;
 
                 new_Mnode_1->parent_node = new_root;
@@ -1551,9 +1538,8 @@ namespace gervLib::index::pmtree {
                 new_Mnode_1->dist_to_parent = cal_dist_to_parent(new_Mnode_1);
                 new_Mnode_2->parent_node = cur_node_->parent_node;
                 new_Mnode_2->dist_to_parent = cal_dist_to_parent(new_Mnode_2);
-                merge_subNode_HR(new_Mnode_1); //JOAO
+                merge_subNode_HR(new_Mnode_1);
                 assign_node_all_value(cur_node_, new_Mnode_1);
-                //merge_subNode_HR(cur_node_); //JOAO: PROVAVEL COMANDO SEM UTILIDADE
                 merge_subNode_HR(new_Mnode_2);
 
                 delete (new_Mnode_1);
@@ -1571,7 +1557,6 @@ namespace gervLib::index::pmtree {
 
                 }
 
-                //MUDANCAS JOAO
                 PM_Node<O, T>* update_ptr = cur_node_->parent_node;
 
                 while(update_ptr != nullptr)
@@ -1582,12 +1567,6 @@ namespace gervLib::index::pmtree {
                     update_ptr = update_ptr->parent_node;
 
                 }
-                //MUDANCAS JOAO
-
-
-//        std::cout << "DPS 1 = " << root->range << std::endl;
-//        root->range = cal_cover_radius(root);
-//        std::cout << "DPS 2 = " << root->range << "\n\n";
 
             }
 
@@ -1604,8 +1583,7 @@ namespace gervLib::index::pmtree {
             cur_node_->ptr_sub_tree = new_node_->ptr_sub_tree;
             cur_node_->range = new_node_->range;
             cur_node_->pivot_distance = new_node_->pivot_distance;
-            //cur_node_->hyper_rings = cur_node_->hyper_rings; //DUVIDA
-            cur_node_->hyper_rings = new_node_->hyper_rings; //DUVIDA
+            cur_node_->hyper_rings = new_node_->hyper_rings;
 
             for(size_t i = 0; i < cur_node_->ptr_sub_tree.size(); ++i)
             {
@@ -1633,28 +1611,11 @@ namespace gervLib::index::pmtree {
                 data->insert(entries_[i]->feature_val);
             }
 
-//            std::vector<dataset::BasicArrayObject<O, T>> v;
-//
-//            for(size_t i = 0; i < entries_.size(); i++)
-//            {
-//
-//                v.push_back(entries_[i]->feature_val);
-//
-//            }
-//
-//            dataset::Dataset<O, T>* data = new dataset::Dataset<O, T>(v, entries_.size(), entries_[0]->feature_val.size());
-
             this->pivots->operator()(data, this->distanceFunction, 2);
-//            pvt->generatePivots(data, df, 2);
 
             node_1_->feature_val = this->pivots->getPivot(0);
             node_2_->feature_val = this->pivots->getPivot(1);
 
-            //std::cout << "PROMOTE : " << node_1_->feature_val.toStringWithOID() << "\n";
-            //std::cout << "PROMOTE : " << node_2_->feature_val.toStringWithOID() << "\n\n";
-
-//            v.clear();
-//            delete (data);
             data->clear();
             data.reset();
 
@@ -1696,7 +1657,6 @@ namespace gervLib::index::pmtree {
 
                     node_1_->ptr_sub_tree.push_back(entries_[i]);
                     entries_[i]->parent_node = node_1_;
-                    //std::cout << "NODE 1 - PARTITION\n";
 
                 }
                 else
@@ -1704,7 +1664,6 @@ namespace gervLib::index::pmtree {
 
                     node_2_->ptr_sub_tree.push_back(entries_[i]);
                     entries_[i]->parent_node = node_2_;
-                    //std::cout << "NODE 2 - PARTITION\n";
 
                 }
 
@@ -1720,32 +1679,11 @@ namespace gervLib::index::pmtree {
         double minDistNode(PM_Node<O, T>* cur_node_, dataset::BasicArrayObject<O, T>& element, std::vector<double> dist_to_query)
         {
 
-//    double dist = df->getDistance(cur_node_->feature_val, element), ans;
-//    std::cout << cur_node_->feature_val.toStringWithOID() << "\n";
-//    std::cout << element.toStringWithOID() << "\n";
-//    std::cout << "MINDIST = " << dist << " / RANGE = " << cur_node_->range << "\n\n\n";
-
-//    if(dist <= cur_node_->range) //Dentro da bola
-//    {
-
-//        ans = 0.0;
-
-//    }
-//    else //Fora da bola
-//    {
-
-//        ans = dist - cur_node_->range;
-
-//    }
-
-//    return ans;
-
             double d_hr_max = 0.0, d_hr_min = 0.0, dist_p_i_q;
 
             for(size_t i = 0; i < this->numPivots; i++)
             {
 
-//        dist_p_i_q = df->getDistance(pivot_vec.getFeatureVector(i), element);
                 dist_p_i_q = dist_to_query[i];
                 d_hr_max = std::max(d_hr_max, dist_p_i_q - cur_node_->hyper_rings[i].second);
                 d_hr_min = std::max(d_hr_min, cur_node_->hyper_rings[i].first - dist_p_i_q);
@@ -1759,14 +1697,11 @@ namespace gervLib::index::pmtree {
         double maxDistNode(PM_Node<O, T>* cur_node_, dataset::BasicArrayObject<O, T>& element, std::vector<double> dist_to_query)
         {
 
-            //return df->getDistance(cur_node_->feature_val, element) + cur_node_->range;
-
             double d_hr = std::numeric_limits<double>::max();
 
             for(size_t i = 0; i < this->numPivots; i++)
             {
 
-//        d_hr = std::min(d_hr, df->getDistance(pivot_vec.getFeatureVector(i), element) + cur_node_->hyper_rings[i].second);
                 d_hr = std::min(d_hr, dist_to_query[i] + cur_node_->hyper_rings[i].second);
 
             }

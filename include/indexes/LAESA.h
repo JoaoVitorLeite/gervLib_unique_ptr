@@ -53,7 +53,10 @@ namespace gervLib::index
             this->dataset = std::move(_dataset);
             this->distanceFunction = std::move(_df);
             this->pivots = std::move(_pivots);
-            this->pivots->operator()(this->dataset, this->distanceFunction, numPivots);
+
+            if (this->pivots->getPivots()->getCardinality() == 0 || this->pivots->getNumberOfPivots() != numPivots)
+                this->pivots->operator()(this->dataset, this->distanceFunction, numPivots);
+
             this->pageManager = nullptr;
             this->pageSize = 0;
             this->prunning = 0;

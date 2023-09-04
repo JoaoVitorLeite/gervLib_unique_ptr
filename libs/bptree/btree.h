@@ -270,6 +270,7 @@ public:
 		key_type key_min, key_max;		
         ull** mbr;
         gervLib::index::MEMORY_STATUS memory_status = gervLib::index::MEMORY_STATUS::NONE;
+        size_t nodeID;
 
         /// Delayed initialisation of constructed node
         inline void initialize(const unsigned short l)
@@ -288,6 +289,9 @@ public:
         {
             std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
             size_t offset = 0, sz;
+
+            memcpy(data.get() + offset, &nodeID, sizeof(size_t));
+            offset += sizeof(size_t);
 
             memcpy(data.get() + offset, &key_min, sizeof(key_type));
             offset += sizeof(key_type);
@@ -311,6 +315,9 @@ public:
         {
 
             size_t offset = 0, sz;
+
+            memcpy(&nodeID, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
 
             memcpy(&key_min, _data.get() + offset, sizeof(key_type));
             offset += sizeof(key_type);
@@ -336,7 +343,7 @@ public:
 
         size_t getSerializedSize() override
         {
-            size_t ans = sizeof(key_type) * 2;
+            size_t ans = sizeof(size_t) + sizeof(key_type) * 2;
             ans += sizeof(size_t) + gervLib::index::memoryStatusMap[memory_status].size();
 
             return ans;
@@ -410,6 +417,7 @@ public:
         data_type       slotdata[used_as_set ? 1 : leafslotmax];
 
         std::unique_ptr<gervLib::index::Index<O, T>> index;
+        std::unique_ptr<gervLib::dataset::Dataset<O, T>> dataset;
 
         /// Set variables to initial values
         inline void initialize()
@@ -463,6 +471,9 @@ public:
             std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(getSerializedSize());
             size_t offset = 0, sz;
 
+            memcpy(data.get() + offset, &this->nodeID, sizeof(size_t));
+            offset += sizeof(size_t);
+
             memcpy(data.get() + offset, &this->key_min, sizeof(key_type));
             offset += sizeof(key_type);
 
@@ -507,6 +518,26 @@ public:
                 offset += sizeof(size_t);
             }
 
+            if (dataset != nullptr)
+            {
+                sz = dataset->getSerializedSize();
+
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+
+                std::unique_ptr<u_char[]> aux3 = dataset->serialize();
+                memcpy(data.get() + offset, aux3.get(), sz);
+                offset += sz;
+                aux3.reset();
+            }
+            else
+            {
+                sz = 0;
+
+                memcpy(data.get() + offset, &sz, sizeof(size_t));
+                offset += sizeof(size_t);
+            }
+
             return data;
         }
 
@@ -514,6 +545,9 @@ public:
         {
 
             size_t offset = 0, sz;
+
+            memcpy(&this->nodeID, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
 
             memcpy(&this->key_min, _data.get() + offset, sizeof(key_type));
             offset += sizeof(key_type);
@@ -567,15 +601,38 @@ public:
                 index = nullptr;
             }
 
+            memcpy(&sz, _data.get() + offset, sizeof(size_t));
+            offset += sizeof(size_t);
+
+            if (sz != 0)
+            {
+                if (dataset != nullptr)
+                {
+                    dataset->clear();
+                    dataset.reset();
+                }
+
+                dataset = std::make_unique<gervLib::dataset::Dataset<O, T>>();
+                std::unique_ptr<u_char[]> aux3 = std::make_unique<u_char[]>(sz);
+                memcpy(aux3.get(), _data.get() + offset, sz);
+                offset += sz;
+                dataset->deserialize(std::move(aux3));
+            }
+            else
+            {
+                dataset = nullptr;
+            }
+
             _data.reset();
 
         }
 
         size_t getSerializedSize() override
         {
-            size_t ans = sizeof(key_type) * 2;
+            size_t ans = sizeof(size_t) + sizeof(key_type) * 2;
             ans += sizeof(size_t) + gervLib::index::memoryStatusMap[this->memory_status].size();
             ans += sizeof(size_t) + (index != nullptr ? sizeof(size_t) + gervLib::index::indexTypeMap[index->getIndexType()].size() + index->getSerializedSize() : 0);
+            ans += sizeof(size_t) + (dataset != nullptr ? dataset->getSerializedSize() : 0);
 
             return ans;
         }
@@ -5013,13 +5070,22 @@ private:
         }
     }
 
+private:
+    size_t currentNodeID = 0;
+
 public:
     gervLib::hilbert::HilbertCurve* hc;
+    gervLib::memory::PageManager<O>* pm;
+    std::unique_ptr<gervLib::pivots::Pivot<O, T>> globalPivots;
+    gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>* df;
     size_t numPivots;
     ull GRID_L = std::numeric_limits<ull>::max();
+    bool storeDirectoryNode{}, storeLeafNode{}, useLAESA{};
+    std::string indexFolder;
 
     void init_Key_Minmax()
     {
+        currentNodeID = 0;
         _init_Key_Minmax(m_root);
     }
 
@@ -5028,6 +5094,7 @@ public:
         if (n->isleafnode()) {
 
             auto *leafnode = static_cast<leaf_node *>(n);
+            leafnode->nodeID = currentNodeID++;
             leafnode->key_min = std::numeric_limits<key_type>::max();
             leafnode->key_max = std::numeric_limits<key_type>::min();
             std::vector<ull> keys;
@@ -5069,6 +5136,7 @@ public:
         } else {
 
             auto *innernode = static_cast<inner_node *>(n);
+            innernode->nodeID = currentNodeID++;
             innernode->key_min = std::numeric_limits<key_type>::max();
             innernode->key_max = std::numeric_limits<key_type>::min();
 
@@ -5097,6 +5165,79 @@ public:
 
                 }
 
+            }
+
+        }
+
+    }
+
+    void initDisk(bool _storeDirectoryNode, bool _storeLeafNode, bool _useLAESA)
+    {
+        this->storeDirectoryNode = _storeDirectoryNode;
+        this->storeLeafNode = _storeLeafNode;
+        this->useLAESA = _useLAESA;
+        _initDisk(m_root);
+    }
+
+    void _initDisk(node* n)
+    {
+        if (n->isleafnode()) {
+
+            auto* leafNode = static_cast<leaf_node*>(n);
+
+            if (leafNode->dataset != nullptr)
+            {
+                leafNode->dataset->clear();
+                leafNode->dataset.reset();
+            }
+
+            leafNode->dataset = std::make_unique<gervLib::dataset::Dataset<O, T>>();
+
+            for (int i = 0; i < leafNode->slotuse; ++i)
+            {
+                leafNode->dataset->insert(*leafNode->slotdata[i]);
+                leafNode->slotdata[i].reset();
+            }
+
+            if (useLAESA)
+            {
+                std::filesystem::path leafIndexPath(this->indexFolder);
+                leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->nodeID);
+                std::unique_ptr<gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>> _df = gervLib::distance::DistanceFactory<gervLib::dataset::BasicArrayObject<O, T>>::createDistanceFunction(
+                        df->getDistanceType());
+                std::unique_ptr<gervLib::index::Index<O, T>> idx = std::make_unique<gervLib::index::LAESA<O, T>>(
+                        std::move(leafNode->dataset), std::move(_df), gervLib::pivots::PivotFactory<O, T>::clone(globalPivots), this->numPivots,
+                                leafIndexPath);
+                leafNode->index = std::move(idx);
+            }
+
+            if (storeLeafNode)
+            {
+                leafNode->memory_status = gervLib::index::MEMORY_STATUS::IN_DISK;
+                std::unique_ptr<u_char[]> leafData = leafNode->serialize();
+                this->pm->save(leafNode->nodeID, std::move(leafData), leafNode->getSerializedSize());
+                leafNode->clear();
+            }
+            else
+                leafNode->memory_status = gervLib::index::MEMORY_STATUS::IN_MEMORY;
+
+        }
+        else
+        {
+            auto* inner = static_cast<inner_node*>(n);
+
+            if (storeDirectoryNode) {
+                inner->memory_status = gervLib::index::MEMORY_STATUS::IN_DISK;
+                std::unique_ptr<u_char[]> directoryData = inner->serialize();
+                this->pm->save(inner->nodeID, std::move(directoryData), inner->getSerializedSize());
+                inner->clear();
+            }
+            else
+                inner->memory_status = gervLib::index::MEMORY_STATUS::IN_MEMORY;
+
+            for (unsigned short slot = 0; slot <= inner->slotuse; ++slot)
+            {
+                _initDisk(inner->childid[slot]);
             }
 
         }

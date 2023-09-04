@@ -692,6 +692,26 @@ public:
 
     }
 
+    void setPageManager(gervLib::memory::PageManager<O>* _pm)
+    {
+        tree.pm = _pm;
+    }
+
+    void setPivots(std::unique_ptr<gervLib::pivots::Pivot<O, T>>& pvts)
+    {
+        tree.globalPivots = gervLib::pivots::PivotFactory<O, T>::clone(pvts);
+    }
+
+    void setIndexFolder(std::string folder)
+    {
+        tree.indexFolder = folder;
+    }
+
+    void setDistanceFunction(gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>* _df)
+    {
+        tree.df = _df;
+    }
+
     void setNumberOfPivots(size_t _numPivots)
     {
         tree.numPivots = _numPivots;
@@ -704,6 +724,10 @@ public:
 
     }
 
+    void initDisk(bool storeDirectoryNode, bool storeLeafNode, bool useLAESA)
+    {
+        tree.initDisk(storeDirectoryNode, storeLeafNode, useLAESA);
+    }
 
 
     };

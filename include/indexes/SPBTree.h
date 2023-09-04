@@ -223,6 +223,11 @@ namespace gervLib::index::spbtree
             bptree->setHilbertCurve(hc.get());
             bptree->setNumberOfPivots(numPivots);
             bptree->init_Key_Minmax();
+            bptree->setPageManager(this->pageManager.get());
+            bptree->setPivots(this->pivots);
+            bptree->setIndexFolder(this->indexFolder);
+            bptree->setDistanceFunction(this->distanceFunction.get());
+            bptree->initDisk(storeDirectoryNode, storeLeafNode, useLAESA);
 
             timer.stop();
 
@@ -264,6 +269,7 @@ namespace gervLib::index::spbtree
             btree_type::Node *currentNode;
             btree_type::Leaf *leafnode;
             btree_type::Inner *innernode;
+            LAESA<O, T>* laesa;
 
             auto sq_ = std::vector<double>(numPivots);
 
@@ -284,15 +290,33 @@ namespace gervLib::index::spbtree
                     nodeQueue.pop();
                     currentNode = currentPartition.getElement();
 
+                    if (currentNode->memory_status == MEMORY_STATUS::IN_DISK)
+                    {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->nodeID);
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
                     if(currentNode->isleafnode()) {
 
                         leafnode = static_cast<btree_type::Leaf *>(currentNode);
                         this->leafNodeAccess++;
 
-                        for (size_t i = 0; i < leafnode->slotuse; i++) {
+                        if (useLAESA)
+                        {
+                            laesa = (LAESA<O, T>*) leafnode->index.get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
 
-                            elementQueue.push(query::ResultEntry<O>(leafnode->slotdata[i]->getOID(), this->distanceFunction->operator()(query, *leafnode->slotdata[i])));
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
 
+                            this->prunning += leafnode->index->getPrunning();
+                        }
+                        else
+                        {
+                            for (size_t i = 0; i < leafnode->dataset->getCardinality(); i++)
+                            {
+                                elementQueue.push(query::ResultEntry<O>(leafnode->dataset->getElement(i).getOID(), this->distanceFunction->operator()(query, leafnode->dataset->getElement(i))));
+                            }
                         }
 
                     }
@@ -307,6 +331,11 @@ namespace gervLib::index::spbtree
 
                         }
 
+                    }
+
+                    if (currentNode->memory_status == MEMORY_STATUS::IN_DISK)
+                    {
+                        currentNode->clear();
                     }
 
                 }
@@ -316,15 +345,39 @@ namespace gervLib::index::spbtree
                     nodeQueue.pop();
                     currentNode = currentPartition.getElement();
 
+                    if (currentNode->memory_status == MEMORY_STATUS::IN_DISK)
+                    {
+                        std::unique_ptr<u_char[]> nodeData = this->pageManager->load(currentNode->nodeID);
+                        currentNode->deserialize(std::move(nodeData));
+                    }
+
                     if(currentNode->isleafnode()) {
 
                         leafnode = static_cast<btree_type::Leaf *>(currentNode);
                         this->leafNodeAccess++;
 
-                        for (size_t i = 0; i < leafnode->slotuse; i++) {
+//                        for (size_t i = 0; i < leafnode->slotuse; i++) {
+//
+//                            elementQueue.push(query::ResultEntry<O>(leafnode->slotdata[i]->getOID(), this->distanceFunction->operator()(query, *leafnode->slotdata[i])));
+//
+//                        }
 
-                            elementQueue.push(query::ResultEntry<O>(leafnode->slotdata[i]->getOID(), this->distanceFunction->operator()(query, *leafnode->slotdata[i])));
+                        if (useLAESA)
+                        {
+                            laesa = (LAESA<O, T>*) leafnode->index.get();
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
 
+                            for (auto& entry : leafQuery)
+                                elementQueue.push(entry);
+
+                            this->prunning += leafnode->index->getPrunning();
+                        }
+                        else
+                        {
+                            for (size_t i = 0; i < leafnode->dataset->getCardinality(); i++)
+                            {
+                                elementQueue.push(query::ResultEntry<O>(leafnode->dataset->getElement(i).getOID(), this->distanceFunction->operator()(query, leafnode->dataset->getElement(i))));
+                            }
                         }
 
                     }
@@ -340,6 +393,12 @@ namespace gervLib::index::spbtree
                         }
 
                     }
+
+                    if (currentNode->memory_status == MEMORY_STATUS::IN_DISK)
+                    {
+                        currentNode->clear();
+                    }
+
                 }
                 else
                 {

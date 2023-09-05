@@ -432,7 +432,7 @@ public:
         leaf_node       *nextleaf;
 		
 		/// how many data before this leaf_node
-        size_t* memory_cost;
+        //size_t* memory_cost;
 
         /// Keys of children or data pointers
         key_type        slotkey[leafslotmax];

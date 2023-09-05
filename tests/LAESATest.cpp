@@ -30,8 +30,8 @@ int test1()
     for(size_t i = 0; i < data->getCardinality(); i++)
     {
 
-        resultsLaesa = laesa->kNN(data->getElement(i), 10, true);
-        resultsSequentialScan = sequentialScan->kNN(data->getElement(i), 10, true);
+        resultsLaesa = laesa->kNN(data->getElement(i), 10, true, true);
+        resultsSequentialScan = sequentialScan->kNN(data->getElement(i), 10, true, true);
 
         for(size_t j = 0; j < resultsLaesa.size(); j++)
         {
@@ -77,8 +77,8 @@ int test2()
     for(size_t i = 0; i < data->getCardinality(); i++)
     {
 
-        resultsLaesa = laesa->kNN(data->getElement(i), 10, true);
-        resultsSequentialScan = sequentialScan->kNN(data->getElement(i), 10, true);
+        resultsLaesa = laesa->kNN(data->getElement(i), 10, true, true);
+        resultsSequentialScan = sequentialScan->kNN(data->getElement(i), 10, true, true);
 
         for(size_t j = 0; j < resultsLaesa.size(); j++)
         {
@@ -145,8 +145,8 @@ int test4()
     for(size_t i = 0; i < data->getCardinality(); i++)
     {
 
-        resultsLaesa = laesa->kNN(data->getElement(i), 100, true);
-        resultsSequentialScan = sequentialScan->kNN(data->getElement(i), 100, true);
+        resultsLaesa = laesa->kNN(data->getElement(i), 100, true, true);
+        resultsSequentialScan = sequentialScan->kNN(data->getElement(i), 100, true, true);
 
         for(size_t j = 0; j < resultsLaesa.size(); j++)
         {

@@ -80,8 +80,8 @@ int test3()
 
     for(size_t i = 0; i < test->getCardinality(); i++)
     {
-        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 5, true);
-        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 5, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 5, true, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 5, true, true);
 
         for(size_t j = 0; j < res1.size(); j++)
             assert(res1[j].getDistance() == res2[j].getDistance());
@@ -109,8 +109,8 @@ int test4()
 
     for(size_t i = 0; i < test->getCardinality(); i++)
     {
-        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 100, true);
-        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = vp->kNNIncremental(test->getElement(i), 100, true, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true, true);
 
         for(size_t j = 0; j < res1.size(); j++)
             assert(res1[j].getDistance() == res2[j].getDistance());

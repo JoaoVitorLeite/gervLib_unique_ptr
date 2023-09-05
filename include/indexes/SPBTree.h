@@ -254,7 +254,7 @@ namespace gervLib::index::spbtree
             buildFile.close();
         }
 
-        std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
+        std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, bool saveStatistics) override
         {
 
             utils::Timer timer{};
@@ -301,7 +301,7 @@ namespace gervLib::index::spbtree
 
                     if(currentNode->isleafnode()) {
 
-                        leafnode = static_cast<btree_type::Leaf *>(currentNode);
+                        leafnode = dynamic_cast<btree_type::Leaf *>(currentNode);
                         this->leafNodeAccess++;
 
                         if (useLAESA)
@@ -325,7 +325,7 @@ namespace gervLib::index::spbtree
                     }
                     else
                     {
-                        innernode = static_cast<btree_type::Inner*>(currentNode);
+                        innernode = dynamic_cast<btree_type::Inner*>(currentNode);
 
                         for(size_t i = 0; i < (size_t)(innernode->slotuse + 1); i++)
                         {
@@ -356,14 +356,8 @@ namespace gervLib::index::spbtree
 
                     if(currentNode->isleafnode()) {
 
-                        leafnode = static_cast<btree_type::Leaf *>(currentNode);
+                        leafnode = dynamic_cast<btree_type::Leaf *>(currentNode);
                         this->leafNodeAccess++;
-
-//                        for (size_t i = 0; i < leafnode->slotuse; i++) {
-//
-//                            elementQueue.push(query::ResultEntry<O>(leafnode->slotdata[i]->getOID(), this->distanceFunction->operator()(query, *leafnode->slotdata[i])));
-//
-//                        }
 
                         if (useLAESA)
                         {
@@ -386,7 +380,7 @@ namespace gervLib::index::spbtree
                     }
                     else
                     {
-                        innernode = static_cast<btree_type::Inner*>(currentNode);
+                        innernode = dynamic_cast<btree_type::Inner*>(currentNode);
 
                         for(size_t i = 0; i < (size_t)(innernode->slotuse + 1); i++)
                         {
@@ -419,14 +413,19 @@ namespace gervLib::index::spbtree
 
             if (saveResults)
             {
-                this->saveResultToFile(ans, query, "kNNIncremental", expt_id, {expt_id, std::to_string(k), "-1",
-                                                                               std::to_string(timer.getElapsedTime()),
-                                                                               std::to_string(timer.getElapsedTimeSystem()),
-                                                                               std::to_string(timer.getElapsedTimeUser()),
-                                                                               std::to_string(this->distanceFunction->getDistanceCount()),
-                                                                               std::to_string(this->prunning),
-                                                                               std::to_string(configure::IOWrite - ioW),
-                                                                               std::to_string(configure::IORead - ioR)});
+                this->saveResultToFile(ans, query, "kNNIncremental", expt_id);
+            }
+
+            if (saveStatistics)
+            {
+                this->saveStatistics({expt_id, std::to_string(k), "-1",
+                                      std::to_string(timer.getElapsedTime()),
+                                      std::to_string(timer.getElapsedTimeSystem()),
+                                      std::to_string(timer.getElapsedTimeUser()),
+                                      std::to_string(this->distanceFunction->getDistanceCount()),
+                                      std::to_string(this->prunning),
+                                      std::to_string(configure::IOWrite - ioW),
+                                      std::to_string(configure::IORead - ioR)});
             }
 
             return ans;

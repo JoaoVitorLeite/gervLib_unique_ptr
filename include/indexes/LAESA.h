@@ -263,7 +263,7 @@ namespace gervLib::index
 
         }
 
-        std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override {
+        std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, bool saveStatistics) override {
 
             utils::Timer timer{};
             timer.start();
@@ -357,13 +357,18 @@ namespace gervLib::index
             if (saveResults)
             {
 
-                this->saveResultToFile(results, query, "kNN", expt_id, {expt_id, std::to_string(k), "-1",
-                                                                        std::to_string(timer.getElapsedTime()),
-                                                                        std::to_string(timer.getElapsedTimeSystem()),
-                                                                        std::to_string(timer.getElapsedTimeUser()),
-                                                                        std::to_string(this->distanceFunction->getDistanceCount()),
-                                                                        std::to_string(this->prunning)});
+                this->saveResultToFile(results, query, "kNN", expt_id);
 
+            }
+
+            if (saveStatistics)
+            {
+                this->saveStatistics({expt_id, std::to_string(k), "-1",
+                                      std::to_string(timer.getElapsedTime()),
+                                      std::to_string(timer.getElapsedTimeSystem()),
+                                      std::to_string(timer.getElapsedTimeUser()),
+                                      std::to_string(this->distanceFunction->getDistanceCount()),
+                                      std::to_string(this->prunning)});
             }
 
             return results;

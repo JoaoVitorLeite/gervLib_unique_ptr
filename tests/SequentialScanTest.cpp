@@ -19,7 +19,7 @@ int test1()
     BasicArrayObject<unsigned long, double> obj = data->getElement(0);
     std::unique_ptr<SequentialScan<size_t, double>> sequentialScan = std::make_unique<SequentialScan<size_t, double>>(std::move(data), std::move(distanceFunction), "tmp_unit_test1");
 
-    std::vector<ResultEntry<size_t>> results = sequentialScan->kNN(obj, 5, true);
+    std::vector<ResultEntry<size_t>> results = sequentialScan->kNN(obj, 5, true, true);
 
     assert(results[0].getElement() == 0);
     assert(results[1].getElement() == 3);
@@ -48,7 +48,7 @@ int test2()
     BasicArrayObject<unsigned long, double> obj = data->getElement(6);
     std::unique_ptr<SequentialScan<size_t, double>> sequentialScan = std::make_unique<SequentialScan<size_t, double>>(std::move(data), std::move(distanceFunction), "tmp_unit_test2");
 
-    std::vector<ResultEntry<size_t>> results = sequentialScan->kNN(obj, 5, true);
+    std::vector<ResultEntry<size_t>> results = sequentialScan->kNN(obj, 5, true, true);
 
     assert(results[0].getElement() == 6);
     assert(results[1].getElement() == 13);
@@ -81,13 +81,13 @@ int test3()
     BasicArrayObject<unsigned long, double> obj = data->getElement(0);
     std::unique_ptr<SequentialScan<size_t, double>> sequentialScan = std::make_unique<SequentialScan<size_t, double>>(std::move(data), std::move(distanceFunction), "tmp_unit_test3");
 
-    std::vector<ResultEntry<size_t>> results = sequentialScan->kNN(obj, 5, true);
+    std::vector<ResultEntry<size_t>> results = sequentialScan->kNN(obj, 5, true, true);
 
     std::unique_ptr<u_char[]> serialized = sequentialScan->serialize();
     std::unique_ptr<Index<size_t, double>> deserialized = std::make_unique<SequentialScan<size_t, double>>();
     deserialized->deserialize(std::move(serialized));
 
-    std::vector<ResultEntry<size_t>> results2 = deserialized->kNN(obj, 5, true);
+    std::vector<ResultEntry<size_t>> results2 = deserialized->kNN(obj, 5, true, true);
 
     assert(results[0].getElement() == results2[0].getElement());
     assert(results[1].getElement() == results2[1].getElement());

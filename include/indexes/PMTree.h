@@ -509,7 +509,7 @@ namespace gervLib::index::pmtree {
 
         }
 
-        std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
+        std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, bool saveStatistics) override
         {
 
             utils::Timer timer{};
@@ -664,14 +664,19 @@ namespace gervLib::index::pmtree {
 
             if (saveResults)
             {
-                this->saveResultToFile(ans, query, "kNNIncremental", expt_id, {expt_id, std::to_string(k), "-1",
-                                                                               std::to_string(timer.getElapsedTime()),
-                                                                               std::to_string(timer.getElapsedTimeSystem()),
-                                                                               std::to_string(timer.getElapsedTimeUser()),
-                                                                               std::to_string(this->distanceFunction->getDistanceCount()),
-                                                                               std::to_string(this->prunning),
-                                                                               std::to_string(configure::IOWrite - ioW),
-                                                                               std::to_string(configure::IORead - ioR)});
+                this->saveResultToFile(ans, query, "kNNIncremental", expt_id);
+            }
+
+            if (saveStatistics)
+            {
+                this->saveStatistics({expt_id, std::to_string(k), "-1",
+                                      std::to_string(timer.getElapsedTime()),
+                                      std::to_string(timer.getElapsedTimeSystem()),
+                                      std::to_string(timer.getElapsedTimeUser()),
+                                      std::to_string(this->distanceFunction->getDistanceCount()),
+                                      std::to_string(this->prunning),
+                                      std::to_string(configure::IOWrite - ioW),
+                                      std::to_string(configure::IORead - ioR)});
             }
 
             return ans;

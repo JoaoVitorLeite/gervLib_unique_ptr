@@ -94,7 +94,7 @@ namespace gervLib::index
 
         }
 
-        void saveResultToFile(std::vector<gervLib::query::ResultEntry<O>> &result, dataset::BasicArrayObject<O, T>& query, std::string queryName, std::string expt_id, std::initializer_list<std::string> statsList)
+        void saveResultToFile(std::vector<gervLib::query::ResultEntry<O>> &result, dataset::BasicArrayObject<O, T>& query, std::string queryName, std::string expt_id)
         {
 
             size_t total = sizeof(size_t)*3 + query.getSerializedSize(), offset = 0, sz = result.size();
@@ -144,8 +144,6 @@ namespace gervLib::index
             }
             else
                 throw std::runtime_error("Index::saveResultToFile(): Error opening file");
-
-            saveStatistics(statsList);
 
             data.reset();
 
@@ -451,19 +449,19 @@ namespace gervLib::index
             pivots = std::move(pvt);
         }
 
-        void kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, std::vector<gervLib::query::ResultEntry<O>>& results)
+        void kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, bool saveStatistics, std::vector<gervLib::query::ResultEntry<O>>& results)
         {
 
             results.clear();
-            results = this->kNNIncremental(query, k, saveResults);
+            results = this->kNNIncremental(query, k, saveResults, saveStatistics);
 
         }
 
-        void kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, std::vector<gervLib::query::ResultEntry<O>>& results)
+        void kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, bool saveStatistics, std::vector<gervLib::query::ResultEntry<O>>& results)
         {
 
             results.clear();
-            results = this->kNN(query, k, saveResults);
+            results = this->kNN(query, k, saveResults, saveStatistics);
 
         }
 
@@ -563,12 +561,12 @@ namespace gervLib::index
 
         virtual void buildIndex() = 0;
 
-        virtual std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults)
+        virtual std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, bool saveStatistics)
         {
             throw std::runtime_error("Index::kNN(): Method not implemented");
         }
 
-        virtual std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults)
+        virtual std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults, bool saveStatistics)
         {
             throw std::runtime_error("Index::kNNIncremental(): Method not implemented");
         }

@@ -120,6 +120,7 @@ add_executable(gervLib
         include/indexes/SPBTree.h
         libs/bptree/btree.h
         libs/bptree/btree_multimap.h
+        include/indexes/LC.h
 )
 
 # Add libraries

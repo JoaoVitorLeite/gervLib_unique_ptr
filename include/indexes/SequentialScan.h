@@ -122,11 +122,6 @@ namespace gervLib::index
 
         }
 
-        std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
-        {
-            throw std::runtime_error("SequentialScan::kNNIncremental not implemented yet");
-        }
-
 
     };
 

@@ -54,8 +54,9 @@ namespace gervLib::index
             this->distanceFunction = std::move(_df);
             this->pivots = std::move(_pivots);
 
-            if (this->pivots->getPivots()->getCardinality() == 0 || this->pivots->getNumberOfPivots() != numPivots)
+            if (this->pivots->getPivots()->getCardinality() == 0 || this->pivots->getNumberOfPivots() != numPivots) {
                 this->pivots->operator()(this->dataset, this->distanceFunction, numPivots);
+            }
 
             this->pageManager = nullptr;
             this->pageSize = 0;
@@ -165,15 +166,12 @@ namespace gervLib::index
             return true;
         }
 
-        std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
-        {
-            throw std::runtime_error("LAESA::kNNIncremental not implemented yet");
-        }
-
-        std::vector<gervLib::query::ResultEntry<O>> prunningQuery(dataset::BasicArrayObject<O, T>& query, size_t k)
+        std::vector<gervLib::query::ResultEntry<O>> prunningQuery(dataset::BasicArrayObject<O, T>& query, size_t k, bool resetDistance = false)
         {
 
-            this->distanceFunction->resetStatistics();
+            if (resetDistance)
+                this->distanceFunction->resetStatistics();
+
             this->prunning = 0;
             std::vector<query::ResultEntry<O>> results, results_aux;
             std::vector<std::pair<double, O>> shapiro;

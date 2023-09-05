@@ -72,6 +72,10 @@ namespace gervLib::distance {
             return distCount;
         }
 
+        void setDistanceCount(size_t _distCount) {
+            distCount = _distCount;
+        }
+
         void resetStatistics() {
             distCount = 0;
         }

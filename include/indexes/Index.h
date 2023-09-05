@@ -563,9 +563,15 @@ namespace gervLib::index
 
         virtual void buildIndex() = 0;
 
-        virtual std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) = 0;
+        virtual std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults)
+        {
+            throw std::runtime_error("Index::kNN(): Method not implemented");
+        }
 
-        virtual std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) = 0;
+        virtual std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults)
+        {
+            throw std::runtime_error("Index::kNNIncremental(): Method not implemented");
+        }
 
         std::unique_ptr<u_char[]> serialize() override
         {

@@ -507,10 +507,12 @@ namespace gervLib::index::omni
                         leafIndexPath /= "laesa_leafnode_" + std::to_string(currentNode->getNodeID());
                         std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                                 this->distanceFunction->getDistanceType());
+                        size_t oldDistCount = df->getDistanceCount();
                         std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
                                 std::move(auxDataset), std::move(df), pivots::PivotFactory<O, T>::clone(this->pivots),
                                 this->numPivots,
                                 leafIndexPath);
+                        idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
                         leafNode->setIndex(std::move(idx));
                         currentDataset->clear();
                         currentDataset.reset();
@@ -567,10 +569,12 @@ namespace gervLib::index::omni
                             leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
                             std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                                     this->distanceFunction->getDistanceType());
+                            size_t oldDistCount = df->getDistanceCount();
                             std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
                                     std::move(auxDataset), std::move(df), pivots::PivotFactory<O, T>::clone(this->pivots),
                                     this->numPivots,
                                     leafIndexPath);
+                            idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
                             leafNode->setIndex(std::move(idx));
                             leftDataset->clear();
                             leftDataset.reset();
@@ -638,9 +642,11 @@ namespace gervLib::index::omni
                             leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
                             std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                                     this->distanceFunction->getDistanceType());
+                            size_t oldDistCount = df->getDistanceCount();
                             std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
                                     std::move(auxDataset), std::move(df), pivots::PivotFactory<O, T>::clone(this->pivots),
                                     this->numPivots, leafIndexPath);
+                            idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
                             leafNode->setIndex(std::move(idx));
                             rightDataset->clear();
                             rightDataset.reset();
@@ -741,11 +747,6 @@ namespace gervLib::index::omni
         void clear() override
         {
             clearRecursive(root);
-        }
-
-        std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
-        {
-            throw std::runtime_error("OmniKdTree::kNN: not implemented");
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override

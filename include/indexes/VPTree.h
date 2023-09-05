@@ -962,9 +962,11 @@ namespace gervLib::index::vptree
                         leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
                         std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                                 this->distanceFunction->getDistanceType());
+                        size_t oldDistCount = df->getDistanceCount();
                         std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
                                 std::move(currentNode.second), std::move(df), pivots::PivotFactory<O, T>::clone(globalPivots), this->numPivots,
                                 leafIndexPath);
+                        idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
                         leafNode->setIndex(std::move(idx));
 
                     }
@@ -1103,11 +1105,6 @@ namespace gervLib::index::vptree
             }
 
             return ans;
-        }
-
-        std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
-        {
-            throw std::runtime_error("VPTree::kNN not implemented yet");
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override

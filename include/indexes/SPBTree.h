@@ -94,7 +94,7 @@ namespace gervLib::index::spbtree
 
             this->generateIndexFiles(true, true);
 
-            this->pageManager = std::make_unique<memory::PageManager<O>>("vp_page", this->indexFolder, this->pageSize);
+            this->pageManager = std::make_unique<memory::PageManager<O>>("spb_page", this->indexFolder, this->pageSize);
 
             this->buildIndex();
 
@@ -252,11 +252,6 @@ namespace gervLib::index::spbtree
                       << ","
                       << std::to_string(configure::IORead - ioR) << std::endl;
             buildFile.close();
-        }
-
-        std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
-        {
-            throw std::runtime_error("SPBTree::kNN not implemented yet");
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
@@ -502,7 +497,7 @@ namespace gervLib::index::spbtree
         {
 
             size_t offset = 0, sz;
-            unsigned long long sz2, p;
+            unsigned long long p;
 
             memcpy(&sz, _data.get() + offset, sizeof(size_t));
             offset += sizeof(size_t);

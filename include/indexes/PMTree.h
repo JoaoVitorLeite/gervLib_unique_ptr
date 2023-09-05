@@ -418,7 +418,7 @@ namespace gervLib::index::pmtree {
 
             this->generateIndexFiles(true, true);
 
-            this->pageManager = std::make_unique<memory::PageManager<O>>("vp_page", this->indexFolder, this->pageSize);
+            this->pageManager = std::make_unique<memory::PageManager<O>>("pm_page", this->indexFolder, this->pageSize);
 
             this->buildIndex();
 
@@ -507,11 +507,6 @@ namespace gervLib::index::pmtree {
                       << std::to_string(configure::IORead - ioR) << std::endl;
             buildFile.close();
 
-        }
-
-        std::vector<gervLib::query::ResultEntry<O>> kNN(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
-        {
-            throw std::runtime_error("PMTree::kNN not implemented yet");
         }
 
         std::vector<gervLib::query::ResultEntry<O>> kNNIncremental(gervLib::dataset::BasicArrayObject<O, T>& query, size_t k, bool saveResults) override
@@ -1081,6 +1076,7 @@ namespace gervLib::index::pmtree {
                     leafIndexPath /= "laesa_leafnode_" + std::to_string(currentNode->id);
                     std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                             this->distanceFunction->getDistanceType());
+                    size_t oldDistCount = df->getDistanceCount();
                     std::unique_ptr<LAESA<O, T>> idx = std::make_unique<index::LAESA<O, T>>();
                     idx->setDataset(std::move(laesaDataset));
                     idx->setDistanceFunction(std::move(df));
@@ -1093,6 +1089,7 @@ namespace gervLib::index::pmtree {
                         currentNode->index.reset();
                     }
 
+                    idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
                     currentNode->index = std::move(idx);
 
                     if (storeLeafNode)

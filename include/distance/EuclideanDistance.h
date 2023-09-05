@@ -14,7 +14,7 @@ namespace gervLib::distance
     class EuclideanDistance: public DistanceFunction<T> {
 
     public:
-        explicit EuclideanDistance(size_t distance = 0): DistanceFunction<T>(distance) { this->setDistanceType(EUCLIDEAN); }
+        explicit EuclideanDistance(): DistanceFunction<T>() { this->setDistanceType(EUCLIDEAN); }
         ~EuclideanDistance() override = default;
 
         double operator()(const T& a, const T& b) override {

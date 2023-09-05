@@ -52,6 +52,7 @@ endif ()
 include_directories(src)
 include_directories(libs/uuid)
 include_directories(libs/eigen)
+include_directories(libs/bptree)
 include_directories(include/configure)
 include_directories(include/utils)
 include_directories(include/dataset)
@@ -65,6 +66,8 @@ include_directories(include/memory)
 include_directories(include/query)
 include_directories(include/matrix)
 include_directories(include/nAryTree)
+include_directories(include/hilbert)
+include_directories(include/histogram)
 
 # Add source files
 add_executable(gervLib
@@ -112,6 +115,11 @@ add_executable(gervLib
         include/indexes/KdTree.h
         include/indexes/OmniKdTree.h
         include/indexes/PMTree.h
+        include/histogram/EquiDepth.h
+        include/hilbert/HilbertCurve.h
+        include/indexes/SPBTree.h
+        libs/bptree/btree.h
+        libs/bptree/btree_multimap.h
 )
 
 # Add libraries

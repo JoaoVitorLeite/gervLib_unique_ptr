@@ -14,7 +14,7 @@ namespace gervLib::distance
     class EditDistance: public DistanceFunction<T> {
 
     public:
-        explicit EditDistance(size_t distance = 0): DistanceFunction<T>(distance) { this->setDistanceType(LEVENSHTEIN); }
+        explicit EditDistance(): DistanceFunction<T>() { this->setDistanceType(LEVENSHTEIN); }
         ~EditDistance() override = default;
 
         double operator()(const T& a, const T& b) override {

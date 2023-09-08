@@ -11,7 +11,6 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
-#include <gmpxx.h>
 #include <type_traits>
 #include "Configure.h"
 

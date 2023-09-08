@@ -8,7 +8,6 @@
 #include "Utils.h"
 #include <iostream>
 #include <variant>
-#include <gmpxx.h>
 #include <type_traits>
 
 namespace gervLib::configure {

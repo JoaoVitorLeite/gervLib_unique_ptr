@@ -451,9 +451,9 @@ namespace gervLib::query
 
         virtual ~Partition() = default;
 
-        double getMin() const { return min; }
+        [[nodiscard]] double getMin() const { return min; }
 
-        double getMax() const { return max; }
+        [[nodiscard]] double getMax() const { return max; }
 
         R getElement() const { return element; }
 

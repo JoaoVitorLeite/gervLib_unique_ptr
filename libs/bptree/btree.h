@@ -5302,11 +5302,10 @@ public:
                 leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->nodeID);
                 std::unique_ptr<gervLib::distance::DistanceFunction<gervLib::dataset::BasicArrayObject<O, T>>> _df = gervLib::distance::DistanceFactory<gervLib::dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                         df->getDistanceType());
-                size_t oldDistCount = df->getDistanceCount();
                 std::unique_ptr<gervLib::index::Index<O, T>> idx = std::make_unique<gervLib::index::LAESA<O, T>>(
                         std::move(leafNode->dataset), std::move(_df), gervLib::pivots::PivotFactory<O, T>::clone(globalPivots), this->numPivots,
                                 leafIndexPath);
-                idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
+                df->setDistanceCount(df->getDistanceCount() + idx->getDistanceCount());
                 leafNode->index = std::move(idx);
             }
 

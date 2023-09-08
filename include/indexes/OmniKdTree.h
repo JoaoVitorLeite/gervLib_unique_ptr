@@ -507,12 +507,11 @@ namespace gervLib::index::omni
                         leafIndexPath /= "laesa_leafnode_" + std::to_string(currentNode->getNodeID());
                         std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                                 this->distanceFunction->getDistanceType());
-                        size_t oldDistCount = df->getDistanceCount();
                         std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
                                 std::move(auxDataset), std::move(df), pivots::PivotFactory<O, T>::clone(this->pivots),
                                 this->numPivots,
                                 leafIndexPath);
-                        idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
+                        this->distanceFunction->setDistanceCount(this->distanceFunction->getDistanceCount() + idx->getDistanceCount());
                         leafNode->setIndex(std::move(idx));
                         currentDataset->clear();
                         currentDataset.reset();
@@ -569,12 +568,11 @@ namespace gervLib::index::omni
                             leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
                             std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                                     this->distanceFunction->getDistanceType());
-                            size_t oldDistCount = df->getDistanceCount();
                             std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
                                     std::move(auxDataset), std::move(df), pivots::PivotFactory<O, T>::clone(this->pivots),
                                     this->numPivots,
                                     leafIndexPath);
-                            idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
+                            this->distanceFunction->setDistanceCount(this->distanceFunction->getDistanceCount() + idx->getDistanceCount());
                             leafNode->setIndex(std::move(idx));
                             leftDataset->clear();
                             leftDataset.reset();
@@ -642,11 +640,10 @@ namespace gervLib::index::omni
                             leafIndexPath /= "laesa_leafnode_" + std::to_string(leafNode->getNodeID());
                             std::unique_ptr<distance::DistanceFunction<dataset::BasicArrayObject<O, T>>> df = distance::DistanceFactory<dataset::BasicArrayObject<O, T>>::createDistanceFunction(
                                     this->distanceFunction->getDistanceType());
-                            size_t oldDistCount = df->getDistanceCount();
                             std::unique_ptr<Index<O, T>> idx = std::make_unique<index::LAESA<O, T>>(
                                     std::move(auxDataset), std::move(df), pivots::PivotFactory<O, T>::clone(this->pivots),
                                     this->numPivots, leafIndexPath);
-                            idx->getDistanceFunction()->setDistanceCount(idx->getDistanceFunction()->getDistanceCount() + oldDistCount);
+                            this->distanceFunction->setDistanceCount(this->distanceFunction->getDistanceCount() + idx->getDistanceCount());
                             leafNode->setIndex(std::move(idx));
                             rightDataset->clear();
                             rightDataset.reset();
@@ -754,6 +751,7 @@ namespace gervLib::index::omni
 
             utils::Timer timer{};
             timer.start();
+            std::string expt_id = utils::generateExperimentID();
             this->distanceFunction->resetStatistics();
             this->prunning = 0;
             this->leafNodeAccess = 0;
@@ -800,12 +798,13 @@ namespace gervLib::index::omni
                         if (currentLeafNode->getIndex() != nullptr)
                         {
                             laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
-                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k, true);
 
                             for (auto& entry : leafQuery)
                                 elementQueue.push(entry);
 
                             this->prunning += currentLeafNode->getIndex()->getPrunning();
+                            this->distanceFunction->setDistanceCount(this->distanceFunction->getDistanceCount() + currentLeafNode->getIndex()->getDistanceFunction()->getDistanceCount());
 
                         }
                         else
@@ -880,12 +879,13 @@ namespace gervLib::index::omni
                         if (currentLeafNode->getIndex() != nullptr)
                         {
                             laesa = (LAESA<O, T>*) currentLeafNode->getIndex().get();
-                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k);
+                            std::vector<query::ResultEntry<O>> leafQuery = laesa->prunningQuery(query, k, true);
 
                             for (auto& entry : leafQuery)
                                 elementQueue.push(entry);
 
                             this->prunning += currentLeafNode->getIndex()->getPrunning();
+                            this->distanceFunction->setDistanceCount(this->distanceFunction->getDistanceCount() + currentLeafNode->getIndex()->getDistanceFunction()->getDistanceCount());
 
                         }
                         else
@@ -944,6 +944,24 @@ namespace gervLib::index::omni
                     result.push(elementQueue.top());
                     elementQueue.pop();
 
+                    if (result.size() % 5 == 0 && result.size() != 100)
+                    {
+                        timer.stop();
+
+                        if (saveStatistics)
+                        {
+                            this->saveStatistics({expt_id, std::to_string(result.size()), "-1",
+                                                  std::to_string(timer.getElapsedTime()),
+                                                  std::to_string(timer.getElapsedTimeSystem()),
+                                                  std::to_string(timer.getElapsedTimeUser()),
+                                                  std::to_string(this->distanceFunction->getDistanceCount()),
+                                                  std::to_string(this->prunning),
+                                                  std::to_string(configure::IOWrite - ioW),
+                                                  std::to_string(configure::IORead - ioR)});
+                        }
+
+                    }
+
                 }
 
             }
@@ -951,7 +969,6 @@ namespace gervLib::index::omni
             std::vector<query::ResultEntry<O>> ans = result.getResults();
             std::reverse(ans.begin(), ans.end());
 
-            std::string expt_id = utils::generateExperimentID();
             timer.stop();
 
             if (saveResults)

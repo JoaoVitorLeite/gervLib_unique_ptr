@@ -94,47 +94,49 @@ int main(int argc, char **argv)
     pvt->setNumberOfDropPivots(2);
     pvt->setSeed(186);
 
-//    std::unique_ptr<vptree::VPTree<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 0, false, true, true, true);
+//    std::unique_ptr<vptree::VPTree<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 0, false, false, true, true);
 //    std::unique_ptr<mvptree::MVPTree<size_t, double>> mvp = std::make_unique<mvptree::MVPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 4096, 2, 2, 4, 2, false, true, true, true);
 //    std::unique_ptr<omni::OmniKdTree<size_t, double>> omni = std::make_unique<omni::OmniKdTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 4096, false, true, true);
 //    std::unique_ptr<pmtree::PMTree<size_t, double>> pm = std::make_unique<pmtree::PMTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, false, true, true);
 //    std::unique_ptr<spbtree::SPBTree<size_t, double>> spb = std::make_unique<spbtree::SPBTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 50, 4096, false, true, true);
-    std::unique_ptr<lc::LC<size_t, double>> lc = std::make_unique<lc::LC<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 0, true, true, true, true);
+//    std::unique_ptr<lc::LC<size_t, double>> lc = std::make_unique<lc::LC<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 0, true, true, true, true);
 
-    std::cout << *lc << std::endl;
+//    std::vector<gervLib::query::ResultEntry<size_t>> res1 = pm->kNNIncremental(test->getElement(0), 100, true, true);
 
-    std::unique_ptr<u_char[]> serialized = lc->serialize();
-    std::unique_ptr<Index<size_t, double>> lc2 = std::make_unique<lc::LC<size_t, double>>();
-    lc2->deserialize(std::move(serialized));
-
-    std::cout << lc->isEqual(lc2) << std::endl;
+//    std::cout << *lc << std::endl;
+//
+//    std::unique_ptr<u_char[]> serialized = lc->serialize();
+//    std::unique_ptr<Index<size_t, double>> lc2 = std::make_unique<lc::LC<size_t, double>>();
+//    lc2->deserialize(std::move(serialized));
+//
+//    std::cout << lc->isEqual(lc2) << std::endl;
 
 //    std::unique_ptr<Index<size_t, double>> spb = std::make_unique<spbtree::SPBTree<size_t, double, mpz_class>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 5, 5, 4096, false, false, true);
 
-    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
+//    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test12");
 //    std::unique_ptr<spbtree::SPBTree<size_t, double>> spb2 = std::make_unique<spbtree::SPBTree<size_t, double>>();
 //    std::unique_ptr<u_char[]> serialized = spb->serialize();
 //    spb2->deserialize(std::move(serialized));
 
 //    std::cout << *spb << "\n\n";
 
-    for(size_t i = 0; i < test->getCardinality(); i++)
-    {
-
-        std::vector<gervLib::query::ResultEntry<size_t>> res1 = lc2->kNNIncremental(test->getElement(i), 100, true, true);
-        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true, true);
-
-        for(size_t j = 0; j < res1.size(); j++)
-        {
-            if (res1[j].getDistance() != res2[j].getDistance()) {
-                std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance()<< std::endl;
-                //throw std::runtime_error("Error");
-            }
-
-//            std::cout << spb->getPrunning() << std::endl;
-
-        }
-    }
+//    for(size_t i = 0; i < test->getCardinality(); i++)
+//    {
+//
+//        std::vector<gervLib::query::ResultEntry<size_t>> res1 = lc2->kNNIncremental(test->getElement(i), 100, true, true);
+//        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true, true);
+//
+//        for(size_t j = 0; j < res1.size(); j++)
+//        {
+//            if (res1[j].getDistance() != res2[j].getDistance()) {
+//                std::cout << "Error index " << i << ": " << res1[j].getDistance() << " != " << res2[j].getDistance()<< std::endl;
+//                //throw std::runtime_error("Error");
+//            }
+//
+////            std::cout << spb->getPrunning() << std::endl;
+//
+//        }
+//    }
 
 //    std::vector<gervLib::query::ResultEntry<size_t>> res1 = lc->kNNIncremental(test->getElement(0), 5, true, true);
 //    std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(0), 5, true);

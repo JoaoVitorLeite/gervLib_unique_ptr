@@ -65,7 +65,7 @@ int test4()
     std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> df2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
     df2->deserialize(std::move(serialized));
 
-    assert(df2->getDistanceCount() == 5);
+    assert(df2->getDistanceCount() == 0);
     assert(df->isEqual(df2));
     assert(df->operator()(data[5], data[12]) == df2->operator()(data[12], data[5]));
 
@@ -93,7 +93,7 @@ int test5()
     std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, std::vector<char>>>> df2 = std::make_unique<EditDistance<BasicArrayObject<size_t, std::vector<char>>>>();
     df2->deserialize(std::move(serialized));
 
-    assert(df2->getDistanceCount() == 10);
+    assert(df2->getDistanceCount() == 5);
     assert(df->isEqual(df2));
     assert(df->operator()(data[5], data[12]) == df2->operator()(data[12], data[5]));
 

@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
+
 project(gervLib
         VERSION 1.0
         LANGUAGES CXX
@@ -9,6 +10,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_COMPILER gcc)
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 -ggdb3")
 
 # Set build options
 set(ENABLE_TESTS OFF CACHE BOOL "Enable tests")
@@ -121,6 +123,63 @@ add_executable(gervLib
         libs/bptree/btree.h
         libs/bptree/btree_multimap.h
         include/indexes/LC.h
+        include/indexes/Indexes.h
+        include/pivots/Pivots.h
+)
+
+add_executable(gervLibTest
+        src/main_test.cpp
+        libs/uuid/libuuidpp.hpp
+        include/configure/Configure.h
+        include/utils/Utils.h
+        include/dataset/BasicArrayObject.h
+        include/serialize/Serialize.h
+        include/dataset/Dataset.h
+        include/dataset/DatasetWrapper.h
+        include/distance/DistanceFunction.h
+        include/distance/EuclideanDistance.h
+        include/distance/EditDistance.h
+        include/factory/DistanceFactory.h
+        include/pivots/Pivot.h
+        include/pivots/RandomPivots.h
+        include/pivots/FFTPivots.h
+        include/pivots/ConvexPivots.h
+        include/pivots/MaxSeparatedPivots.h
+        include/pivots/MaxVariancePivots.h
+        include/pivots/SelectionPivots.h
+        include/pivots/PCAPivots.h
+        include/pivots/SSSPivots.h
+        include/pivots/HFIPivots.h
+        include/pivots/ISPivots.h
+        include/pivots/WDRPivots.h
+        include/pivots/BPPPivots.h
+        include/kmedoids/Cluster.h
+        include/kmedoids/Kmedoids.h
+        include/pivots/KmedoidsPivots.h
+        include/factory/PivotFactory.h
+        include/factory/PivotFactory.h
+        include/indexes/Index.h
+        include/memory/Page.h
+        include/memory/PageManager.h
+        include/query/Query.h
+        include/indexes/SequentialScan.h
+        include/matrix/Matrix.h
+        include/indexes/LAESA.h
+        include/nAryTree/NAryTree.h
+        include/indexes/VPTree.h
+        include/factory/IndexFactory.h
+        include/indexes/MVPTree.h
+        include/indexes/KdTree.h
+        include/indexes/OmniKdTree.h
+        include/indexes/PMTree.h
+        include/histogram/EquiDepth.h
+        include/hilbert/HilbertCurve.h
+        include/indexes/SPBTree.h
+        libs/bptree/btree.h
+        libs/bptree/btree_multimap.h
+        include/indexes/LC.h
+        include/indexes/Indexes.h
+        include/pivots/Pivots.h
 )
 
 # Add libraries
@@ -130,14 +189,34 @@ else()
     target_link_libraries (gervLib libuuid.so)
 endif()
 
+if (WIN32)
+    target_link_libraries (gervLibTest libuuid.dll)
+else()
+    target_link_libraries (gervLibTest libuuid.so)
+endif()
+
 # Add compile options
 add_compile_options("-std=c++20")
 
 # Enable C++20 features
 target_compile_features(gervLib PRIVATE cxx_std_20)
 
+target_compile_features(gervLibTest PRIVATE cxx_std_20)
+
 # Set common compiler flags
 target_compile_options(gervLib PRIVATE
+        -Wall
+        -Wextra
+        -pedantic
+        -pipe
+        -g
+        -std=gnu++2a
+        -fPIC
+        -D_REENTRANT
+        # Add more flags as needed
+)
+
+target_compile_options(gervLibTest PRIVATE
         -Wall
         -Wextra
         -pedantic

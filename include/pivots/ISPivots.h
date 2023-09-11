@@ -348,7 +348,7 @@ namespace gervLib::pivots
                 std::vector<std::vector<size_t>> pairs(limInf, std::vector<size_t>(2, 0));
                 std::vector<double> svg(limInf, 0.0);
                 double max = std::numeric_limits<double>::min(), q = 0.0, dfs = 0.0, d = 0.0;
-                size_t pos = 0, currentPivot = 0;
+                size_t pos = 0;
                 utils::Random<size_t> rGen(this->getSeed());
 
 #ifdef ENABLE_DEBUG

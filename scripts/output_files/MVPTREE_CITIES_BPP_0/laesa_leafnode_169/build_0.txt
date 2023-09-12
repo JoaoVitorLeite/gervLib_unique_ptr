@@ -1,0 +1,2 @@
+time,sys_time,user_time,distCount,seed
+6,6,42,44,334063

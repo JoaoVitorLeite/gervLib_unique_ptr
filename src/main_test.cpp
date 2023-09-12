@@ -448,7 +448,7 @@ int main(int argc, char** argv)
         pivot->setSeed(seed);
         pivot->setSampleSize(pivot_sample_size);
 
-        std::string prefix = args["-DATASET_NAME"] + "_" + args["-PIVOT_TYPE"];
+        std::string prefix = args["-INDEX"] + "_" + args["-DATASET_NAME"] + "_" + args["-PIVOT_TYPE"];
         std::string indexPath = gervLib::utils::generatePathByPrefix(gervLib::configure::baseOutputPath, prefix, false);
 
         //Index

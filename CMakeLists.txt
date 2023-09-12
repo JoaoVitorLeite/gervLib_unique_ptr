@@ -125,6 +125,7 @@ add_executable(gervLib
         include/indexes/LC.h
         include/indexes/Indexes.h
         include/pivots/Pivots.h
+        include/dataset/DatasetUtils.h
 )
 
 add_executable(gervLibTest
@@ -180,6 +181,7 @@ add_executable(gervLibTest
         include/indexes/LC.h
         include/indexes/Indexes.h
         include/pivots/Pivots.h
+        include/dataset/DatasetUtils.h
 )
 
 # Add libraries

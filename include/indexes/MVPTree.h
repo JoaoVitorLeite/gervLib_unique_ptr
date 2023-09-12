@@ -1352,7 +1352,7 @@ namespace gervLib::index::mvptree
     protected:
         std::string headerBuildFile() override
         {
-            return "time,sys_time,user_time,distCount,iowrite,ioread";
+            return "time,sys_time,user_time,distCount,iowrite,ioread,seed";
         }
 
         std::string headerExperimentFile() override
@@ -1650,7 +1650,9 @@ namespace gervLib::index::mvptree
                       << ","
                       << std::to_string(configure::IOWrite - ioW)
                       << ","
-                      << std::to_string(configure::IORead - ioR) << std::endl;
+                      << std::to_string(configure::IORead - ioR)
+                      << ","
+                      << std::to_string(this->pivots->getSeed()) << std::endl;
             buildFile.close();
 
         }

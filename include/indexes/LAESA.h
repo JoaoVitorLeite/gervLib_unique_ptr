@@ -21,7 +21,7 @@ namespace gervLib::index
     protected:
         std::string headerBuildFile() override
         {
-            return "time,sys_time,user_time,distCount";
+            return "time,sys_time,user_time,distCount,seed";
         }
 
         std::string headerExperimentFile() override
@@ -133,7 +133,8 @@ namespace gervLib::index
                           << timer.getElapsedTimeUser()
                           << ","
                           << this->distanceFunction->getDistanceCount()
-                          << std::endl;
+                          << ","
+                          << std::to_string(this->pivots->getSeed()) << std::endl;
             }
             else
                 throw std::runtime_error("LAESA::buildIndex: Error opening file " + this->buildFile);

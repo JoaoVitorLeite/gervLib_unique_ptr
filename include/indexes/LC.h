@@ -182,7 +182,7 @@ namespace gervLib::index::lc
             os << "R2: " << this->r2 << std::endl;
         }
 
-        void clear()
+        void clear() override
         {
             if (pivot != nullptr)
             {
@@ -191,7 +191,7 @@ namespace gervLib::index::lc
             }
         }
 
-        bool isEqual(std::unique_ptr<Node<O, T>> &other)
+        bool isEqual(std::unique_ptr<Node<O, T>> &other) override
         {
             if (this->memoryStatus == index::MEMORY_STATUS::IN_DISK)
             {
@@ -207,7 +207,7 @@ namespace gervLib::index::lc
             }
         }
 
-        std::unique_ptr<u_char[]> serialize()
+        std::unique_ptr<u_char[]> serialize() override
         {
             std::unique_ptr<u_char[]> data = std::make_unique<u_char[]>(this->getSerializedSize());
             size_t offset = 0, sz;
@@ -252,7 +252,7 @@ namespace gervLib::index::lc
 
         }
 
-        void deserialize(std::unique_ptr<u_char[]> _data)
+        void deserialize(std::unique_ptr<u_char[]> _data) override
         {
 
             size_t offset = 0, sz;
@@ -301,7 +301,7 @@ namespace gervLib::index::lc
 
         }
 
-        size_t getSerializedSize()
+        size_t getSerializedSize() override
         {
             size_t ans = 0;
 
@@ -414,7 +414,7 @@ namespace gervLib::index::lc
             }
         }
 
-        bool isEqual(std::unique_ptr<Node<O, T>> &other)
+        bool isEqual(std::unique_ptr<Node<O, T>> &other) override
         {
             if (this->memoryStatus == index::MEMORY_STATUS::IN_DISK)
             {
@@ -609,7 +609,7 @@ namespace gervLib::index::lc
     protected:
         std::string headerBuildFile() override
         {
-            return "time,sys_time,user_time,distCount,iowrite,ioread";
+            return "time,sys_time,user_time,distCount,iowrite,ioread,seed";
         }
 
         std::string headerExperimentFile() override
@@ -944,8 +944,6 @@ namespace gervLib::index::lc
             deleteRecursive(std::move(root));
         }
 
-        //TODO implement serialize, deserialize, getSerializedSize
-
         void buildIndex() override
         {
 
@@ -1115,7 +1113,9 @@ namespace gervLib::index::lc
                       << ","
                       << std::to_string(configure::IOWrite - ioW)
                       << ","
-                      << std::to_string(configure::IORead - ioR) << std::endl;
+                      << std::to_string(configure::IORead - ioR)
+                      << ","
+                      << std::to_string(this->pivots->getSeed()) << std::endl;
             buildFile.close();
 
         }

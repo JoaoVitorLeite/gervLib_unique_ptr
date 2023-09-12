@@ -9,6 +9,7 @@
 
 /* KeyWords:
  * -INDEX:
+ * -DATASET_NAME:
  * -DATASET_TRAIN:
  *      -DATASET_TRAIN_CARDINALITY:
  *      -DATASET_TRAIN_DIMENSIONALITY:
@@ -24,8 +25,8 @@
  * -SEED: Default 0
  * -K_MAX: Default 100
  * -NUM_QUERY: Default 100
- * -NUM_PER_LEAF: Default 1 % of the dataset train cardinality
- * -NUM_BINS: Default 200
+ * -NUM_PER_LEAF: Default | DATASET_TRAIN | * 0.01
+ * -NUM_BINS: Default 256
  * -PAGE_SIZE: Default 0
  * -NUM_QUERIES_PER_FILE: Default 10000
  * -STORE_PIVOT_LEAF: Default true
@@ -45,9 +46,7 @@ int main(int argc, char** argv)
 
     if((argc-1) % 2 != 0)
     {
-
-        throw std::invalid_argument("Invalid number of arguments !_!");
-
+        throw std::invalid_argument("Invalid number of arguments");
     }
     else
     {
@@ -75,10 +74,10 @@ int main(int argc, char** argv)
 
         }
 
-        if (args.find("-INDEX") == args.end() || args.find("-DATASET_TRAIN") == args.end() || args.find("-DATASET_TEST") == args.end() || args.find("-PIVOT_TYPE") == args.end())
+        if (args.find("-DATASET_NAME") == args.end() || args.find("-INDEX") == args.end() || args.find("-DATASET_TRAIN") == args.end() || args.find("-DATASET_TEST") == args.end() || args.find("-PIVOT_TYPE") == args.end())
         {
 
-            throw std::invalid_argument("Index, dataset train, dataset test or pivot type not specified");
+            throw std::invalid_argument("Index, dataset name, dataset train, dataset test or pivot type not specified");
 
         }
 
@@ -189,7 +188,7 @@ int main(int argc, char** argv)
         if (args.find("-NUM_BINS") == args.end())
         {
 
-            num_bins = 200;
+            num_bins = 256;
 
         }
         else
@@ -449,26 +448,33 @@ int main(int argc, char** argv)
         pivot->setSeed(seed);
         pivot->setSampleSize(pivot_sample_size);
 
+        std::string prefix = args["-DATASET_NAME"] + "_" + args["-PIVOT_TYPE"];
+        std::string indexPath = gervLib::utils::generatePathByPrefix(gervLib::configure::baseOutputPath, prefix, false);
+
         //Index
         if (args["-INDEX"] == "VPTREE")
         {
-            index = std::make_unique<gervLib::index::vptree::VPTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, store_pivot_leaf, store_directory_node, store_leaf_node, use_laesa);
+            index = std::make_unique<gervLib::index::vptree::VPTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, store_pivot_leaf, store_directory_node, store_leaf_node, use_laesa, indexPath);
         }
         else if (args["-INDEX"] == "MVPTREE")
         {
-            index = std::make_unique<gervLib::index::mvptree::MVPTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, 2, 2, 4, 2, store_pivot_leaf, store_directory_node, store_leaf_node, use_laesa);
+            index = std::make_unique<gervLib::index::mvptree::MVPTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, 2, 2, 4, 2, store_pivot_leaf, store_directory_node, store_leaf_node, use_laesa, indexPath);
         }
         else if (args["-INDEX"] == "OMNIKDTREE")
         {
-            index = std::make_unique<gervLib::index::omni::OmniKdTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, store_directory_node, store_leaf_node, use_laesa);
+            index = std::make_unique<gervLib::index::omni::OmniKdTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, store_directory_node, store_leaf_node, use_laesa, indexPath);
         }
         else if (args["-INDEX"] == "PMTREE")
         {
-            index = std::make_unique<gervLib::index::pmtree::PMTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, store_directory_node, store_leaf_node, use_laesa);
+            index = std::make_unique<gervLib::index::pmtree::PMTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, store_directory_node, store_leaf_node, use_laesa, indexPath);
         }
         else if (args["-INDEX"] == "SPBTREE")
         {
-            index = std::make_unique<gervLib::index::spbtree::SPBTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, num_bins, page_size, store_directory_node, store_leaf_node, use_laesa);
+            index = std::make_unique<gervLib::index::spbtree::SPBTree<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, num_bins, page_size, store_directory_node, store_leaf_node, use_laesa, indexPath);
+        }
+        else if (args["-INDEX"] == "LC")
+        {
+            index = std::make_unique<gervLib::index::lc::LC<size_t, double>>(std::move(dataset_train), std::move(distance_function), std::move(pivot), num_pivots, num_per_leaf, page_size, store_pivot_leaf, store_directory_node, store_leaf_node, use_laesa, indexPath);
         }
 
         //Queries

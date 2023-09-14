@@ -1,0 +1,2 @@
+time,sys_time,user_time,distCount,iowrite,ioread,seed
+9927118,295974,9631144,8870744,256,0,1930

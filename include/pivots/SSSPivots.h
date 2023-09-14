@@ -248,6 +248,33 @@ namespace gervLib::pivots
                 std::cout << "Pivot " << currentPivot << ": " << sample->operator[](p1) << std::endl;
 #endif
 
+                if(nPivots == 1)
+                {
+
+                    this->pivots->setDimensionality(sample->getDimensionality());
+
+                    if (smpl)
+                        sample.reset();
+                    else
+                        dataset = std::move(sample);
+
+                    bitmap.clear();
+                    pvtIndex.clear();
+                    aux.clear();
+
+                    if (this->drop != 0)
+                    {
+                        for (size_t i = 0; i < this->drop; i++)
+                            this->pivots->erase(0);
+                    }
+
+                    timer.stop();
+                    this->incrementElapsedTime(timer.getElapsedTime());
+
+                    return;
+
+                }
+
                 pvtIndex[currentPivot++] = p1;
 
                 for(size_t x = 0; x < sample->getCardinality(); x++)
@@ -344,6 +371,10 @@ namespace gervLib::pivots
                     sample.reset();
                 else
                     dataset = std::move(sample);
+
+                bitmap.clear();
+                pvtIndex.clear();
+                aux.clear();
 
                 if (this->drop != 0)
                 {

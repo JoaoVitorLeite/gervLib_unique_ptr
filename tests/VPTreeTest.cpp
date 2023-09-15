@@ -146,6 +146,41 @@ int test5()
 
 }
 
+int test6()
+{
+    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../../data/cities_norm.csv", ","),
+            data2 = std::make_unique<Dataset<size_t, double>>("../../data/cities_norm.csv", ","),
+            test = std::make_unique<Dataset<size_t, double>>("../../data/cities_norm.csv", ",");
+    std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> dist1 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>(),
+            dist2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
+
+    auto pvt = std::make_unique<RandomPivots<size_t, double>>();
+
+    std::unique_ptr<vptree::VPTree<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 4900, false, true, true, true, "tmp_unit_test31");
+    std::unique_ptr<SequentialScan<size_t, double>> sc = std::make_unique<SequentialScan<size_t, double>>(std::move(data2), std::move(dist2), "tmp_unit_test32");
+
+    std::unique_ptr<u_char[]> serialized = vp->serialize();
+    std::unique_ptr<Index<size_t, double>> deserialized = std::make_unique<vptree::VPTree<size_t, double>>();
+    deserialized->deserialize(std::move(serialized));
+
+    assert(vp->isEqual(deserialized));
+
+    for(size_t i = 0; i < test->getCardinality(); i++)
+    {
+        std::vector<gervLib::query::ResultEntry<size_t>> res1 = deserialized->kNNIncremental(test->getElement(i), 100, true, true);
+        std::vector<gervLib::query::ResultEntry<size_t>> res2 = sc->kNN(test->getElement(i), 100, true, true);
+
+        for(size_t j = 0; j < res1.size(); j++)
+            assert(res1[j].getDistance() == res2[j].getDistance());
+
+    }
+
+    gervLib::utils::deleteDirectory("tmp_unit_test31");
+    gervLib::utils::deleteDirectory("tmp_unit_test32");
+    return 0;
+
+}
+
 int main(int argc, char *argv[])
 {
 

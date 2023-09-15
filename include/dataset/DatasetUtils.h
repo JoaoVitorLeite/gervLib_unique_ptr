@@ -40,6 +40,7 @@ namespace gervLib::dataset
             lid = -1.0/lid;
 
             lids.emplace_back(lid, i);
+            result.clear();
         }
 
         std::sort(lids.begin(), lids.end());
@@ -105,10 +106,64 @@ namespace gervLib::dataset
 
         }
 
+        lids.clear();
+
         q1File.close();
         q2File.close();
         q3File.close();
         q4File.close();
+
+    }
+
+    template <typename O, typename T>
+    void calculateLID(std::unique_ptr<dataset::Dataset<O, T>>& dataset,
+                    std::unique_ptr<gervLib::distance::DistanceFunction<dataset::BasicArrayObject<O, T>>>& df,
+                    std::unique_ptr<gervLib::index::Index<O, T>>& index, size_t k, std::string fileName, std::string outputPath)
+    {
+
+        std::vector<query::ResultEntry<O>> result;
+        double lastDist, lid;
+        std::vector<std::pair<double, size_t>> lids;
+
+        for (size_t i = 0; i < dataset->getCardinality(); i++)
+        {
+            result = index->kNNIncremental(dataset->getElement(i), k+1, false, false);
+            result.erase(result.begin());
+
+            lastDist = result.back().getDistance();
+            lid = 0.0;
+
+            for (size_t j = 0; j < k; j++)
+            {
+                lid += log(result[j].getDistance() / lastDist);
+            }
+
+            lid /= static_cast<double>(k);
+            lid = -1.0/lid;
+
+            lids.emplace_back(lid, i);
+            result.clear();
+        }
+
+        std::sort(lids.begin(), lids.end());
+
+        std::filesystem::path path(outputPath);
+        path /= fileName;
+        std::string LIDFileName = path.string() + "_lid.csv";
+
+        std::ofstream LIDFile(LIDFileName);
+        size_t n = lids.size();
+
+        for (size_t i = 0; i < n; i++)
+        {
+
+            LIDFile << lids[i].first << "," << lids[i].second << std::endl;
+
+        }
+
+        lids.clear();
+
+        LIDFile.close();
 
     }
 

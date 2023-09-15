@@ -407,7 +407,7 @@ namespace gervLib::index::spbtree
                     result.push(elementQueue.top());
                     elementQueue.pop();
 
-                    if (result.size() % 5 == 0 && result.size() != 100)
+                    if (result.size() % 5 == 0 && result.size() != k)
                     {
                         timer.stop();
 

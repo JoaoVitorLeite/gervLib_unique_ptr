@@ -24,5 +24,5 @@ do
     ./gervLibLID -INDEX_FOLDER output_files/VPTREE_MAX_VAR_SERIALIZE -DATASET ${filePath[$i]} -DATASET_SEPARATOR , -FILE_NAME ${fileName[$i]} -OUTPUT_PATH ../data
 done
 
-cat ../data/cities_part*lid* > ../data/cities_lid.csv ####
-python3 ../scripts/LidSplit.py ../data/cities_lid.csv ../data/cities.csv ####
+#cat ../data/cities_part*lid* > ../data/cities_lid.csv ####
+#python3 ../scripts/LidSplit.py ../data/cities_lid.csv ../data/cities.csv ####

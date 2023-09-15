@@ -55,6 +55,7 @@ include_directories(src)
 include_directories(libs/uuid)
 include_directories(libs/eigen)
 include_directories(libs/bptree)
+include_directories(libs/argparse)
 include_directories(include/configure)
 include_directories(include/utils)
 include_directories(include/dataset)
@@ -184,6 +185,62 @@ add_executable(gervLibTest
         include/dataset/DatasetUtils.h
 )
 
+add_executable(gervLibLID
+        src/main_lid.cpp
+        libs/uuid/libuuidpp.hpp
+        include/configure/Configure.h
+        include/utils/Utils.h
+        include/dataset/BasicArrayObject.h
+        include/serialize/Serialize.h
+        include/dataset/Dataset.h
+        include/dataset/DatasetWrapper.h
+        include/distance/DistanceFunction.h
+        include/distance/EuclideanDistance.h
+        include/distance/EditDistance.h
+        include/factory/DistanceFactory.h
+        include/pivots/Pivot.h
+        include/pivots/RandomPivots.h
+        include/pivots/FFTPivots.h
+        include/pivots/ConvexPivots.h
+        include/pivots/MaxSeparatedPivots.h
+        include/pivots/MaxVariancePivots.h
+        include/pivots/SelectionPivots.h
+        include/pivots/PCAPivots.h
+        include/pivots/SSSPivots.h
+        include/pivots/HFIPivots.h
+        include/pivots/ISPivots.h
+        include/pivots/WDRPivots.h
+        include/pivots/BPPPivots.h
+        include/kmedoids/Cluster.h
+        include/kmedoids/Kmedoids.h
+        include/pivots/KmedoidsPivots.h
+        include/factory/PivotFactory.h
+        include/factory/PivotFactory.h
+        include/indexes/Index.h
+        include/memory/Page.h
+        include/memory/PageManager.h
+        include/query/Query.h
+        include/indexes/SequentialScan.h
+        include/matrix/Matrix.h
+        include/indexes/LAESA.h
+        include/nAryTree/NAryTree.h
+        include/indexes/VPTree.h
+        include/factory/IndexFactory.h
+        include/indexes/MVPTree.h
+        include/indexes/KdTree.h
+        include/indexes/OmniKdTree.h
+        include/indexes/PMTree.h
+        include/histogram/EquiDepth.h
+        include/hilbert/HilbertCurve.h
+        include/indexes/SPBTree.h
+        libs/bptree/btree.h
+        libs/bptree/btree_multimap.h
+        include/indexes/LC.h
+        include/indexes/Indexes.h
+        include/pivots/Pivots.h
+        include/dataset/DatasetUtils.h
+)
+
 # Add libraries
 if (WIN32)
     target_link_libraries (gervLib libuuid.dll)
@@ -197,6 +254,12 @@ else()
     target_link_libraries (gervLibTest libuuid.so)
 endif()
 
+if (WIN32)
+    target_link_libraries (gervLibLID libuuid.dll)
+else()
+    target_link_libraries (gervLibLID libuuid.so)
+endif()
+
 # Add compile options
 add_compile_options("-std=c++20")
 
@@ -204,6 +267,8 @@ add_compile_options("-std=c++20")
 target_compile_features(gervLib PRIVATE cxx_std_20)
 
 target_compile_features(gervLibTest PRIVATE cxx_std_20)
+
+target_compile_features(gervLibLID PRIVATE cxx_std_20)
 
 # Set common compiler flags
 target_compile_options(gervLib PRIVATE
@@ -219,6 +284,18 @@ target_compile_options(gervLib PRIVATE
 )
 
 target_compile_options(gervLibTest PRIVATE
+        -Wall
+        -Wextra
+        -pedantic
+        -pipe
+        -g
+        -std=gnu++2a
+        -fPIC
+        -D_REENTRANT
+        # Add more flags as needed
+)
+
+target_compile_options(gervLibLID PRIVATE
         -Wall
         -Wextra
         -pedantic

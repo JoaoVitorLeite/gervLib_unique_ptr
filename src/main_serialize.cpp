@@ -110,8 +110,11 @@ int main(int argc, char **argv)
 
     }
 
+
     std::filesystem::path path(gervLib::configure::baseOutputPath);
     path /= "VPTREE_MAX_VAR_SERIALIZE";
+
+    gervLib::utils::deleteDirectory(path.string());
 
     std::unique_ptr<Pivot<size_t, double>> pivot = std::make_unique<MaxVariancePivots<size_t, double>>();
     pivot->setSampleSize(std::stod(program.get<std::string>("-PIVOT_SAMPLE_SIZE")));

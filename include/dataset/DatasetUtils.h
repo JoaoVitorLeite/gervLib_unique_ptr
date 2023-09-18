@@ -141,11 +141,9 @@ namespace gervLib::dataset
             lid /= static_cast<double>(k);
             lid = -1.0/lid;
 
-            lids.emplace_back(lid, i);
+            lids.emplace_back(lid, dataset->getElement(i).getOID());
             result.clear();
         }
-
-        std::sort(lids.begin(), lids.end());
 
         std::filesystem::path path(outputPath);
         path /= fileName;

@@ -300,25 +300,13 @@ add_executable(gervLibSerialize
 # Add libraries
 if (WIN32)
     target_link_libraries (gervLib libuuid.dll)
-else()
-    target_link_libraries (gervLib libuuid.so)
-endif()
-
-if (WIN32)
     target_link_libraries (gervLibTest libuuid.dll)
-else()
-    target_link_libraries (gervLibTest libuuid.so)
-endif()
-
-if (WIN32)
     target_link_libraries (gervLibLID libuuid.dll)
-else()
-    target_link_libraries (gervLibLID libuuid.so)
-endif()
-
-if (WIN32)
     target_link_libraries (gervLibSerialize libuuid.dll)
 else()
+    target_link_libraries (gervLib libuuid.so)
+    target_link_libraries (gervLibTest libuuid.so)
+    target_link_libraries (gervLibLID libuuid.so)
     target_link_libraries (gervLibSerialize libuuid.so)
 endif()
 
@@ -327,11 +315,8 @@ add_compile_options("-std=c++20")
 
 # Enable C++20 features
 target_compile_features(gervLib PRIVATE cxx_std_20)
-
 target_compile_features(gervLibTest PRIVATE cxx_std_20)
-
 target_compile_features(gervLibLID PRIVATE cxx_std_20)
-
 target_compile_features(gervLibSerialize PRIVATE cxx_std_20)
 
 # Set common compiler flags

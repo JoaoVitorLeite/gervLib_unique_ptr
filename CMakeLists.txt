@@ -84,7 +84,6 @@ add_executable(gervLib
         include/dataset/DatasetWrapper.h
         include/distance/DistanceFunction.h
         include/distance/EuclideanDistance.h
-        include/distance/EditDistance.h
         include/factory/DistanceFactory.h
         include/pivots/Pivot.h
         include/pivots/RandomPivots.h
@@ -140,7 +139,6 @@ add_executable(gervLibTest
         include/dataset/DatasetWrapper.h
         include/distance/DistanceFunction.h
         include/distance/EuclideanDistance.h
-        include/distance/EditDistance.h
         include/factory/DistanceFactory.h
         include/pivots/Pivot.h
         include/pivots/RandomPivots.h
@@ -196,7 +194,6 @@ add_executable(gervLibLID
         include/dataset/DatasetWrapper.h
         include/distance/DistanceFunction.h
         include/distance/EuclideanDistance.h
-        include/distance/EditDistance.h
         include/factory/DistanceFactory.h
         include/pivots/Pivot.h
         include/pivots/RandomPivots.h
@@ -252,7 +249,6 @@ add_executable(gervLibSerialize
         include/dataset/DatasetWrapper.h
         include/distance/DistanceFunction.h
         include/distance/EuclideanDistance.h
-        include/distance/EditDistance.h
         include/factory/DistanceFactory.h
         include/pivots/Pivot.h
         include/pivots/RandomPivots.h

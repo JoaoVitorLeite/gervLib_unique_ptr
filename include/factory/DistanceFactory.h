@@ -6,13 +6,12 @@
 #define GERVLIB_DISTANCEFACTORY_H
 
 #include "EuclideanDistance.h"
-#include "EditDistance.h"
+//#include "EditDistance.h"
 #include <memory>
 
 namespace gervLib::distance {
 
     template <typename T>
-    requires HasSize<T> && (IsDouble<T> || IsChar<T>)
     class DistanceFactory {
 
     public:
@@ -20,17 +19,7 @@ namespace gervLib::distance {
 
             if (distanceType == EUCLIDEAN)
             {
-                if constexpr (IsDouble<T>)
-                    return std::make_unique<EuclideanDistance<T>>();
-                else
-                    throw std::invalid_argument("EditDistance requires IsChar<T>");
-            }
-            else if(distanceType == LEVENSHTEIN)
-            {
-                if constexpr (IsChar<T>)
-                    return std::make_unique<EditDistance<T>>();
-                else
-                    throw std::invalid_argument("EditDistance requires IsChar<T>");
+                return std::make_unique<EuclideanDistance<T>>();
             }
             else
                 throw std::invalid_argument("Invalid DISTANCE_TYPE");

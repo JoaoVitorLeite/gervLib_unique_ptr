@@ -10,7 +10,6 @@
 namespace gervLib::distance
 {
     template <typename T>
-    requires HasSize<T> && IsDouble<T>
     class EuclideanDistance: public DistanceFunction<T> {
 
     public:

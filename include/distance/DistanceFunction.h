@@ -35,21 +35,6 @@ namespace gervLib::distance {
     };
 
     template<typename T>
-    concept IsDouble = requires(T t) {
-        { t[0] } -> std::convertible_to<double>;
-    };
-
-    template<typename T>
-    concept IsChar = requires(T t) {
-        { t[0] } -> std::convertible_to<std::vector<char>>;
-    };
-
-    template<typename T>
-    concept HasSize = requires(T t) {
-        { t.size() } -> std::convertible_to<size_t>;
-    };
-
-    template<typename T> requires HasSize<T> && (IsDouble<T> || IsChar<T>)
     class DistanceFunction : public gervLib::serialize::Serialize {
 
     private:

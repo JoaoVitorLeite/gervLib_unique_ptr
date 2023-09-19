@@ -5,7 +5,7 @@
 #include "Configure.h"
 #include "Utils.h"
 #include "Dataset.h"
-#include "EditDistance.h"
+//#include "EditDistance.h"
 #include "EuclideanDistance.h"
 #include "RandomPivots.h"
 #include "KmedoidsPivots.h"
@@ -40,18 +40,19 @@ int main(int argc, char **argv)
     gervLib::configure::configure();
     std::cout << std::boolalpha;
 
-    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
-            data2 = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ","),
-            test = std::make_unique<Dataset<size_t, double>>("../data/cities_norm.csv", ",");
+    std::unique_ptr<Dataset<size_t, double>> data1 = std::make_unique<Dataset<size_t, double>>("../data/mnist_7k.csv", ","),
+            data2 = std::make_unique<Dataset<size_t, double>>("../data/mnist_7k.csv", ","),
+            test = std::make_unique<Dataset<size_t, double>>("../data/mnist_7k.csv", ",");
 
     std::unique_ptr<DistanceFunction<BasicArrayObject<size_t, double>>> dist1 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>(),
             dist2 = std::make_unique<EuclideanDistance<BasicArrayObject<size_t, double>>>();
 
-    auto pvt = std::make_unique<MaxVariancePivots<size_t, double>>();
+    auto pvt = std::make_unique<RandomPivots<size_t, double>>();
     pvt->setSampleSize(1.0);
-    pvt->setSeed(42);
+    pvt->setSeed(449462);
 
-    //std::unique_ptr<Index<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 12, 700, 0, false, false, true, true);
+    std::unique_ptr<Index<size_t, double>> vp = std::make_unique<vptree::VPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 12, 50, 0, false, false, true, true);
+    std::cout << *vp << std::endl;
 //    std::unique_ptr<mvptree::MVPTree<size_t, double>> mvp = std::make_unique<mvptree::MVPTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 4096, 2, 2, 4, 2, false, true, true, true);
 //    std::unique_ptr<omni::OmniKdTree<size_t, double>> omni = std::make_unique<omni::OmniKdTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 4096, false, true, true);
 //    std::unique_ptr<pmtree::PMTree<size_t, double>> pm = std::make_unique<pmtree::PMTree<size_t, double>>(std::move(data1), std::move(dist1), std::move(pvt), 2, 50, 8000, false, true, true);

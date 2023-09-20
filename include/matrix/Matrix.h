@@ -7,7 +7,6 @@
 
 #include "Serialize.h"
 #include "Configure.h"
-#include <format>
 #include <iostream>
 
 namespace gervLib::matrix
@@ -95,12 +94,12 @@ namespace gervLib::matrix
 
         friend std::ostream &operator<<(std::ostream &_os, Matrix &_matrix) {
 
-            for (O i = 0; i < _matrix.rows; i++) {
-                for (O j = 0; j < _matrix.cols; j++) {
-                    _os << std::format(" {1:^{0}} ", configure::double_size, _matrix.getValue(i, j));
-                }
-                _os << std::endl;
-            }
+//            for (O i = 0; i < _matrix.rows; i++) {
+//                for (O j = 0; j < _matrix.cols; j++) {
+//                    _os << std::format(" {1:^{0}} ", configure::double_size, _matrix.getValue(i, j));
+//                }
+//                _os << std::endl;
+//            }
 
             return _os;
 

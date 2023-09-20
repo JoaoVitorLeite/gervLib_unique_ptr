@@ -9,14 +9,12 @@
 #include "Utils.h"
 #include "Configure.h"
 #include <vector>
-#include <format>
+//#include <format>
 #include <numeric>
 #include <cstring>
 
 namespace gervLib::dataset
 {
-
-
     template <typename O, typename T>
     class BasicArrayObject : public serialize::Serialize
     {
@@ -290,7 +288,7 @@ namespace gervLib::dataset
         T operator[](const size_t index) const
         {
             if (data == nullptr)
-                throw std::runtime_error(std::format("BasicArrayObject::operator[]: data is null"));
+                throw std::runtime_error("BasicArrayObject::operator[]: data is null");
 
             utils::check_range(0, size()-1, index, "BasicArrayObject::operator[]");
             return (*data)[index];
@@ -299,7 +297,7 @@ namespace gervLib::dataset
         T& operator[](const size_t index)
         {
             if (data == nullptr)
-                throw std::runtime_error(std::format("BasicArrayObject::operator[]: data is null"));
+                throw std::runtime_error("BasicArrayObject::operator[]: data is null");
 
             utils::check_range(0, size()-1, index, "BasicArrayObject::operator[]");
             return (*data)[index];
@@ -308,52 +306,52 @@ namespace gervLib::dataset
         friend std::ostream& operator<<(std::ostream& os, const BasicArrayObject& obj)
         {
 
-            os << std::format("| {1:^{0}} || ", configure::oid_size, obj.oid);
-
-            if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>)
-            {
-
-                for(size_t x = 0; x < obj.size(); x++)
-                {
-
-                    os << std::format("{1:^{0}} | ", configure::double_size, (*obj.data)[x]);
-
-                }
-
-            }
-            else
-            {
-
-                size_t maxSize = 0;
-
-                for(size_t x = 0; x < obj.size(); x++)
-                {
-
-                    if(obj.data->at(x).size() > maxSize)
-                    {
-
-                        maxSize = obj.data->at(x).size();
-
-                    }
-
-                }
-
-                maxSize += 2;
-                maxSize = std::max(maxSize, configure::str_size);
-                std::vector<char> aux;
-
-                for(size_t x = 0; x < obj.size(); x++)
-                {
-
-                    aux = (*obj.data)[x];
-
-                    os << std::format("{1:^{0}} | ", maxSize, std::accumulate(aux.begin(), aux.end(), std::string()));
-
-                    aux.clear();
-
-                }
-
-            }
+//            os << std::format("| {1:^{0}} || ", configure::oid_size, obj.oid);
+//
+//            if constexpr (std::is_same_v<T, float> || std::is_same_v<T, double>)
+//            {
+//
+//                for(size_t x = 0; x < obj.size(); x++)
+//                {
+//
+//                    os << std::format("{1:^{0}} | ", configure::double_size, (*obj.data)[x]);
+//
+//                }
+//
+//            }
+//            else
+//            {
+//
+//                size_t maxSize = 0;
+//
+//                for(size_t x = 0; x < obj.size(); x++)
+//                {
+//
+//                    if(obj.data->at(x).size() > maxSize)
+//                    {
+//
+//                        maxSize = obj.data->at(x).size();
+//
+//                    }
+//
+//                }
+//
+//                maxSize += 2;
+//                maxSize = std::max(maxSize, configure::str_size);
+//                std::vector<char> aux;
+//
+//                for(size_t x = 0; x < obj.size(); x++)
+//                {
+//
+//                    aux = (*obj.data)[x];
+//
+//                    os << std::format("{1:^{0}} | ", maxSize, std::accumulate(aux.begin(), aux.end(), std::string()));
+//
+//                    aux.clear();
+//
+//                }
+//
+//            }
 
             return os;
 
@@ -422,7 +420,7 @@ namespace gervLib::dataset
         void set(size_t pos, T value)
         {
             if (data == nullptr)
-                throw std::runtime_error(std::format("BasicArrayObject::set: data is null"));
+                throw std::runtime_error("BasicArrayObject::set: data is null");
 
             gervLib::utils::check_range(0, size()-1, pos, "BasicArrayObject::set");
             data->at(pos) = value;

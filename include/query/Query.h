@@ -11,22 +11,12 @@
 #include <functional>
 #include <cstring>
 #include "Serialize.h"
-#include <format>
 #include <iostream>
 
 namespace gervLib::query
 {
 
-    template <typename T>
-    concept HasSerializeSize = requires(T t) {
-        {t.getSerializedSize()} -> std::convertible_to<size_t>;
-    };
-
-    template <typename T>
-    concept IsSize_t = std::is_same_v<T, size_t>;
-
     template <typename O>
-    requires HasSerializeSize<O> || IsSize_t<O>
     class ResultEntry: public gervLib::serialize::Serialize
     {
 

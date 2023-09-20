@@ -478,14 +478,14 @@ namespace gervLib::dataset
         friend std::ostream& operator<<(std::ostream& os, const Dataset& obj)
         {
 
-            os << std::format("Dataset: {0} ; {1} ; {2} ; {3}\n", obj.dataset->size(), obj.dimensionality, obj.seed, obj.path);
-
-            for(size_t x = 0; x < obj.dataset->size(); x++)
-            {
-
-                os << obj.dataset->at(x) << "\n";
-
-            }
+//            os << std::format("Dataset: {0} ; {1} ; {2} ; {3}\n", obj.dataset->size(), obj.dimensionality, obj.seed, obj.path);
+//
+//            for(size_t x = 0; x < obj.dataset->size(); x++)
+//            {
+//
+//                os << obj.dataset->at(x) << "\n";
+//
+//            }
 
             return os;
 

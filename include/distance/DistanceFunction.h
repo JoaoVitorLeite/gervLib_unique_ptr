@@ -5,7 +5,6 @@
 #ifndef GERVLIB_DISTANCEFUNCTION_H
 #define GERVLIB_DISTANCEFUNCTION_H
 
-#include <concepts>
 #include <cmath>
 #include <numeric>
 #include <algorithm>
